@@ -1,0 +1,128 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relative_img"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/top_bottom_left_right_border">
+
+
+            <ImageView
+                android:id="@+id/id_spare_parts_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:background="@android:color/white"
+                android:adjustViewBounds="true"/>
+            <ProgressBar
+                android:id="@+id/rn_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:indeterminate="true"
+                android:layout_centerHorizontal="true"
+                android:indeterminateDrawable="@drawable/my_progress_indeterminate" />
+            <TextView
+                android:id="@+id/txt_spare_parts_name"
+                android:layout_width="120dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/rn_progress"
+                android:background="@color/home_mybike_bg_color"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:text="190 tk"
+                android:paddingLeft="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:gravity="center|left"
+                android:textAlignment="gravity"
+                android:textColor="@color/white"
+                />
+        </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="@color/spare_parts_bg"
+        android:layout_weight="1"
+        android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="25dp">
+            <TextView
+                android:id="@+id/id_spareparts_bike_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="Bike name"
+                android:textAlignment="center"
+                android:textColor="@color/line_grey"/>
+            <TextView
+                android:id="@+id/id_spareparts_number"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="150.0 CC"
+                android:textColor="@color/line_grey"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/spare_parts_line_col"/>
+        <TextView
+            android:id="@+id/id_spare_parts_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="190 tk"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:background="@color/suzuki_blue_color"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/spare_parts_line_col"/>
+        <TextView
+            android:id="@+id/add_to_cart_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:textColor="@color/suzuki_blue_color"
+            android:text="@string/fa_shopping_add_to_cart"/>
+
+    </LinearLayout>
+
+</LinearLayout>

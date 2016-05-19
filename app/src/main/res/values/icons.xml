@@ -1,0 +1,31 @@
+<resources>
+	<string name="fa_home">&#xf015;</string>
+	<string name="fa_motorcycle">&#xf21c;</string>
+	<string name="fa_spare_parts">&#xf013;</string>
+	<string name="fa_request_service">&#xf085;</string>
+	<string name="fa_news_events">&#xf1ea;</string>
+	<string name="fa_promotions">&#xf0a1;</string>
+	<string name="fa_quizzes">&#xf234;</string>
+	<string name="fa_phone">&#xf095;</string>
+	<string name="fa_invite_friends">&#xf044;</string>
+	<string name="fa_facebook_square">&#xf082;</string>
+	<string name="fa_change_pass">&#xf0a3;</string>
+	<string name="fa_sign_in">&#xf090;</string>
+	<string name="fa_sign_out">&#xf08b;</string>
+
+	<string name="fa_map_marker">&#xf041;</string>
+	<string name="fa_notification">&#xf0a2;</string>
+	<string name="fa_history_of_suzuki">&#xf1da;</string>
+	<string name="fa_about_us">&#xf27e;</string>
+
+
+	<string name="fa_shopping_cart">&#xf07a;</string>
+	<string name="fa_shopping_add_to_cart">&#xf217;</string>
+	<string name="fa_shopping_bag">&#xf290;</string>
+	<string name="fa_shopping_failed_back">&#xf112;</string>
+	<string name="fa_cog">&#xf013;</string>
+	<string name="fa_double_down">&#xf103;</string>
+	<string name="fa_search_icon">&#xf002;</string>
+
+	<string name="fa_timer_icon">&#xf017;</string>
+</resources>

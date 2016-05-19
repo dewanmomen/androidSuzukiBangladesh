@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <color name="colorPrimary">#1B1B1B</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#AAAAAA</color>
+    <color name="blue_grey_500">#607D8B</color>
+    <color name="blue_grey_600">#546E7A</color>
+    <color name="blue_grey_700">#455A64</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
+    <color name="line_grey">#AAAAAA</color>
+    <color name="menu_bg">#191919</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="suzuki_blue_color">#0059A9</color>
+    <color name="spare_parts_bg">#F8F8F8</color>
+    <color name="spare_parts_line_col">#F1F0F1</color>
+    <color name="spare_parts_row_border_color">#E1E1E1</color>
+    <color name="home_mybike_bg_color">#994A4A4A</color>
+
+    <color name="bike_details_spec_header_bg">#6A8090</color>
+    <color name="bike_details_spec_row_bg">#F2F2F2</color>
+
+</resources>

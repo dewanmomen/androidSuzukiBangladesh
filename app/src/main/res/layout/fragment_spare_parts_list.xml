@@ -1,0 +1,68 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/main_spare">
+
+    <LinearLayout
+        android:id="@+id/id_search_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- Editext for Search -->
+        <EditText android:id="@+id/inputSparePartsSearch"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="4"
+                  android:hint="Search Spare Parts."
+                  android:singleLine="true"
+                  android:imeOptions="actionDone"
+                  android:inputType="text"
+            />
+        <!--<Button-->
+            <!--android:id="@+id/calc_clear_txt_Prise"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_gravity="right|center_vertical"/>-->
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView"
+                android:layout_marginTop="20dp"
+                android:divider="@color/white"
+                android:dividerHeight="10dp">
+
+            </ListView>
+            <TextView
+                android:id="@+id/no_spare_parts_item"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/browse_tab_layout"
+                android:paddingTop="10dp"
+                android:gravity="center"
+                android:text="@string/no_items_display_txt"
+                android:textSize="22dp"
+                android:visibility="gone" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

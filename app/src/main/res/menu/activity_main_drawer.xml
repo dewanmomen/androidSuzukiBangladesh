@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      android:background="#191919">
+
+    <group android:checkableBehavior="single" android:background="#FFFFFF">
+        <item
+            android:id="@+id/nav_home"
+            android:title="" />
+        <item
+            android:id="@+id/nav_my_bike"
+            android:title="@string/fa_motorcycle" />
+        <item
+            android:id="@+id/nav_spare_parts"
+            android:icon="@drawable/logo_icon"
+            android:title="Spare Parts" />
+        <item
+            android:id="@+id/nav_request_services"
+            android:icon="@drawable/logo_icon"
+            android:title="Request Service" />
+        <item
+            android:id="@+id/nav_news_events"
+            android:icon="@drawable/logo_icon"
+            android:title="News and Events" />
+        <item
+            android:id="@+id/nav_promotions"
+            android:icon="@drawable/logo_icon"
+            android:title="Promotions" />
+        <item
+            android:id="@+id/nav_quizzes"
+            android:icon="@drawable/logo_icon"
+            android:title="Quizzes" />
+        <item
+            android:id="@+id/nav_sos"
+            android:icon="@drawable/logo_icon"
+            android:title="Sos" />
+        <item
+            android:id="@+id/nav_invite_friends"
+            android:icon="@drawable/logo_icon"
+            android:title="Invite Friends" />
+        <item
+            android:id="@+id/nav_social_media"
+            android:icon="@drawable/logo_icon"
+            android:title="Social Media Facebook" />
+
+        <item
+            android:id="@+id/nav_change_password"
+            android:icon="@drawable/logo_icon"
+            android:title="Change Password" />
+
+        <item
+            android:id="@+id/nav_reset_password"
+            android:icon="@drawable/logo_icon"
+            android:title="Reset Password" />
+
+        <item
+            android:id="@+id/nav_sign_up"
+            android:icon="@drawable/logo_icon"
+            android:title="Sign Up" />
+
+
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/logo_icon"
+            android:title="Login" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logo_icon"
+            android:title="Logout" />
+    </group>
+
+
+
+</menu>

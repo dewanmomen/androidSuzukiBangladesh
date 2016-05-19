@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollviewLogin"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/bg_user">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/parentLogin"
+        >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/s_logo"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:background="@drawable/log_text_holder">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/login_email"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="20dp"
+                android:textColorLink="#FFFFFF"
+                android:drawableLeft="@drawable/email"
+                android:hint="Email"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/login_password"
+                android:textColorLink="#FFFFFF"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/pass"
+                android:hint="Password"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:imeOptions="actionDone"
+                />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:text="Login"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:id="@+id/button"
+            android:background="@drawable/login_btn_border"
+            android:textColor="#FFFFFF"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Forgot Password"
+                android:layout_weight="1"
+                android:id="@+id/btn_forgot_pass"
+                android:textColor="#FFFFFF"
+                android:background="#000000"
+                />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:id="@+id/btn_sign_up"
+                android:layout_weight="1"
+                android:textColor="@color/suzuki_blue_color"
+                android:background="#000000"
+
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+</ScrollView>

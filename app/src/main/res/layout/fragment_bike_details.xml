@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_table"
+        android:stretchColumns="1">
+
+        <!--TableRow
+            android:layout_width="match_parent"
+            android:weightSum="8.5"
+            android:background="@color/white"
+            >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom">
+                <TableRow>
+                    <TextView
+                        android:paddingTop="90dp"
+                        android:paddingLeft="20dp"
+                        android:text="Gixer SF"
+                        android:id="@+id/bike_name"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        />
+
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:text="150cc"
+                        android:paddingLeft="10dp"
+                        android:layout_weight="2"
+
+                        android:gravity="center_horizontal"
+                        />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <RelativeLayout
+                android:layout_height="130dp"
+                android:gravity="bottom|center">
+
+
+                <android.support.v4.view.ViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pager"
+                    >
+
+
+                </android.support.v4.view.ViewPager>
+
+            </RelativeLayout>
+            <Button
+                android:text="Get A Quote"
+                android:background="@android:color/transparent"
+                android:layout_weight="2"
+                android:gravity="bottom|center"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                />
+        </TableRow-->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_height="210dp"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                >
+
+                <android.support.v4.view.ViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:id="@+id/pager"
+                    >
+
+                </android.support.v4.view.ViewPager>
+                <LinearLayout
+                    android:id="@+id/line1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/bike_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gixer SF"
+                        android:padding="3dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_horizontal"
+                        android:background="#992181CB"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
+
+                    <TextView
+                        android:id="@+id/bike_cc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="150cc"
+                        android:padding="3dp"
+                        android:background="@color/home_mybike_bg_color"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        />
+                </LinearLayout>
+                <Button
+                    android:id="@+id/btn_get_a_quote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="Get A Quote"
+                    android:padding="3dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#992181CB"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="16dp"/>
+                <LinearLayout
+                    android:id="@+id/linear_font_bike"
+                    android:layout_below="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:background="@color/white">
+
+                    <!--<TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="150cc"
+                        android:padding="3dp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        />-->
+
+                </LinearLayout>
+
+
+
+
+            </RelativeLayout>
+        </TableRow>
+        <View
+            android:layout_height="2dp"
+            android:background="@color/line_grey"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <WebView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_marginTop="5dp"
+            android:id="@+id/help_webview"
+            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+
+            />
+
+
+    </TableLayout>
+</ScrollView>
