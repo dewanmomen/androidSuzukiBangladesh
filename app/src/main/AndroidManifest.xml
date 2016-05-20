@@ -104,6 +104,11 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+
+
+
+
+
         <service
             android:name=".notification.RegistrationIntentService"
             android:exported="false" />
@@ -118,10 +123,10 @@
         <activity
             android:name=".notification.MoreInfoNotification"
             android:label="More on notification"
-            android:parentActivityName=".notification.MainActivity">
+            android:parentActivityName=".splash.Splash">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="notification.MainActivity" />
+                android:value=".splash.Splash" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

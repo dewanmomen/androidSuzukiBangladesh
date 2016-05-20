@@ -13,7 +13,8 @@
         android:layout_height="220dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
-        android:id="@+id/img_pro"/>
+        android:id="@+id/img_pro"
+        />
 
         <TextView
             android:layout_width="match_parent"

@@ -1,7 +1,9 @@
 package www.icebd.com.suzukibangladesh.menu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,10 +31,12 @@ import java.util.HashMap;
 
 import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
+import www.icebd.com.suzukibangladesh.app.CheckNetworkConnection;
 import www.icebd.com.suzukibangladesh.json.AsyncResponse;
 import www.icebd.com.suzukibangladesh.json.PostResponseAsyncTask;
 import www.icebd.com.suzukibangladesh.reg.Login;
 import www.icebd.com.suzukibangladesh.utilities.ConnectionManager;
+import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 
 
 public class Promotions extends Fragment implements AsyncResponse {
@@ -40,6 +48,10 @@ public class Promotions extends Fragment implements AsyncResponse {
     ImageView imageView;
 
     ImageLoader imageLoader;
+    DisplayImageOptions options;
+
+    Context context;
+    CustomDialog customDialog;
 
     public static Promotions newInstance() {
         Promotions fragment = new Promotions();
@@ -54,9 +66,16 @@ public class Promotions extends Fragment implements AsyncResponse {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_promotion, container,
                 false);
+        context = getActivity().getApplicationContext();
         getActivity().setTitle("PROMOTIONS");
 
         imageLoader = ImageLoader.getInstance();
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(null)
+                .showImageForEmptyUri(null)
+                .showImageOnFail(null).cacheInMemory(false)
+                .cacheOnDisk(false).considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565).build();
 
         HashMap<String, String> postData = new HashMap<String, String>();
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
@@ -67,22 +86,23 @@ public class Promotions extends Fragment implements AsyncResponse {
         //startDate = (TextView) rootView.findViewById(R.id.txt_pro_startdate);
         //endDate = (TextView) rootView.findViewById(R.id.txt_pro_enddate);
         imageView = (ImageView)rootView.findViewById(R.id.img_pro);
+        imageView.setVisibility(View.GONE);
 
         String auth_key = pref.getString("auth_key","empty");
 
-
-        if (!auth_key.equals("empty"))
+        customDialog = new CustomDialog(context);
+        if(CheckNetworkConnection.isConnectedToInternet(context) == true)
         {
-            postData.put("auth_key",auth_key);
+            if (!auth_key.equals("empty")) {
+                postData.put("auth_key", auth_key);
 
-            PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this,postData);
-            loginTask.execute(ConnectionManager.SERVER_URL+"promoInfo");
-
-
+                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
+                loginTask.execute(ConnectionManager.SERVER_URL + "promoInfo");
+            }
         }
-        else {
-            Toast.makeText(getActivity(),"Connect to internet and restart the app",Toast.LENGTH_LONG).show();
-
+        else
+        {
+            customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
         }
 
         ((FirstActivity)getActivity()).setBackKeyFlag(true);
@@ -100,8 +120,6 @@ public class Promotions extends Fragment implements AsyncResponse {
             String status_code = object.getString("status_code");
             String message = object.getString("message");
             String auth_key = object.getString("auth_key");
-
-
 
 
             if (status_code.equals("200"))
@@ -124,9 +142,37 @@ public class Promotions extends Fragment implements AsyncResponse {
                 //startDate.setText(start_date);
                 //endDate.setText(end_date);
 
-                imageLoader.displayImage(String.valueOf(Uri.parse(promo_image)), imageView);
+                if(promo_image != null)
+                {
+                    imageView.setVisibility(View.VISIBLE);
+                    imageLoader.displayImage(String.valueOf(Uri.parse(promo_image)), imageView, options,
+                            new SimpleImageLoadingListener() {
+                                @Override
+                                public void onLoadingStarted(String imageUri, View view) {
+                                    //holder.progressBar.setProgress(0);
+                                    //holder.progressBar.setVisibility(View.VISIBLE);
+                                }
 
+                                @Override
+                                public void onLoadingFailed(String imageUri, View view,FailReason failReason) {
+                                    //holder.progressBar.setVisibility(View.GONE);
+                                }
 
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view,Bitmap loadedImage) {
+                                    //holder.progressBar.setVisibility(View.GONE);
+                                }
+                            }, new ImageLoadingProgressListener() {
+                                @Override
+                                public void onProgressUpdate(String imageUri, View view,int current, int total) {
+                                    //holder.progressBar.setProgress(Math.round(100.0f * current/ total));
+                                }
+                            });
+                }
+                else
+                {
+                    Log.i("image url not found", promo_image);
+                }
 
             }
             else {
