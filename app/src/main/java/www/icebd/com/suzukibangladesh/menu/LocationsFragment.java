@@ -59,7 +59,7 @@ public class LocationsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_location, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("LOCATIONS");
+        getActivity().setTitle("Locations");
 
         imageLoader = ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()

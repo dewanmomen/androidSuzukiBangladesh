@@ -213,15 +213,15 @@ public class FirstActivity extends AppCompatActivity
             drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
             drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
             drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "LOCATIONS");
+            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "Locations");
             drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
             drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
             drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
             drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
 
 
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
+            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
+            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "About Us");
             drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
             drawerItem[14] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
             drawerItem[15] = new ObjectDrawerItem("", "SUZUKI");
@@ -236,14 +236,14 @@ public class FirstActivity extends AppCompatActivity
             drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
             drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
             drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "LOCATIONS");
+            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "Locations");
             drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
             drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
             drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
             drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
 
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
+            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
+            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "About Us");
             drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_in), mNavigationDrawerItemTitles[11]);
             drawerItem[14] = new ObjectDrawerItem("", "SUZUKI");
         }
