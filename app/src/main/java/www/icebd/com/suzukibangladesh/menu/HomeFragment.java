@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment implements AsyncResponse {
                 postData.put("auth_key",auth_key);
 
                 // getSupportFragmentManager().beginTransaction().replace(R.id.frag, fragmentS1).commit();
-                customDialog = new CustomDialog(context);
+                customDialog = new CustomDialog(getActivity());
                 if(CheckNetworkConnection.isConnectionAvailable(context) == true)
                 {
                     PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);

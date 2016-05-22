@@ -28,9 +28,11 @@ import java.util.HashMap;
 
 import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
+import www.icebd.com.suzukibangladesh.app.CheckNetworkConnection;
 import www.icebd.com.suzukibangladesh.json.AsyncResponse;
 import www.icebd.com.suzukibangladesh.json.PostResponseAsyncTask;
 import www.icebd.com.suzukibangladesh.utilities.ConnectionManager;
+import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 
 
 public class NewsEvents extends Fragment implements AsyncResponse {
@@ -38,7 +40,9 @@ public class NewsEvents extends Fragment implements AsyncResponse {
     SharedPreferences.Editor editor ;
     ArrayList<HashMap<String, String>> arrList;
     ListView list;
+    Context context;
     ImageLoader imageLoader;
+    CustomDialog customDialog;
     private NewsEventsListAdapter newsEventsListAdapter = null;
 
     public static NewsEvents newInstance() {
@@ -54,6 +58,7 @@ public class NewsEvents extends Fragment implements AsyncResponse {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news_events, container,
                 false);
+        context = getActivity().getApplicationContext();
         getActivity().setTitle("NEWS AND EVENTS");
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
@@ -61,8 +66,8 @@ public class NewsEvents extends Fragment implements AsyncResponse {
         list = (ListView) rootView.findViewById(R.id.list);
         imageLoader = ImageLoader.getInstance();
 
-
-        if(isNetworkAvailable())
+        customDialog = new CustomDialog(getActivity());
+        if(CheckNetworkConnection.isConnectedToInternet(context) == true)
         {
             Log.i("Test", "Network is available ");
             HashMap<String, String> postData = new HashMap<String, String>();
@@ -79,8 +84,9 @@ public class NewsEvents extends Fragment implements AsyncResponse {
             loginTask.execute(ConnectionManager.SERVER_URL+"newsList");
 
         }
-        else {
-            Toast.makeText(getActivity(),"Please connect to the Internet",Toast.LENGTH_LONG).show();
+        else
+        {
+            customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
         }
 
         ((FirstActivity)getActivity()).setBackKeyFlag(true);

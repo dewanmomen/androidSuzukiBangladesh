@@ -193,7 +193,7 @@ public class ChangePassword extends Fragment implements View.OnClickListener, As
             HashMap<String, String> postData = new HashMap<String, String>();
             String auth_key = pref.getString("auth_key",null);
             String user_id = pref.getString("user_id",null);
-            customDialog = new CustomDialog(context);
+            customDialog = new CustomDialog(getActivity());
             if(CheckNetworkConnection.isConnectionAvailable(context) == true)
             {
                 if (auth_key != null)

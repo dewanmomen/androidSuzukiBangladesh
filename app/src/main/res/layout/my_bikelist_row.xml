@@ -38,6 +38,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:paddingLeft="10dp"
         android:layout_weight="1">
         <TextView
             android:id="@+id/engine"
@@ -65,6 +66,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:paddingLeft="10dp"
         android:layout_weight="1">
         <TextView
             android:id="@+id/mileage"

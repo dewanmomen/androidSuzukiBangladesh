@@ -94,7 +94,7 @@ public class MyBikeFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     public void run() {
                                         swipeRefreshLayout.setRefreshing(true);
                                         apiFactory = new APIFactory();
-                                        customDialog = new CustomDialog(context);
+                                        customDialog = new CustomDialog(getActivity());
                                         if(CheckNetworkConnection.isConnectionAvailable(context) == true)
                                         {
                                             fetchBikeListTask = new FetchBikeListTask(pref.getString("auth_key", null));

@@ -350,6 +350,8 @@ public class JsonParser
 					obj_maps_location.setLocation_contact_person_email(location_contact_person_email);
 					String location_contact_person_phone = jsonResponse.getString("location_contact_person_phone");
 					obj_maps_location.setLocation_contact_person_phone(location_contact_person_phone);
+					String district = jsonResponse.getString("district");
+					obj_maps_location.setDistrict(district.toLowerCase());
 
 					Log.d("TAG", "Location Address: " + location_address);
 

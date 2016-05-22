@@ -213,7 +213,7 @@ public class Quotation extends Fragment implements AsyncResponse, View.OnClickLi
 
             Log.i("Test","Name : "+pref.getString("name","not found"));
             String auth_key = pref.getString("auth_key",null);
-            customDialog = new CustomDialog(context);
+            customDialog = new CustomDialog(getActivity());
             if(CheckNetworkConnection.isConnectionAvailable(context) == true)
             {
                 if (auth_key != null)

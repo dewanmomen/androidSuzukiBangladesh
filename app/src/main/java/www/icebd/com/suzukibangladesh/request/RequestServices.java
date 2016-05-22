@@ -32,10 +32,12 @@ import java.util.HashMap;
 
 import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
+import www.icebd.com.suzukibangladesh.app.CheckNetworkConnection;
 import www.icebd.com.suzukibangladesh.json.AsyncResponse;
 import www.icebd.com.suzukibangladesh.json.PostResponseAsyncTask;
 import www.icebd.com.suzukibangladesh.utilities.ConnectionManager;
 import www.icebd.com.suzukibangladesh.utilities.Constant;
+import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 import www.icebd.com.suzukibangladesh.utilities.FontManager;
 
 
@@ -52,6 +54,7 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
     EditText userComments;
     TextView text_right;
     Context context;
+    CustomDialog customDialog;
 
 
 
@@ -106,17 +109,20 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
 
 
        auth_key= pref.getString("auth_key","empty");
-
-        if(!auth_key.equals("empty"))
+        customDialog = new CustomDialog(getActivity());
+        if(CheckNetworkConnection.isConnectedToInternet(context) == true)
         {
-            postData.put("auth_key",auth_key);
-            PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this,postData);
-            loginTask.execute(ConnectionManager.SERVER_URL+"getBikeList");
+            if (!auth_key.equals("empty"))
+            {
+                postData.put("auth_key", auth_key);
+                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
+                loginTask.execute(ConnectionManager.SERVER_URL + "getBikeList");
 
+            }
         }
         else
         {
-            Toast.makeText(getActivity(),"Connect to internet and restart the app",Toast.LENGTH_LONG).show();
+            customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
         }
 
        submit.setOnClickListener(this);
@@ -340,13 +346,16 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
             postData.put("cust_comment",userComments.getText().toString());
             Log.i("Test","cust_comment :"+userComments.getText().toString());
 
+            if(CheckNetworkConnection.isConnectedToInternet(context) == true)
+            {
+                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this,postData);
+                loginTask.execute(ConnectionManager.SERVER_URL+"reqService");
+            }
+            else
+            {
+                customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
+            }
 
-
-
-
-
-            PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this,postData);
-            loginTask.execute(ConnectionManager.SERVER_URL+"reqService");
 
         }
         else

@@ -222,7 +222,7 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
         {
             HashMap<String, String> postData = new HashMap<String, String>();
             String auth_key = pref.getString("auth_key","");
-            customDialog = new CustomDialog(context);
+            customDialog = new CustomDialog(getActivity());
             if(CheckNetworkConnection.isConnectionAvailable(context) == true)
             {
                 if (auth_key != null)

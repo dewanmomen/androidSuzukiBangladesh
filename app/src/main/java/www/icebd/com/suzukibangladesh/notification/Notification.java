@@ -24,10 +24,12 @@ import java.util.HashMap;
 
 import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
+import www.icebd.com.suzukibangladesh.app.CheckNetworkConnection;
 import www.icebd.com.suzukibangladesh.json.AsyncResponse;
 import www.icebd.com.suzukibangladesh.json.PostResponseAsyncTask;
 import www.icebd.com.suzukibangladesh.menu.NewsEventsListAdapter;
 import www.icebd.com.suzukibangladesh.utilities.ConnectionManager;
+import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 
 
 public class Notification extends Fragment implements AsyncResponse {
@@ -43,6 +45,7 @@ public class Notification extends Fragment implements AsyncResponse {
         Notification fragment = new Notification();
         return fragment;
     }
+    CustomDialog customDialog;
 
     public Notification() {
     }
@@ -60,8 +63,8 @@ public class Notification extends Fragment implements AsyncResponse {
         list = (ListView) rootView.findViewById(R.id.notif_list);
         imageLoader = ImageLoader.getInstance();
 
-
-        if(isNetworkAvailable())
+        customDialog = new CustomDialog(getActivity());
+        if(CheckNetworkConnection.isConnectedToInternet(context) == true)
         {
             Log.i("Test", "Network is available ");
             HashMap<String, String> postData = new HashMap<String, String>();
@@ -79,8 +82,9 @@ public class Notification extends Fragment implements AsyncResponse {
             loginTask.execute(ConnectionManager.SERVER_URL+"getAllnotification");
 
         }
-        else {
-            Toast.makeText(getActivity(),"Please connect to the Internet",Toast.LENGTH_LONG).show();
+        else
+        {
+            customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
         }
 
         ((FirstActivity)getActivity()).setBackKeyFlag(true);

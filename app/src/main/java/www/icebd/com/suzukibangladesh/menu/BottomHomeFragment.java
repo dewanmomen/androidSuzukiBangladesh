@@ -94,7 +94,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
         HashMap<String, String> postData = new HashMap<String, String>();
         String auth_key= pref.getString("auth_key","empty");
 
-        customDialog = new CustomDialog(context);
+        customDialog = new CustomDialog(getActivity());
         if(CheckNetworkConnection.isConnectionAvailable(context) == true)
         {
             if (!auth_key.equals("empty"))

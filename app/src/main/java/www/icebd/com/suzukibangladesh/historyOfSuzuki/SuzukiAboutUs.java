@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,7 +18,9 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
@@ -25,13 +29,20 @@ import www.icebd.com.suzukibangladesh.utilities.Constant;
 import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 
 
-public class SuzukiAboutUs extends Fragment {
+public class SuzukiAboutUs extends Fragment implements View.OnClickListener
+{
     WebView webView;
     SharedPreferences pref ;
     SharedPreferences.Editor editor ;
     Context context;
     CustomDialog customDialog;
     ProgressDialog progressDialog;
+
+    private LinearLayout mlLayoutRequestError = null;
+    private Handler mhErrorLayoutHide = null;
+
+    private boolean mbErrorOccured = false;
+    private boolean mbReloadPressed = false;
 
     public static SuzukiAboutUs newInstance() {
         SuzukiAboutUs fragment = new SuzukiAboutUs();
@@ -53,8 +64,12 @@ public class SuzukiAboutUs extends Fragment {
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 
+        ((Button) rootView.findViewById(R.id.btnRetry)).setOnClickListener(this);
+        mlLayoutRequestError = (LinearLayout)rootView.findViewById(R.id.lLayoutRequestError);
+        mhErrorLayoutHide = getErrorLayoutHideHandler();
+
         webView = (WebView) rootView.findViewById(R.id.webViewSuzukiAoutUs);
-        customDialog = new CustomDialog(context);
+        customDialog = new CustomDialog(getActivity());
         if(CheckNetworkConnection.isConnectedToInternet(context) == true)
         {
             webView.setWebViewClient(new MyWebViewClient());
@@ -72,12 +87,27 @@ public class SuzukiAboutUs extends Fragment {
 
         return rootView;
     }
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        if (id == R.id.btnRetry) {
+            if (!mbErrorOccured) {
+                return;
+            }
+
+            mbReloadPressed = true;
+            webView.reload();
+            mbErrorOccured = false;
+        }
+    }
     private class MyWebViewClient extends WebViewClient
     {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
+            //view.loadUrl(url);
+            //return true;
+            return super.shouldOverrideUrlLoading(view, url);
         }
 
         @Override
@@ -90,16 +120,41 @@ public class SuzukiAboutUs extends Fragment {
         @Override
         public void onPageFinished(WebView view, String url)
         {
-            super.onPageFinished(view, url);
             progressDialog.dismiss();
+            if (mbErrorOccured == false && mbReloadPressed) {
+                hideErrorLayout();
+                mbReloadPressed = false;
+            }
+            super.onPageFinished(view, url);
+
         }
 
         @Override
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error)
         {
-            super.onReceivedError(view, request, error);
             progressDialog.dismiss();
+            mbErrorOccured = true;
+            showErrorLayout();
+            super.onReceivedError(view, request, error);
+
         }
+    }
+    private void showErrorLayout() {
+        mlLayoutRequestError.setVisibility(View.VISIBLE);
+    }
+
+    private void hideErrorLayout() {
+        mhErrorLayoutHide.sendEmptyMessageDelayed(10000, 200);
+    }
+
+    private Handler getErrorLayoutHideHandler() {
+        return new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                mlLayoutRequestError.setVisibility(View.GONE);
+                super.handleMessage(msg);
+            }
+        };
     }
     public void setupUI(View view) {
 

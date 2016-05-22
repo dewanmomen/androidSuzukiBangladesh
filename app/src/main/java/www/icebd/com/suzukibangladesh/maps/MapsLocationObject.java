@@ -68,13 +68,17 @@ public class MapsLocationObject
         private String location_contact_person_phone;
         private double lat;
         private double lng;
+        private String district;
 
 
 
 
         public Locations(){}
-        public Locations(String location_id,String location_type,String location_name,String location_address,
-                         String location_contact_person_name,String location_contact_person_email,String location_contact_person_phone,double lat,double lng)
+
+
+
+        public Locations(String location_id, String location_type, String location_name, String location_address,
+                         String location_contact_person_name, String location_contact_person_email, String location_contact_person_phone, double lat, double lng, String district)
         {
             this.location_id = location_id;
             this.location_type = location_type;
@@ -85,6 +89,7 @@ public class MapsLocationObject
             this.location_contact_person_phone = location_contact_person_phone;
             this.lat = lat;
             this.lng = lng;
+            this.district = district;
         }
 
         public String getLocation_id() {
@@ -156,6 +161,15 @@ public class MapsLocationObject
 
         public void setLng(double lng) {
             this.lng = lng;
+        }
+        public String getDistrict()
+        {
+            return district;
+        }
+
+        public void setDistrict(String district)
+        {
+            this.district = district;
         }
 
     }

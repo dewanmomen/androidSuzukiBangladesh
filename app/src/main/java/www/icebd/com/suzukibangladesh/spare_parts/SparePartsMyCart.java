@@ -30,6 +30,7 @@ import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
 import www.icebd.com.suzukibangladesh.bikedetails.BikeDetails;
 import www.icebd.com.suzukibangladesh.utilities.Constant;
+import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 import www.icebd.com.suzukibangladesh.utilities.ListViewUtil;
 import www.icebd.com.suzukibangladesh.utilities.Tools;
 
@@ -37,7 +38,7 @@ import www.icebd.com.suzukibangladesh.utilities.Tools;
 public class SparePartsMyCart extends Fragment
 {
     Context context;
-
+    CustomDialog customDialog;
     TextView textview_no_item_add_card;
     ListView spare_parts_cardlist;
     View view_under_spare_parts_cardlist;
