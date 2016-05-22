@@ -54,6 +54,7 @@ import www.icebd.com.suzukibangladesh.maps.MapsActivity;
 import www.icebd.com.suzukibangladesh.menu.DetailNewsEvents;
 import www.icebd.com.suzukibangladesh.menu.HomeFragment;
 import www.icebd.com.suzukibangladesh.menu.InviteFriends;
+import www.icebd.com.suzukibangladesh.menu.LocationsFragment;
 import www.icebd.com.suzukibangladesh.menu.MediaLink;
 import www.icebd.com.suzukibangladesh.menu.NewsEvents;
 import www.icebd.com.suzukibangladesh.menu.PromotionsDetails;
@@ -204,6 +205,29 @@ public class FirstActivity extends AppCompatActivity
         if(pref.getString("is_login","0").equals("1")== true)
         {
 
+            drawerItem = new ObjectDrawerItem[16];
+
+            drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
+            drawerItem[1] = new ObjectDrawerItem(getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
+            drawerItem[2] = new ObjectDrawerItem(getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
+            drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
+            drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
+            drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
+            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "LOCATIONS");
+            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
+            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
+            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
+            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
+
+
+            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
+            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
+            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
+            drawerItem[14] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
+            drawerItem[15] = new ObjectDrawerItem("", "SUZUKI");
+        }
+        else
+        {
             drawerItem = new ObjectDrawerItem[15];
 
             drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
@@ -212,37 +236,16 @@ public class FirstActivity extends AppCompatActivity
             drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
             drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
             drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
-            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
-            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
-            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
+            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "LOCATIONS");
+            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
+            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
+            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
+            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
 
-
-            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
-            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
-            drawerItem[14] = new ObjectDrawerItem("SUZUKI", "");
-        }
-        else
-        {
-            drawerItem = new ObjectDrawerItem[14];
-
-            drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
-            drawerItem[1] = new ObjectDrawerItem(getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
-            drawerItem[2] = new ObjectDrawerItem(getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
-            drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
-            drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
-            drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
-            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
-            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
-            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
-
-            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_in), mNavigationDrawerItemTitles[11]);
-            drawerItem[13] = new ObjectDrawerItem("SUZUKI", "");
+            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
+            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
+            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_in), mNavigationDrawerItemTitles[11]);
+            drawerItem[14] = new ObjectDrawerItem("", "SUZUKI");
         }
 
 
@@ -292,6 +295,9 @@ public class FirstActivity extends AppCompatActivity
                 fragment = new Promotions().newInstance();
                 break;
             case 7:
+                fragment = new LocationsFragment().newInstance();
+                break;
+            case 8:
                 if(pref.getString("is_login","0").equals("1") && userid >0)
                 {
                     Log.i("userid login: ","inside");
@@ -301,14 +307,14 @@ public class FirstActivity extends AppCompatActivity
                     // for login
                     //Toast.makeText(context,"Please Login",Toast.LENGTH_LONG).show();
                     Constant.isDetermin = 2;// quizzes
-                    selectItem(13);
+                    selectItem(14);
                 }
 
                 break;
-            case 8:
+            case 9:
                 fragment = new SOS().newInstance();
                 break;
-            case 9:
+            case 10:
                 //fragment = new InviteFriends().newInstance();
                 try {
                     JsonParser jsonParser = new JsonParser();
@@ -330,7 +336,7 @@ public class FirstActivity extends AppCompatActivity
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/appetizerandroid")));
                 }
                 break;
-            case 10:
+            case 11:
                 //fragment = new SocialMedia().newInstance();
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
                 String facebookUrl = getFacebookPageURL(this);
@@ -338,15 +344,15 @@ public class FirstActivity extends AppCompatActivity
                 startActivity(facebookIntent);
                 break;
 
-            case 11:
+            case 12:
                 //Toast.makeText(context,"history of suzuki",Toast.LENGTH_LONG).show();
                 fragment = new HistoryOfSuzuki().newInstance();
                 break;
-            case 12:
+            case 13:
                 //Toast.makeText(context,"About US",Toast.LENGTH_LONG).show();
                 fragment = new SuzukiAboutUs().newInstance();
                 break;
-            case 13:
+            case 14:
                 if(pref.getString("is_login","0").equals("1")== true)//logged in
                 {
                     //Toast.makeText(context,"Change Password Page",Toast.LENGTH_LONG).show();
@@ -360,7 +366,7 @@ public class FirstActivity extends AppCompatActivity
                     mDrawerLayout.closeDrawer(mDrawerList);
                 }
                 break;
-            case 14:
+            case 15:
                 if(pref.getString("is_login","0").equals("1")== true)
                 {
                     //fragment = new Logout().newInstance();
@@ -498,7 +504,7 @@ public class FirstActivity extends AppCompatActivity
                         setBackKeyFlag(false);
                     }
                     else if(getWhichFragment() == 5){
-                        selectItem(6);
+                        selectItem(7);
                         setBackKeyFlag(false);
                     }
                     else if(getWhichFragment() == 12){
