@@ -74,7 +74,7 @@ public class SpareParts extends Fragment
         View view = inflater.inflate(R.layout.fragment_spare_parts, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("SPARE PARTS");
+        getActivity().setTitle("Spare Parts");
         Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
 
         fragmentManager = getChildFragmentManager();

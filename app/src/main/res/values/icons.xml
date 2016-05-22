@@ -5,9 +5,9 @@
 	<string name="fa_request_service">&#xf085;</string>
 	<string name="fa_news_events">&#xf1ea;</string>
 	<string name="fa_promotions">&#xf0a1;</string>
-	<string name="fa_quizzes">&#xf234;</string>
+	<string name="fa_quizzes">&#xf044;</string>
 	<string name="fa_phone">&#xf095;</string>
-	<string name="fa_invite_friends">&#xf044;</string>
+	<string name="fa_invite_friends">&#xf234;</string>
 	<string name="fa_facebook_square">&#xf082;</string>
 	<string name="fa_change_pass">&#xf0a3;</string>
 	<string name="fa_sign_in">&#xf090;</string>

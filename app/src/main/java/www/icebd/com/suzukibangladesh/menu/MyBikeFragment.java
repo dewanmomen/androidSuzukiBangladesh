@@ -70,7 +70,7 @@ public class MyBikeFragment extends Fragment implements SwipeRefreshLayout.OnRef
         View view = inflater.inflate(R.layout.fragment_my_bike, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("MY BIKE");
+        getActivity().setTitle("My Bike");
         pref = context.getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
         fragmentManager = getChildFragmentManager();
