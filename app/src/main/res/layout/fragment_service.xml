@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textColor="@color/suzuki_blue_color"
-        android:text="REQUEST FOR SERVICE"
+        android:text="Request For Service"
         android:gravity="left"
         android:layout_marginBottom="10dp"
         android:id="@+id/txt_req_for_quotation" />
@@ -26,9 +26,9 @@
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:text="Bike Model"
-        android:textAlignment="center"
+        android:gravity="center"
         android:background="#d8d8d8"
         android:id="@+id/txt_dropdown" />
     <LinearLayout
@@ -70,7 +70,6 @@
 
         android:checkedButton="@+id/free"
         android:layout_height="25dp"
-        android:background="@drawable/border"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:id="@+id/rdo_grp_service_type_1" >
@@ -103,7 +102,6 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:id="@+id/rdo_grb_service_type_2"
-        android:background="@drawable/border"
         android:checkedButton="@+id/repair"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
@@ -143,7 +141,7 @@
              android:layout_weight="1"
              android:id="@+id/chk_speedo_motor"
              android:text="SPEEDO MOTOR"
-             android:layout_marginRight="20dp"/>
+             android:layout_marginLeft="18dp"/>
 
      </LinearLayout>
     <LinearLayout
@@ -164,7 +162,7 @@
             android:layout_weight="1"
             android:id="@+id/chk_gear"
             android:text="GEAR"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginLeft="18dp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -185,7 +183,7 @@
             android:layout_weight="1"
             android:id="@+id/chk_clutch_plate"
             android:text="CLUTCH PLATE"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginLeft="18dp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -206,7 +204,7 @@
             android:layout_weight="1"
             android:id="@+id/chk_oil_filter"
             android:text="OIL FILTER"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginLeft="18dp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -227,7 +225,7 @@
             android:layout_weight="1"
             android:id="@+id/chk_body_parts"
             android:text="BODY PARTS"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginLeft="18dp"/>
 
     </LinearLayout>
 

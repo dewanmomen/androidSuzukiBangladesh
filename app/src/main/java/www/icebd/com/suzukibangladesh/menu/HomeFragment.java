@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment implements AsyncResponse {
         View rootView = inflater.inflate(R.layout.fragment_home, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("HOME");
+        getActivity().setTitle("Home");
         Typeface iconFont = FontManager.getTypeface(getActivity(), FontManager.FONTAWESOME);
 
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);

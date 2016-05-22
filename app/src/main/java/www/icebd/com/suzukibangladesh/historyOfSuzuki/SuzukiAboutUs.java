@@ -59,7 +59,7 @@ public class SuzukiAboutUs extends Fragment implements View.OnClickListener
                 false);
         //setupUI(rootView.findViewById(R.id.parentLogin));
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("ABOUT US");
+        getActivity().setTitle("About Us");
 
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();

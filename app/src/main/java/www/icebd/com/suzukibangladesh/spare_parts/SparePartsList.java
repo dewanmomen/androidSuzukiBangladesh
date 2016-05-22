@@ -82,7 +82,7 @@ public class SparePartsList extends Fragment implements SwipeRefreshLayout.OnRef
         View view = inflater.inflate(R.layout.fragment_spare_parts_list, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("SPARE PARTS");
+        getActivity().setTitle("Spare Parts");
         setupUI(view.findViewById(R.id.main_spare));
 
         pref = context.getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);

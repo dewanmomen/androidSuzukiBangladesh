@@ -56,7 +56,7 @@ public class Notification extends Fragment implements AsyncResponse {
         View rootView = inflater.inflate(R.layout.fragment_notification, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("NOTIFICATIONS");
+        getActivity().setTitle("Notifications");
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 

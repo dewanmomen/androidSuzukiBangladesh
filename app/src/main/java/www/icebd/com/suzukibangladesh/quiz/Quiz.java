@@ -101,7 +101,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                 false);
 
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("QUIZZES");
+        getActivity().setTitle("Quiz");
         container_temp=container;
         inflater_temp=inflater;
 

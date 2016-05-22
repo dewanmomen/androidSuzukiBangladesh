@@ -66,7 +66,7 @@ public class ChangePassword extends Fragment implements View.OnClickListener, As
                 false);
         context = getActivity().getApplicationContext();
         setupUI(rootView.findViewById(R.id.parentChangePass));
-        getActivity().setTitle("CHANGE PASSWORD");
+        getActivity().setTitle("Change Password");
 
         oldPassword = (EditText) rootView.findViewById(R.id.old_password);
         newPassword = (EditText) rootView.findViewById(R.id.new_password);

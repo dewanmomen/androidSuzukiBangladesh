@@ -66,7 +66,7 @@ public class ResetPassword extends Fragment implements View.OnClickListener, Asy
                 false);
         context = getActivity().getApplicationContext();
         setupUI(rootView.findViewById(R.id.parentResetPass));
-        getActivity().setTitle("FORGOT PASSWORD");
+        getActivity().setTitle("Forgot Password");
 
         email=(EditText) rootView.findViewById(R.id.reset_email);
         btnReset = (Button) rootView.findViewById(R.id.button);

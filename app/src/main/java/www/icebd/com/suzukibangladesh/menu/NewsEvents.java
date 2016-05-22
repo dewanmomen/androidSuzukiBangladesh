@@ -59,7 +59,7 @@ public class NewsEvents extends Fragment implements AsyncResponse {
         View rootView = inflater.inflate(R.layout.fragment_news_events, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("NEWS AND EVENTS");
+        getActivity().setTitle("News And Events");
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 

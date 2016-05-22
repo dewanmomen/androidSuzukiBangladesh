@@ -130,7 +130,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 false);
 
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("BIKE DETAILS");
+        getActivity().setTitle("Bike Details");
         pref = context.getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 
@@ -262,7 +262,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 engineTextView.setText("Engine");
                 engineTextView.setTextColor(getResources().getColor(R.color.white));
                 row.addView(engineTextView);
-                row.setPadding(50, 0, 0, 10);
+                row.setPadding(26, 0, 0, 10);
                 row.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));//"#939393"
                 tableLayout.addView(row);
 
@@ -287,13 +287,13 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     TextView txt_culon = new TextView(context);
                     txt_culon.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT));
                     TextView engine_Value_TextView = new TextView(context);
-                    engine_Value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT,0.2f));
+                    engine_Value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
 
                     engine_Title_TextView.setTextColor(getResources().getColor(R.color.line_grey));
                     engine_Value_TextView.setTextColor(getResources().getColor(R.color.black));
                     txt_culon.setTextColor(getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
-                        engine_Title_TextView.setText(specification_title);
+                        engine_Title_TextView.setText(" " + specification_title);
                         txt_culon.setText(": ");
                         engine_Value_TextView.setText(specification_value);
                         engine_Title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
@@ -302,7 +302,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         //row_engine.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
 
                     } else {
-                        engine_Title_TextView.setText(specification_title);
+                        engine_Title_TextView.setText(" " + specification_title);
                         txt_culon.setText(":");
                         engine_Value_TextView.setText(specification_value);
                         row_engine.setBackgroundColor(getResources().getColor(R.color.white));
@@ -310,7 +310,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     row_engine.addView(engine_Title_TextView);
                     row_engine.addView(txt_culon);
                     row_engine.addView(engine_Value_TextView);
-                    row_engine.setPadding(50, 5, 50, 5);
+                    row_engine.setPadding(26, 5, 26, 5);
 
                    /* if((i%2)==0)
                     row_engine.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
@@ -340,7 +340,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 electricalTextView.setText("Electrical");
                 electricalTextView.setTextColor(getResources().getColor(R.color.white));
                 rowelctrical.addView(electricalTextView);
-                rowelctrical.setPadding(50, 0, 0, 10);
+                rowelctrical.setPadding(26, 0, 0, 10);
                 rowelctrical.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(rowelctrical);
 
@@ -358,7 +358,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
                     TableRow dynamic_row = new TableRow(context);
                     dynamic_row.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                            TableLayout.LayoutParams.WRAP_CONTENT,1.5f));
+                            TableLayout.LayoutParams.WRAP_CONTENT, 1.5f));
 
                     TextView title_TextView = new TextView(context);
                     title_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 1.2f));
@@ -371,7 +371,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     value_TextView.setTextColor(getResources().getColor(R.color.black));
                     txt_culon.setTextColor(getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
@@ -382,7 +382,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
                     } else {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
@@ -391,7 +391,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(value_TextView);
                     }
 
-                    dynamic_row.setPadding(50, 5, 50, 5);
+                    dynamic_row.setPadding(26, 5, 26, 5);
 
                    /* if((i%2)==0)
                         dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
@@ -416,7 +416,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 susp_TextView.setText("Suspension");
                 susp_TextView.setTextColor(getResources().getColor(R.color.white));
                 row_susp.addView(susp_TextView);
-                row_susp.setPadding(50, 0, 0, 10);
+                row_susp.setPadding(26, 0, 0, 10);
                 row_susp.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(row_susp);
 
@@ -453,7 +453,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     value_TextView.setTextColor(getResources().getColor(R.color.black));
                     txt_culon.setTextColor(getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
@@ -464,7 +464,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
                     } else {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
@@ -472,7 +472,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
                     }
-                    dynamic_row.setPadding(50, 5, 50, 5);
+                    dynamic_row.setPadding(26, 5, 26, 5);
 
                 /*    if((i%2)==0)
                         dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
@@ -498,7 +498,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 tyre_TextView.setText("Tyre");
                 tyre_TextView.setTextColor(getResources().getColor(R.color.white));
                 row_tyre.addView(tyre_TextView);
-                row_tyre.setPadding(50, 0, 0, 10);
+                row_tyre.setPadding(26, 0, 0, 10);
                 row_tyre.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(row_tyre);
 
@@ -526,7 +526,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     value_TextView.setTextColor(getResources().getColor(R.color.black));
                     txt_culon.setTextColor(getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
@@ -537,7 +537,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
                     } else {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
@@ -546,7 +546,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(value_TextView);
                     }
 
-                    dynamic_row.setPadding(50, 5, 50, 5);
+                    dynamic_row.setPadding(26, 5, 26, 5);
 
                    /* if((i%2)==0)
                         dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
@@ -570,7 +570,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 brake_TextView.setText("Brake");
                 brake_TextView.setTextColor(getResources().getColor(R.color.white));
                 row_brake.addView(brake_TextView);
-                row_brake.setPadding(50, 0, 0, 10);
+                row_brake.setPadding(26, 0, 0, 10);
                 row_brake.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(row_brake);
 
@@ -599,7 +599,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     value_TextView.setTextColor(getResources().getColor(R.color.black));
                     txt_culon.setTextColor(getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
@@ -610,7 +610,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
                     } else {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
@@ -619,7 +619,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(value_TextView);
                     }
 
-                    dynamic_row.setPadding(50, 5, 50, 5);
+                    dynamic_row.setPadding(26, 5, 26, 5);
 
                    /* if((i%2)==0)
                         dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
@@ -645,7 +645,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 dimension_TextView.setText("Dimensions");
                 dimension_TextView.setTextColor(getResources().getColor(R.color.white));
                 row_dimension.addView(dimension_TextView);
-                row_dimension.setPadding(50, 0, 0, 10);
+                row_dimension.setPadding(26, 0, 0, 10);
                 row_dimension.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(row_dimension);
 
@@ -673,7 +673,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     value_TextView.setTextColor(getResources().getColor(R.color.black));
                     txt_culon.setTextColor(getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
@@ -684,7 +684,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
                     } else {
-                        title_TextView.setText(specification_title);
+                        title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
                         dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
@@ -693,7 +693,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         dynamic_row.addView(value_TextView);
                     }
 
-                    dynamic_row.setPadding(50, 5, 50, 5);
+                    dynamic_row.setPadding(26, 5, 26, 5);
 
                     /*if((i%2)==0)
                         dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
@@ -758,6 +758,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

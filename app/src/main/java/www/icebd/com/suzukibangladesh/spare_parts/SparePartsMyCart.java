@@ -76,7 +76,7 @@ public class SparePartsMyCart extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_spare_parts_my_cart, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("ADD TO CART");
+        getActivity().setTitle("My Cart");
         dispDefault = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         deviceTotalWidth = dispDefault.getWidth();
         deviceTotalHeight = dispDefault.getHeight();

@@ -65,7 +65,7 @@ public class Login extends Fragment implements View.OnClickListener, AsyncRespon
                 false);
         setupUI(rootView.findViewById(R.id.parentLogin));
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("LOGIN");
+        getActivity().setTitle("Login");
 
 
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);

@@ -78,7 +78,7 @@ public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
                 false);
         //setupUI(rootView.findViewById(R.id.parentLogin));
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("HISTORY OF SUZUKI");
+        getActivity().setTitle("History Of Suzuki");
 
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();

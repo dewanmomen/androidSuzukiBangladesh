@@ -126,6 +126,7 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
         searchByDistrict = (EditText) rootView.findViewById(R.id.searchByDistrict);
         tv = (TextView) rootView.findViewById(R.id.textView3);
         context = getActivity().getApplicationContext();
+        getActivity().setTitle("Locations");
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

@@ -70,7 +70,7 @@ public class Promotions extends Fragment implements AsyncResponse {
         View rootView = inflater.inflate(R.layout.fragment_promotion, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("PROMOTIONS");
+        getActivity().setTitle("Promotions");
 
         imageLoader = ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()

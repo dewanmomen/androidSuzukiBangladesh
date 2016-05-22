@@ -66,7 +66,7 @@ public class Quotation extends Fragment implements AsyncResponse, View.OnClickLi
         View rootView = inflater.inflate(R.layout.fragment_quotation, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("REQUEST FOR QUOTATION");
+        getActivity().setTitle("Quotation");
         setupUI(rootView.findViewById(R.id.main_quotation_lauout));
 
         say_Something = (EditText) rootView.findViewById(R.id.et_say_something_quotation);
