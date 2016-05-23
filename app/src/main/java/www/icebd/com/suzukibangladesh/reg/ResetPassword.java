@@ -66,7 +66,7 @@ public class ResetPassword extends Fragment implements View.OnClickListener, Asy
                 false);
         context = getActivity().getApplicationContext();
         setupUI(rootView.findViewById(R.id.parentResetPass));
-        getActivity().setTitle("FORGOT PASSWORD");
+        getActivity().setTitle("Forgot Password");
 
         email=(EditText) rootView.findViewById(R.id.reset_email);
         btnReset = (Button) rootView.findViewById(R.id.button);
@@ -158,7 +158,7 @@ public class ResetPassword extends Fragment implements View.OnClickListener, Asy
             HashMap<String, String> postData = new HashMap<String, String>();
             String auth_key = pref.getString("auth_key",null);
             //String user_id = pref.getString("user_id",null);
-            customDialog = new CustomDialog(context);
+            customDialog = new CustomDialog(getActivity());
             if(CheckNetworkConnection.isConnectionAvailable(context) == true)
             {
                 if (auth_key != null)

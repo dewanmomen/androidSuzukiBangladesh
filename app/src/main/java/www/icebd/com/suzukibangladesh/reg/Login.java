@@ -65,7 +65,7 @@ public class Login extends Fragment implements View.OnClickListener, AsyncRespon
                 false);
         setupUI(rootView.findViewById(R.id.parentLogin));
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("LOGIN");
+        getActivity().setTitle("Login");
 
 
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
@@ -199,7 +199,7 @@ public class Login extends Fragment implements View.OnClickListener, AsyncRespon
             HashMap<String, String> postData = new HashMap<String, String>();
             String auth_key = pref.getString("auth_key",null);
             Log.i("Test","Auth Key from shared preference "+auth_key);
-            customDialog = new CustomDialog(context);
+            customDialog = new CustomDialog(getActivity());
             if(CheckNetworkConnection.isConnectionAvailable(context) == true)
             {
                 if (auth_key != null)

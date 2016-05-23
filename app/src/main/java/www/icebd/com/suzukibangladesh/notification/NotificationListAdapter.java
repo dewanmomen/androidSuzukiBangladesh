@@ -27,6 +27,7 @@ import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
 import www.icebd.com.suzukibangladesh.bikedetails.BikeDetails;
 import www.icebd.com.suzukibangladesh.menu.DetailNewsEvents;
+import www.icebd.com.suzukibangladesh.menu.PromotionsDetails;
 import www.icebd.com.suzukibangladesh.request.RFSNotificationFragment;
 import www.icebd.com.suzukibangladesh.utilities.Utils;
 
@@ -137,7 +138,22 @@ public class NotificationListAdapter extends BaseAdapter
             public void onClick(View v) {
                 if(arrList.get(position).get("notification_type").toString().equals("promotions"))
                 {
-                    ((FirstActivity)context).selectItem(6);
+                    FragmentManager fragmentManager = notification.getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    PromotionsDetails promotionsDetails = new PromotionsDetails();
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("viewTitleName", "PROMOTIONS DETAILS");
+
+                    bundle.putString( "promo_title", arrList.get(position).get("notification_title").toString() );
+                    bundle.putString( "promo_desc", arrList.get(position).get("notification_message").toString() );
+                    bundle.putString( "promo_image", arrList.get(position).get("notification_pic").toString() );
+                    //bundle.putString( "news_event_start_date", arrList.get(position).get("news_event_title").toString() );
+                    //bundle.putString( "news_event_end_date", arrList.get(position).get("news_event_title").toString() );
+                    promotionsDetails.setArguments(bundle);
+                    fragmentTransaction.replace(R.id.container, promotionsDetails);
+                    fragmentTransaction.commit();
 
                 }
                 else if(arrList.get(position).get("notification_type").toString().equals("quiz_publish"))

@@ -32,13 +32,13 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-<RelativeLayout
+<FrameLayout
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="8"
     android:background="@android:color/white">
-</RelativeLayout>
+</FrameLayout>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

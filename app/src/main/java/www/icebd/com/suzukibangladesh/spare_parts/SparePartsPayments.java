@@ -46,7 +46,7 @@ public class SparePartsPayments extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_spare_parts_payments, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("SPARE PARTS PURCHASE");
+        getActivity().setTitle("Spare Parts Purchase");
         setupUI(rootView.findViewById(R.id.payment_mother_layout));
 
         //dialer = (Button) rootView.findViewById(R.id.dialer);

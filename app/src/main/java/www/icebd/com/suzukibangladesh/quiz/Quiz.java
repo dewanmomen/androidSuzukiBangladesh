@@ -101,7 +101,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                 false);
 
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("QUIZZES");
+        getActivity().setTitle("Quiz");
         container_temp=container;
         inflater_temp=inflater;
 
@@ -137,7 +137,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
 
         auth_key= pref.getString("auth_key","empty");
         //String user_id = pref.getString("user_id","0");
-        customDialog = new CustomDialog(context);
+        customDialog = new CustomDialog(getActivity());
         if(CheckNetworkConnection.isConnectionAvailable(context) == true)
         {
             if (!auth_key.equals("empty"))

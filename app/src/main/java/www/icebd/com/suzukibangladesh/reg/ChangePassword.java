@@ -66,7 +66,7 @@ public class ChangePassword extends Fragment implements View.OnClickListener, As
                 false);
         context = getActivity().getApplicationContext();
         setupUI(rootView.findViewById(R.id.parentChangePass));
-        getActivity().setTitle("CHANGE PASSWORD");
+        getActivity().setTitle("Change Password");
 
         oldPassword = (EditText) rootView.findViewById(R.id.old_password);
         newPassword = (EditText) rootView.findViewById(R.id.new_password);
@@ -193,7 +193,7 @@ public class ChangePassword extends Fragment implements View.OnClickListener, As
             HashMap<String, String> postData = new HashMap<String, String>();
             String auth_key = pref.getString("auth_key",null);
             String user_id = pref.getString("user_id",null);
-            customDialog = new CustomDialog(context);
+            customDialog = new CustomDialog(getActivity());
             if(CheckNetworkConnection.isConnectionAvailable(context) == true)
             {
                 if (auth_key != null)

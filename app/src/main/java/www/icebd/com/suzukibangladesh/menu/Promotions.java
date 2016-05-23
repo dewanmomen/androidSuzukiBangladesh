@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import www.icebd.com.suzukibangladesh.FirstActivity;
@@ -44,14 +46,15 @@ public class Promotions extends Fragment implements AsyncResponse {
     SharedPreferences pref ;
     SharedPreferences.Editor editor ;
 
-    TextView title,description;//startDate,endDate;
-    ImageView imageView;
+    ListView list;
+    ArrayList<HashMap<String, String>> arrList;
 
     ImageLoader imageLoader;
     DisplayImageOptions options;
 
     Context context;
     CustomDialog customDialog;
+    PromitionsListAdapter promitionsListAdapter = null;
 
     public static Promotions newInstance() {
         Promotions fragment = new Promotions();
@@ -67,7 +70,7 @@ public class Promotions extends Fragment implements AsyncResponse {
         View rootView = inflater.inflate(R.layout.fragment_promotion, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("PROMOTIONS");
+        getActivity().setTitle("Promotions");
 
         imageLoader = ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
@@ -81,16 +84,11 @@ public class Promotions extends Fragment implements AsyncResponse {
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 
-        title = (TextView) rootView.findViewById(R.id.txt_pro_title);
-        description = (TextView) rootView.findViewById(R.id.txt_pro_descrip);
-        //startDate = (TextView) rootView.findViewById(R.id.txt_pro_startdate);
-        //endDate = (TextView) rootView.findViewById(R.id.txt_pro_enddate);
-        imageView = (ImageView)rootView.findViewById(R.id.img_pro);
-        imageView.setVisibility(View.GONE);
+        list = (ListView) rootView.findViewById(R.id.list);
 
         String auth_key = pref.getString("auth_key","empty");
 
-        customDialog = new CustomDialog(context);
+        customDialog = new CustomDialog(getActivity());
         if(CheckNetworkConnection.isConnectedToInternet(context) == true)
         {
             if (!auth_key.equals("empty")) {
@@ -114,6 +112,7 @@ public class Promotions extends Fragment implements AsyncResponse {
     public void processFinish(String output) {
 
         Log.i("Test",output);
+        this.arrList = new ArrayList();
 
         try {
             JSONObject object = new JSONObject(output);
@@ -127,24 +126,40 @@ public class Promotions extends Fragment implements AsyncResponse {
                // Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
 
                 JSONArray promotion = object.getJSONArray("promotion");
-                JSONObject promotionDetails = promotion.getJSONObject(0);
-                String promo_id = promotionDetails.getString("promo_id");
-                String promo_title = promotionDetails.getString("promo_title");
-                String promo_desc = promotionDetails.getString("promo_desc");
-                String promo_image = promotionDetails.getString("promo_image");
-                String start_date = promotionDetails.getString("start_date");
-                String end_date = promotionDetails.getString("end_date");
 
-                Log.i("Test","title "+promo_title);
-
-                title.setText(promo_title);
-                description.setText(promo_desc);
-                //startDate.setText(start_date);
-                //endDate.setText(end_date);
-
-                if(promo_image != null)
+                for (int i = 0; i <promotion.length() ; i++)
                 {
-                    imageView.setVisibility(View.VISIBLE);
+
+                    Log.i("Test", "Inside pormotion loop");
+
+                    JSONObject promotionDetails = promotion.getJSONObject(i);
+                    HashMap<String, String> map = new HashMap();
+
+                    map.put("promo_id", promotionDetails.getString("promo_id"));
+                    map.put("promo_title", promotionDetails.getString("promo_title"));
+                    map.put("promo_desc", promotionDetails.getString("promo_desc"));
+                    map.put("promo_image", promotionDetails.getString("promo_image"));
+                    map.put("start_date", promotionDetails.getString("start_date"));
+                    map.put("end_date", promotionDetails.getString("end_date"));
+
+                    arrList.add(map);
+
+                    /*String promo_id = promotionDetails.getString("promo_id");
+                    String promo_title = promotionDetails.getString("promo_title");
+                    String promo_desc = promotionDetails.getString("promo_desc");
+                    String promo_image = promotionDetails.getString("promo_image");
+                    String start_date = promotionDetails.getString("start_date");
+                    String end_date = promotionDetails.getString("end_date");
+
+                    Log.i("Test", "title " + promo_title);*/
+                }
+
+                if(arrList != null)
+                {
+
+                    promitionsListAdapter = new PromitionsListAdapter(getActivity(), arrList,this);
+                    list.setAdapter(promitionsListAdapter);
+                    /*imageView.setVisibility(View.VISIBLE);
                     imageLoader.displayImage(String.valueOf(Uri.parse(promo_image)), imageView, options,
                             new SimpleImageLoadingListener() {
                                 @Override
@@ -167,12 +182,9 @@ public class Promotions extends Fragment implements AsyncResponse {
                                 public void onProgressUpdate(String imageUri, View view,int current, int total) {
                                     //holder.progressBar.setProgress(Math.round(100.0f * current/ total));
                                 }
-                            });
+                            });*/
                 }
-                else
-                {
-                    Log.i("image url not found", promo_image);
-                }
+
 
             }
             else {

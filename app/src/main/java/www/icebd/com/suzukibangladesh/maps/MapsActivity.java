@@ -80,8 +80,8 @@ import www.icebd.com.suzukibangladesh.utilities.FontManager;
 import www.icebd.com.suzukibangladesh.utilities.JsonParser;
 
 
-public class MapsActivity extends android.support.v4.app.Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class MapsActivity extends android.support.v4.app.Fragment implements Filterable,OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     EditText searchByDistrict;
@@ -97,12 +97,12 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
     Context context;
     private GoogleMap mMap;
     String location_type, location_address, location_contact_person_name, location_contact_person_email, location_contact_person_phone;
-    //private ItemFilter mFilter = new ItemFilter();
     List<LatLng> latlngList = new ArrayList<LatLng>();
 
     List<MapsLocationObject.Locations> mapsLocationObjectList;
     GPSTracker gps;
     double latitude, longitude;
+    private ItemFilter mFilter = new ItemFilter();
 
     private float currentZoom = -1;
     int timecounter = 0;
@@ -126,9 +126,9 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
         searchByDistrict = (EditText) rootView.findViewById(R.id.searchByDistrict);
         tv = (TextView) rootView.findViewById(R.id.textView3);
         context = getActivity().getApplicationContext();
+        getActivity().setTitle("Locations");
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
-        //mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
         mapFragment.getMapAsync(this);
         /*mMapView = (MapView) rootView.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);*/
@@ -166,96 +166,98 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                /*if (mapsLocationObjectList != null) {
+                System.out.println("Text ["+s+"]");
+                //MapsActivity.this.getFilter().filter(s.toString());
+
+                String answerString = searchByDistrict.getText().toString().toLowerCase();
+                if(mapsLocationObjectList != null)
+                {
+                    MapsLocationObject mapsLocationObject = new MapsLocationObject();
                     Iterator<MapsLocationObject.Locations> list = mapsLocationObjectList.iterator();
-                    while (list.hasNext()) {
-                        MapsLocationObject.Locations mapsLocations = list.next();
+                    while (list.hasNext())
+                    {
+                        final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
+                        if (answerString.equals(obj_maps_location.getDistrict()))
+                        {
+                            LatLng dha_lat_lng = new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng());
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dha_lat_lng, 12.0f));
+
+
+                        } else if (answerString.length() <= 0)
+                        {
+                            gps = new GPSTracker(context);
+                            if (gps.canGetLocation())
+                            {
+                                moveToCurrentLocation(new LatLng(gps.getLatitude(), gps.getLongitude()));
+                            }
+                        }
                     }
-                }*/
+                }
+
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                /*System.out.println("Text ["+s+"]");
-                MapsActivity.this.getFilter().filter(s.toString());*/
-                String answerString = searchByDistrict.getText().toString();
-                if (answerString.equals("Chi")) {
-                    LatLng dha_lat_lng = new LatLng(lat, lng);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dha_lat_lng, 12.0f));
-                } else if (answerString.length() <= 0) {
-                    gps = new GPSTracker(context);
-                    if (gps.canGetLocation()) {
-                        moveToCurrentLocation(new LatLng(gps.getLatitude(), gps.getLongitude()));
+            public void afterTextChanged(Editable s)
+            {
+
+            }
+        });
+        return rootView;
+    }
+    @Override
+    public Filter getFilter()
+    {
+        return mFilter;
+    }
+    private class ItemFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            FilterResults result = new FilterResults();
+            constraint = constraint.toString().toLowerCase();
+            String answerString = searchByDistrict.getText().toString().toLowerCase();
+            if(mapsLocationObjectList != null)
+            {
+                MapsLocationObject mapsLocationObject = new MapsLocationObject();
+                Iterator<MapsLocationObject.Locations> list = mapsLocationObjectList.iterator();
+                while (list.hasNext())
+                {
+                    final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
+                    if (answerString.equals(obj_maps_location.getDistrict()))
+                    {
+                        final LatLng dha_lat_lng = new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng());
+                        new Thread(){
+
+                            public synchronized void run()
+                            {
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dha_lat_lng, 12.0f));
+                            }
+                        };
+
+                    } else if (answerString.length() <= 0)
+                    {
+                        gps = new GPSTracker(context);
+                        if (gps.canGetLocation())
+                        {
+                            moveToCurrentLocation(new LatLng(gps.getLatitude(), gps.getLongitude()));
+                        }
                     }
                 }
             }
-        });
-        //setUpMapIfNeeded_1(rootView);
-        //goToCurrentLocation();
-        //isGpsEnable();
-        return rootView;
-    }
+            result.count = mapsLocationObjectList.size();
+            result.values = mapsLocationObjectList;
 
-    private void setUpMapIfNeeded_1(View inflatedView) {
+            return result;
+        }
 
-        if (mMap == null) {
-            mMap = ((MapView) inflatedView.findViewById(R.id.map)).getMap();
-
-            if (mMap != null) {
-                setUpMap_1();
-            }
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mapsLocationObjectList = (ArrayList<MapsLocationObject.Locations>) results.values;
+            //notifyDataSetChanged();
         }
 
     }
-
-    private void setUpMap_1() {
-        // Check if we were successful in obtaining the map.
-        if (mMap != null) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-            GetMyLocation();
-
-            mMap.setOnCameraChangeListener(getCameraChangeListener());
-        }
-
-    }
-
-//    private void goToCurrentLocation() {
-//        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-//
-//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            Toast.makeText(getContext(), "GPS is Enabled in your devide", Toast.LENGTH_LONG).show();
-//            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                // TODO: Consider calling
-//                //    ActivityCompat#requestPermissions
-//                // here to request the missing permissions, and then overriding
-//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                //                                          int[] grantResults)
-//                // to handle the case where the user grants the permission. See the documentation
-//                // for ActivityCompat#requestPermissions for more details.
-//                return;
-//            }
-//            //mMap.setMyLocationEnabled(true);
-//            //mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//
-//            GetMyLocation();
-//            mMap.setOnCameraChangeListener(getCameraChangeListener());
-//        } else {
-//            showGPSDisabledAlertToUser();
-//        }
-//
-//    }
 
     private void GetMyLocation() {
         mMap.setOnMyLocationChangeListener(myLocationChangeListener);
@@ -313,34 +315,25 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
         };
     }
 
-    /*@Override
-    public Filter getFilter() {
-        return null;
-    }*/
-
     private void isGpsEnable() {
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            //Toast.makeText(getContext(), "GPS is Enabled in your devide", Toast.LENGTH_LONG).show();
-            gps = new GPSTracker(context);
-            if (gps.canGetLocation()) {
-                //new LatLng(gps.getLatitude(), gps.getLongitude());
-//                double lat = gps.getLatitude();
-//                double lng = gps.getLongitude();
-                Log.d("TAG", "new lat is " + new LatLng(gps.getLatitude(),gps.getLongitude()));
-                String l = String.valueOf(new LatLng(gps.getLatitude(),gps.getLongitude()));
-                String new_loc = l.replaceAll("[^\\d.,]", "");
-                Log.d("TAG","New Location " + new_loc);
-                String[] strArr = new_loc.split(",");
-                System.out.println("lat lng :"+strArr[0] + " "+strArr[1]);
-                //double v = Double.parseDouble(lat + "," + lng);
-                //LatLng l = v;
-                System.out.println("map check: "+mMap);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom( new LatLng(Double.valueOf(strArr[0]),Double.valueOf(strArr[1]) ), 12.0f),4000,null);
-                //map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(13.0810,80.2740), 15.5f), 4000, null);
-                //moveToCurrentLocation(new LatLng(gps.getLatitude(), gps.getLongitude()));
+            Toast.makeText(getContext(), "GPS is Enabled in your device", Toast.LENGTH_LONG).show();
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
             }
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            GetMyLocation();
+            mMap.setOnCameraChangeListener(getCameraChangeListener());
         } else {
             showGPSDisabledAlertToUser();
         }
@@ -387,7 +380,8 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         isGpsEnable();
-        /*mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        //marker.showInfoWindow();
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
                 return null;
@@ -396,30 +390,22 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
             @Override
             public View getInfoContents(Marker marker) {
 
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View v = inflater.inflate(R.layout.marker_info_window, null);
 
-                TextView tvTitle = ((TextView) v.findViewById(R.id.title));
+                TextView tvTitle = ((TextView) v.findViewById(R.id.marker_title));
                 tvTitle.setText(marker.getTitle());
-                TextView tvSnippet = ((TextView) v.findViewById(R.id.snippet));
+                TextView tvSnippet = ((TextView) v.findViewById(R.id.marker_snippet));
                 tvSnippet.setText(marker.getSnippet());
 
                 return v;
             }
-        });*/
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-        mMap.animateCamera(cameraUpdate);
-        //locationManager.removeUpdates(this);
+        });
     }
 
     public class GetMapLoactionTask extends AsyncTask<Void, Void, String> {
         private String RESULT = "OK";
-        private List<MapsLocationObject.Locations> returnJsonData;
+        //private List<MapsLocationObject.Locations> returnJsonData;
         private ArrayList<NameValuePair> nvp2 = null;
         private InputStream response;
         private JsonParser jsonParser;
@@ -448,8 +434,8 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
                     jsonParser = new JsonParser();
 
                     System.out.println("server response : " + response);
-                    returnJsonData = jsonParser.parseAPIMapLocationInfo(response);
-                    System.out.println("return data in background : " + returnJsonData);
+                    mapsLocationObjectList = jsonParser.parseAPIMapLocationInfo(response);
+                    System.out.println("return data in background : " + mapsLocationObjectList);
 
                 } else {
                     RESULT = getString(R.string.error_no_internet);
@@ -471,12 +457,13 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
                 try {
                     //finish();
 
-                    if (returnJsonData.size() > 0 && returnJsonData != null) {
+                    if (mapsLocationObjectList.size() > 0 && mapsLocationObjectList != null) {
                         Toast.makeText(context, "inside do post", Toast.LENGTH_SHORT).show();
-                        new PlaceAMarker(returnJsonData).execute();
+                        //returnJsonData = mapsLocationObjectList;
+                        new PlaceAMarker(mapsLocationObjectList).execute();
 
                     } else {
-                        System.out.println("return data in post execute : " + returnJsonData);
+                        System.out.println("return data in post execute : " + mapsLocationObjectList);
                         Toast.makeText(context, "Request Data Not Found, Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
@@ -546,28 +533,27 @@ public class MapsActivity extends android.support.v4.app.Fragment implements OnM
                 MapsLocationObject mapsLocationObject = new MapsLocationObject();
                 Iterator<MapsLocationObject.Locations> list = returnJsonData.iterator();
                 while (list.hasNext()) {
-                    MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
+                    final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
 
                     System.out.println("Return Location Type: " + obj_maps_location.getLocation_type());
                     if (obj_maps_location.getLocation_type().contains("1")) {
                         //String key = (String) strLatLngList.get("1");
                         marker = mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng()))
-                                .title(obj_maps_location.getLocation_name() + "\t\t" + "Show Room")
-                                .snippet(obj_maps_location.getLocation_address())
+                                .title(obj_maps_location.getLocation_name())
+                                .snippet(obj_maps_location.getLocation_address() + "\n" + obj_maps_location.getLocation_contact_person_phone() + "\n"
+                                        + "Show Room")
                                 .icon(BitmapDescriptorFactory
                                         .defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         );
-
                     } else {
                         marker = mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng()))
-                                .title(obj_maps_location.getLocation_name() + "\t\t" + "Service Center")
-                                .snippet(obj_maps_location.getLocation_address())
+                                .title(obj_maps_location.getLocation_name())
+                                .snippet(obj_maps_location.getLocation_address() + "\n" + obj_maps_location.getLocation_contact_person_phone() + "\n" + "Service Center")
                                 .icon(BitmapDescriptorFactory
                                         .defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                         );
-                        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng()), 13));
                     }
                 }
             } else {

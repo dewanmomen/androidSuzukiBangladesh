@@ -45,6 +45,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/listView"
+                android:scrollbars="none"
                 android:layout_marginTop="20dp"
                 android:divider="@color/white"
                 android:dividerHeight="10dp">

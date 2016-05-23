@@ -70,7 +70,7 @@ public class MyBikeFragment extends Fragment implements SwipeRefreshLayout.OnRef
         View view = inflater.inflate(R.layout.fragment_my_bike, container,
                 false);
         context = getActivity().getApplicationContext();
-        getActivity().setTitle("MY BIKE");
+        getActivity().setTitle("My Bike");
         pref = context.getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
         fragmentManager = getChildFragmentManager();
@@ -94,7 +94,7 @@ public class MyBikeFragment extends Fragment implements SwipeRefreshLayout.OnRef
                                     public void run() {
                                         swipeRefreshLayout.setRefreshing(true);
                                         apiFactory = new APIFactory();
-                                        customDialog = new CustomDialog(context);
+                                        customDialog = new CustomDialog(getActivity());
                                         if(CheckNetworkConnection.isConnectionAvailable(context) == true)
                                         {
                                             fetchBikeListTask = new FetchBikeListTask(pref.getString("auth_key", null));

@@ -64,26 +64,26 @@
     <string name="text_bkash_step3">Step 3 : Enter amount : Total Price (Such as 190)</string>
     <string name="text_bkash_step4">Step 4 : Enter Reference : Subscribe code L3RE5281</string>
     <string name="text_bkash_step5">Step 5 : Enter Counter No. 1</string>
-    <string name="text_bkash_ok">Than ok</string>
+    <string name="text_bkash_ok">Then ok</string>
     <string name="text_bkash_rec_trx">You will receive a payment confirmation SMS with</string>
     <string name="text_bkash_trx">TrxID</string>
 
     <string-array name="navigation_drawer_items_array">
-        <item>HOME</item>
-        <item>MY BIKE</item>
-        <item>SPARE PARTS</item>
-        <item>REQUEST SERVICE</item>
-        <item>NEWS AND EVENTS</item>
-        <item>PROMOTIONS</item>
-        <item>QUIZZES</item>
+        <item>Home</item>
+        <item>My Bike</item>
+        <item>Spare Parts</item>
+        <item>Request For Service</item>
+        <item>News And Events</item>
+        <item>Promotions</item>
+        <item>Quiz</item>
         <item>SOS</item>
-        <item>INVITE FRIENDS</item>
-        <item>SOCIAL MEDIA FACEBOOK</item>
-        <item>CHANGE PASSWORD</item>
+        <item>Invite Friends</item>
+        <item>Social Media</item>
+        <item>Change Password</item>
         <!--item>FORGOT PASSWORD</item>
         <item>SIGNUP</item-->
-        <item>LOGIN</item>
-        <item>LOGOUT</item>
+        <item>Login</item>
+        <item>Logout</item>
 
     </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package www.icebd.com.suzukibangladesh.menu;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class DetailNewsEvents extends Fragment {
     ImageView imageView;
 
     ImageLoader imageLoader;
+    Context context;
 
     public static DetailNewsEvents newInstance() {
         DetailNewsEvents fragment = new DetailNewsEvents();
@@ -50,6 +52,7 @@ public class DetailNewsEvents extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details_news_events, container,
                 false);
+        context = getActivity().getApplicationContext();
         Bundle bundle = this.getArguments();
         String whichView = bundle.getString("viewTitleName");
         getActivity().setTitle(whichView);
@@ -74,7 +77,18 @@ public class DetailNewsEvents extends Fragment {
         //startDate.setText(start_date);
         //endDate.setText(end_date);
 
-        imageLoader.displayImage(String.valueOf(Uri.parse(news_event_img)), imageView);
+        if(news_event_img != null)
+        {
+            imageView.setVisibility(View.VISIBLE);
+            imageLoader.displayImage(String.valueOf(Uri.parse(news_event_img)), imageView);
+        }
+        else
+        {
+            imageView.setVisibility(View.GONE);
+            //Toast.makeText(context,"No Data Found, please Try Again !",Toast.LENGTH_SHORT).show();
+            Log.i("Image :", "No image url found");
+        }
+
 
         String auth_key = pref.getString("auth_key","empty");
 

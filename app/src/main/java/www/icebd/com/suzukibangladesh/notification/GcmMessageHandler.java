@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,20 +20,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import www.icebd.com.suzukibangladesh.FirstActivity;
 import www.icebd.com.suzukibangladesh.R;
+import www.icebd.com.suzukibangladesh.menu.NewsEvents;
+import www.icebd.com.suzukibangladesh.request.RFSNotificationFragment;
+import www.icebd.com.suzukibangladesh.splash.Splash;
 
 public class GcmMessageHandler extends GcmListenerService {
     public static final int MESSAGE_NOTIFICATION_ID = 435345;
+    Context context;
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
         //Toast.makeText(GcmMessageHandler.this,"Notification Received from server",Toast.LENGTH_LONG).show();
+        Log.d("data : ",data.toString());
         String title = data.getString("title");
         Log.d("title : ",title);
-       String message = data.getString("message");
+        String message = data.getString("message");
+        String NotificationType = data.getString("NotificationType");
+        Log.d("NotificationType : ",NotificationType);
+        String picture = data.getString("picture");
        //Toast.makeText(GcmMessageHandler.this,"Notification Received from server",Toast.LENGTH_LONG).show();
 
-        Context context = getBaseContext();
+        context = getBaseContext();
         Bitmap remote_picture = null;
         long when = System.currentTimeMillis();
         int icon = R.drawable.ic_launcher;
@@ -39,31 +50,47 @@ public class GcmMessageHandler extends GcmListenerService {
         NotificationManager notificationManager;
         int count = 1;
         //if message and image url
-        if(data.getString("message")!=null && data.getString("picture")!=null) {
-            try {
-
-
+        if(message != null) {
+            try
+            {
                 Log.v("TAG_IMAGE", "" + data.getString("message"));
                 Log.v("TAG_IMAGE", "" + data.getString("picture"));
-
 
                 NotificationCompat.BigPictureStyle notiStyle = new NotificationCompat.BigPictureStyle();
                 notiStyle.setSummaryText(data.getString("message"));
 
-                try {
-                    remote_picture = BitmapFactory.decodeStream((InputStream) new URL(data.getString("picture")).getContent());
+                try
+                {
+                    if(picture != null)
+                    {
+                        remote_picture = BitmapFactory.decodeStream((InputStream) new URL(picture).getContent());
+                        notiStyle.bigPicture(remote_picture);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                notiStyle.bigPicture(remote_picture);
+
                 notificationManager = (NotificationManager)context
                         .getSystemService(Context.NOTIFICATION_SERVICE);
                 PendingIntent contentIntent = null;
 
-                Intent gotoIntent = new Intent();
-                gotoIntent.setClassName(context, "www.icebd.com.suzukibangladesh.splash.Splash");//Start activity when user taps on notification.
+                //Intent gotoIntent = new Intent();
+                //Intent gotoIntent = getIntent();
+                //Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+                Intent launchIntent = new Intent(context, FirstActivity.class);
+                //Bundle bundle = new Bundle();
+                if(NotificationType != null && launchIntent != null){
+                    launchIntent.setAction(NotificationType);
+
+                    launchIntent.putExtra("title",title);
+                    launchIntent.putExtra("message",message);
+                    launchIntent.putExtra("picture",picture);
+                }
+                // set intent so it does not start a new activity
+                //launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //gotoIntent.setClassName(context, "www.icebd.com.suzukibangladesh.splash.Splash");//Start activity when user taps on notification.
                 contentIntent = PendingIntent.getActivity(context,
-                        (int) (Math.random() * 100), gotoIntent,
+                        (int) (Math.random() * 100), launchIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
                 /*NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
@@ -78,33 +105,32 @@ public class GcmMessageHandler extends GcmListenerService {
 
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                         context);
-                Notification notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker("Suzuki Bangladesh").setWhen(0)
-                        .setAutoCancel(true)
-                        .setContentTitle("Suzuki Bangladesh")
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(data.getString("message")))
-                        .setContentIntent(contentIntent)
-                        //.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        .setDefaults(Notification.DEFAULT_SOUND)
-                        .setContentText(data.getString("message"))
-                        .setStyle(notiStyle).build();
 
+                mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker("Suzuki Bangladesh").setWhen(0);
+                mBuilder.setAutoCancel(true);
+                mBuilder.setContentTitle("Suzuki Bangladesh");
+                mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(data.getString("message")));
+                mBuilder.setContentIntent(contentIntent);
+                        //mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+                mBuilder.setContentText(data.getString("message"));
+                if(picture != null)
+                {
+                    mBuilder.setStyle(notiStyle);
+                }
 
-                notification.flags = Notification.FLAG_AUTO_CANCEL;
+                //notification.flags = Notification.FLAG_AUTO_CANCEL;
                 count++;
-                notificationManager.notify(count, notification);//This will generate seperate notification each time server sends.
-
+                notificationManager.notify(count, mBuilder.build());//This will generate seperate notification each time server sends.
+                FirstActivity.notificationClicked = true;
             } catch (Throwable e) {
                 e.printStackTrace();
             }
         }
 
-
-
-
-
-
         //createNotification(from, message);
     }
+
 
     // Creates notification based on title and body received
     private void createNotification(String from, String body) {
