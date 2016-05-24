@@ -56,12 +56,13 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem>
         {
             listItem.setMinimumHeight(30);
             folder = data[data.length-1];
-            imageViewIcon.setText(folder.icon);
-            imageViewIcon.setTextSize(20);
-            imageViewIcon.setTypeface(custom_font);
-            textViewName.setText("");
-            //textViewName.setTextSize(20);
-            //textViewName.setTypeface(custom_font);
+            //imageViewIcon.setText(folder.icon);
+            //imageViewIcon.setTextSize(20);
+            //imageViewIcon.setTypeface(custom_font);
+            textViewName.setText(folder.name);
+            imageViewIcon.setVisibility(View.GONE);
+            textViewName.setTextSize(20);
+            textViewName.setTypeface(custom_font);
 
         }
         /*else if(position == data.length-1)

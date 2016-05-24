@@ -54,6 +54,7 @@ import www.icebd.com.suzukibangladesh.maps.MapsActivity;
 import www.icebd.com.suzukibangladesh.menu.DetailNewsEvents;
 import www.icebd.com.suzukibangladesh.menu.HomeFragment;
 import www.icebd.com.suzukibangladesh.menu.InviteFriends;
+import www.icebd.com.suzukibangladesh.menu.LocationsFragment;
 import www.icebd.com.suzukibangladesh.menu.MediaLink;
 import www.icebd.com.suzukibangladesh.menu.NewsEvents;
 import www.icebd.com.suzukibangladesh.menu.PromotionsDetails;
@@ -103,6 +104,8 @@ public class FirstActivity extends AppCompatActivity
     APIFactory apiFactory;
     SetNotificationTask setNotificationTask;
 
+    public static boolean notificationClicked = false;
+
     private boolean backKeyFlag = false;
     public boolean isBackKeyFlag() {
         return backKeyFlag;
@@ -134,7 +137,19 @@ public class FirstActivity extends AppCompatActivity
         pref = getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", MODE_PRIVATE);
         editor = pref.edit();
 
-        gotToFragment();
+/*        BroadcastReceiver receiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //if(intent!=null && intent.getAction().equals("one"))
+                if(intent != null)
+                {
+                    gotToFragment(intent);
+                }
+            }
+        };*/
+
+
 
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         //mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -159,39 +174,42 @@ public class FirstActivity extends AppCompatActivity
             }
         });
 
-        //Select home by default
-
-        String auth_key = pref.getString("auth_key",null);
-        String noti_key = pref.getString("gcm_registration_token",null);
-        Log.i("Test","GCM registration token :"+noti_key);
-
-        if (auth_key != null && noti_key == null)
+        if(notificationClicked == true)
         {
-            HashMap<String, String> postData = new HashMap<String, String>();
-
-            String android_id = Settings.Secure.getString(this.getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
-            Log.i("Test","Android ID : "+android_id);
-
-            String unique_device_id = android_id;
-            String platform = "1";
-            apiFactory = new APIFactory();
-            customDialog = new CustomDialog(context);
-            if(CheckNetworkConnection.isConnectionAvailable(context) == true)
-            {
-                setNotificationTask = new SetNotificationTask(unique_device_id,Constant.notificationKey,auth_key,platform);
-                setNotificationTask.execute((Void) null);
-                //PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
-                //loginTask.execute(ConnectionManager.SERVER_URL+"setNotificationKey");
-            }
-            else
-            {
-                customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
-            }
-
+            gotToFragment();
         }
+        else
+        {
+            //Select home by default
 
-        selectItem(1);
+            String auth_key = pref.getString("auth_key", null);
+            String noti_key = pref.getString("gcm_registration_token", null);
+            Log.i("Test", "GCM registration token :" + noti_key);
+
+            if (auth_key != null && noti_key == null) {
+                HashMap<String, String> postData = new HashMap<String, String>();
+
+                String android_id = Settings.Secure.getString(this.getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+                Log.i("Test", "Android ID : " + android_id);
+
+                String unique_device_id = android_id;
+                String platform = "1";
+                apiFactory = new APIFactory();
+                customDialog = new CustomDialog(context);
+                if (CheckNetworkConnection.isConnectionAvailable(context) == true) {
+                    setNotificationTask = new SetNotificationTask(unique_device_id, Constant.notificationKey, auth_key, platform);
+                    setNotificationTask.execute((Void) null);
+                    //PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
+                    //loginTask.execute(ConnectionManager.SERVER_URL+"setNotificationKey");
+                } else {
+                    customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
+                }
+
+            }
+
+            selectItem(1);
+        }
     /*    TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         String uid = telephonyManager.getDeviceId();
         Log.i("Test",uid);*/
@@ -204,6 +222,29 @@ public class FirstActivity extends AppCompatActivity
         if(pref.getString("is_login","0").equals("1")== true)
         {
 
+            drawerItem = new ObjectDrawerItem[16];
+
+            drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
+            drawerItem[1] = new ObjectDrawerItem(getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
+            drawerItem[2] = new ObjectDrawerItem(getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
+            drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
+            drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
+            drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
+            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "Locations");
+            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
+            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
+            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
+            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
+
+
+            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
+            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "About Us");
+            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
+            drawerItem[14] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
+            drawerItem[15] = new ObjectDrawerItem("", "SUZUKI");
+        }
+        else
+        {
             drawerItem = new ObjectDrawerItem[15];
 
             drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
@@ -212,37 +253,16 @@ public class FirstActivity extends AppCompatActivity
             drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
             drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
             drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
-            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
-            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
-            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
+            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "Locations");
+            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
+            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
+            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
+            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
 
-
-            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
-            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
-            drawerItem[14] = new ObjectDrawerItem("SUZUKI", "");
-        }
-        else
-        {
-            drawerItem = new ObjectDrawerItem[14];
-
-            drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
-            drawerItem[1] = new ObjectDrawerItem(getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
-            drawerItem[2] = new ObjectDrawerItem(getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
-            drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
-            drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
-            drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
-            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
-            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
-            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
-
-            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "HISTORY OF SUZUKI");
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "ABOUT US");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_in), mNavigationDrawerItemTitles[11]);
-            drawerItem[13] = new ObjectDrawerItem("SUZUKI", "");
+            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
+            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "About Us");
+            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_in), mNavigationDrawerItemTitles[11]);
+            drawerItem[14] = new ObjectDrawerItem("", "SUZUKI");
         }
 
 
@@ -292,6 +312,9 @@ public class FirstActivity extends AppCompatActivity
                 fragment = new Promotions().newInstance();
                 break;
             case 7:
+                fragment = new LocationsFragment().newInstance();
+                break;
+            case 8:
                 if(pref.getString("is_login","0").equals("1") && userid >0)
                 {
                     Log.i("userid login: ","inside");
@@ -301,14 +324,14 @@ public class FirstActivity extends AppCompatActivity
                     // for login
                     //Toast.makeText(context,"Please Login",Toast.LENGTH_LONG).show();
                     Constant.isDetermin = 2;// quizzes
-                    selectItem(13);
+                    selectItem(14);
                 }
 
                 break;
-            case 8:
+            case 9:
                 fragment = new SOS().newInstance();
                 break;
-            case 9:
+            case 10:
                 //fragment = new InviteFriends().newInstance();
                 try {
                     JsonParser jsonParser = new JsonParser();
@@ -330,7 +353,7 @@ public class FirstActivity extends AppCompatActivity
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/appetizerandroid")));
                 }
                 break;
-            case 10:
+            case 11:
                 //fragment = new SocialMedia().newInstance();
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
                 String facebookUrl = getFacebookPageURL(this);
@@ -338,15 +361,15 @@ public class FirstActivity extends AppCompatActivity
                 startActivity(facebookIntent);
                 break;
 
-            case 11:
+            case 12:
                 //Toast.makeText(context,"history of suzuki",Toast.LENGTH_LONG).show();
                 fragment = new HistoryOfSuzuki().newInstance();
                 break;
-            case 12:
+            case 13:
                 //Toast.makeText(context,"About US",Toast.LENGTH_LONG).show();
                 fragment = new SuzukiAboutUs().newInstance();
                 break;
-            case 13:
+            case 14:
                 if(pref.getString("is_login","0").equals("1")== true)//logged in
                 {
                     //Toast.makeText(context,"Change Password Page",Toast.LENGTH_LONG).show();
@@ -360,7 +383,7 @@ public class FirstActivity extends AppCompatActivity
                     mDrawerLayout.closeDrawer(mDrawerList);
                 }
                 break;
-            case 14:
+            case 15:
                 if(pref.getString("is_login","0").equals("1")== true)
                 {
                     //fragment = new Logout().newInstance();
@@ -498,7 +521,7 @@ public class FirstActivity extends AppCompatActivity
                         setBackKeyFlag(false);
                     }
                     else if(getWhichFragment() == 5){
-                        selectItem(6);
+                        selectItem(7);
                         setBackKeyFlag(false);
                     }
                     else if(getWhichFragment() == 12){
@@ -815,136 +838,125 @@ public class FirstActivity extends AppCompatActivity
     private void gotToFragment()
     {
         Intent intent = getIntent();
-        String NotificationType = intent.getAction();
-
-        System.out.println("From Push Notification Type : "+NotificationType);
-        String title = intent.getStringExtra("title");
-        String message = intent.getStringExtra("message");
-        String picture = intent.getStringExtra("picture");
-        // promotions, request_for_quotation, request_for_service, quiz_publish, quiz_result, news, event
-        try
+        if(intent != null)
         {
-            if(NotificationType != null)
+            String NotificationType = intent.getAction();
+
+            System.out.println("From Push Notification Type : " + NotificationType);
+            String title = intent.getStringExtra("title");
+            String message = intent.getStringExtra("message");
+            String picture = intent.getStringExtra("picture");
+            // promotions, request_for_quotation, request_for_service, quiz_publish, quiz_result, news, event
+            try
             {
-                if (NotificationType.equals("promotions"))
-                {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if (notificationClicked == true) {
+                    if (NotificationType != null) {
+                        if (NotificationType.equals("promotions")) {
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    Fragment fragment = new PromotionsDetails().newInstance();
-                    Bundle bundle = new Bundle();
+                            Fragment fragment = new PromotionsDetails().newInstance();
+                            Bundle bundle = new Bundle();
 
-                    bundle.putString("viewTitleName", "PROMOTIONS DETAILS");
+                            bundle.putString("viewTitleName", "PROMOTIONS DETAILS");
 
-                    bundle.putString( "promo_title", title );
-                    bundle.putString( "promo_desc", message );
-                    bundle.putString( "promo_image", picture == null ? null : picture );
-                    //bundle.putString( "news_event_start_date", arrList.get(position).get("news_event_title").toString() );
-                    //bundle.putString( "news_event_end_date", arrList.get(position).get("news_event_title").toString() );
-                    fragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.container, fragment);
-                    fragmentTransaction.commit();
+                            bundle.putString("promo_title", title);
+                            bundle.putString("promo_desc", message);
+                            bundle.putString("promo_image", picture == null ? null : picture);
+                            //bundle.putString( "news_event_start_date", arrList.get(position).get("news_event_title").toString() );
+                            //bundle.putString( "news_event_end_date", arrList.get(position).get("news_event_title").toString() );
+                            fragment.setArguments(bundle);
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.commit();
+                        } else if (NotificationType.equals("request_for_quotation")) {
+                            //((FirstActivity)context).selectItem(4);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                            Fragment fragment = new RFSNotificationFragment().newInstance();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("viewTitleName", "Requested Quotation Notification");
+                            bundle.putString("img_url", picture == null ? null : picture);
+                            bundle.putString("headerText", title.toString());
+                            bundle.putString("bodyText", message);
+                            //bundle.putString("footerText",footerText);
+                            fragment.setArguments(bundle);
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.commit();
+
+                        } else if (NotificationType.equals("request_for_service")) {
+                            //((FirstActivity)context).selectItem(4);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                            Fragment fragment = new RFSNotificationFragment().newInstance();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("viewTitleName", "Requested Service Notification");
+                            bundle.putString("img_url", picture == null ? null : picture);
+                            bundle.putString("headerText", title.toString());
+                            bundle.putString("bodyText", message);
+                            //bundle.putString("footerText",footerText);
+                            fragment.setArguments(bundle);
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.commit();
+                        } else if (NotificationType.equals("quiz_publish")) {
+                            ((FirstActivity) context).selectItem(7);
+                        } else if (NotificationType.equals("quiz_result")) {
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                            Fragment fragment = new RFSNotificationFragment().newInstance();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("viewTitleName", "Quizzes Result Published");
+                            bundle.putString("img_url", picture == null ? null : picture);
+                            bundle.putString("headerText", title.toString());
+                            bundle.putString("bodyText", message);
+                            //bundle.putString("footerText",footerText);
+                            fragment.setArguments(bundle);
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.commit();
+                        } else if (NotificationType.equals("news")) {
+                            System.out.println("inside news");
+                            //selectItem(2);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                            Fragment fragment = new DetailNewsEvents().newInstance();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("viewTitleName", "News");
+                            bundle.putString("news_event_title", title);
+                            bundle.putString("news_event_desc", message);
+                            bundle.putString("news_event_img", picture == null ? null : picture);
+                            //bundle.putString( "news_event_start_date", arrList.get(position).get("news_event_title").toString() );
+                            //bundle.putString( "news_event_end_date", arrList.get(position).get("news_event_title").toString() );
+                            fragment.setArguments(bundle);
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            //fragmentTransaction.push(fragment);
+                            fragmentTransaction.commit();
+                        } else if (NotificationType.equals("event")) {
+                            //((FirstActivity)context).selectItem(5);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                            Fragment fragment = new DetailNewsEvents().newInstance();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("viewTitleName", "Events");
+                            bundle.putString("news_event_title", title);
+                            bundle.putString("news_event_desc", message);
+                            bundle.putString("news_event_img", picture == null ? null : picture);
+                            //bundle.putString( "news_event_start_date", arrList.get(position).get("news_event_title").toString() );
+                            //bundle.putString( "news_event_end_date", arrList.get(position).get("news_event_title").toString() );
+                            fragment.setArguments(bundle);
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.commit();
+                        }
+                    } else {
+                        Log.d("INTENT check", "Intent was null");
+                    }
                 }
-                else if (NotificationType.equals("request_for_quotation"))
-                {
-                    //((FirstActivity)context).selectItem(4);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    Fragment fragment = new RFSNotificationFragment().newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName", "Requested Quotation Notification");
-                    bundle.putString("img_url", picture == null ? null : picture);
-                    bundle.putString("headerText", title.toString());
-                    bundle.putString("bodyText", message);
-                    //bundle.putString("footerText",footerText);
-                    fragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.container, fragment);
-                    fragmentTransaction.commit();
-
-                }
-                else if (NotificationType.equals("request_for_service"))
-                {
-                    //((FirstActivity)context).selectItem(4);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    Fragment fragment = new RFSNotificationFragment().newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","Requested Service Notification");
-                    bundle.putString("img_url", picture == null ? null : picture);
-                    bundle.putString("headerText", title.toString());
-                    bundle.putString("bodyText", message);
-                    //bundle.putString("footerText",footerText);
-                    fragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.container, fragment);
-                    fragmentTransaction.commit();
-                }
-                else if (NotificationType.equals("quiz_publish"))
-                {
-                    ((FirstActivity)context).selectItem(7);
-                }
-                else if (NotificationType.equals("quiz_result"))
-                {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    Fragment fragment = new RFSNotificationFragment().newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","Quizzes Result Published");
-                    bundle.putString("img_url", picture == null ? null : picture);
-                    bundle.putString("headerText", title.toString());
-                    bundle.putString("bodyText", message);
-                    //bundle.putString("footerText",footerText);
-                    fragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.container, fragment);
-                    fragmentTransaction.commit();
-                }
-                else if (NotificationType.equals("news"))
-                {
-                    System.out.println("inside news");
-                    //selectItem(2);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    Fragment fragment  = new DetailNewsEvents().newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","News");
-                    bundle.putString( "news_event_title", title );
-                    bundle.putString( "news_event_desc", message );
-                    bundle.putString( "news_event_img", picture == null ? null : picture );
-                    //bundle.putString( "news_event_start_date", arrList.get(position).get("news_event_title").toString() );
-                    //bundle.putString( "news_event_end_date", arrList.get(position).get("news_event_title").toString() );
-                    fragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.container, fragment);
-                    fragmentTransaction.commit();
-                }
-                else if (NotificationType.equals("event"))
-                {
-                    //((FirstActivity)context).selectItem(5);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    Fragment fragment  = new DetailNewsEvents().newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","Events");
-                    bundle.putString( "news_event_title", title );
-                    bundle.putString( "news_event_desc", message );
-                    bundle.putString( "news_event_img",  picture == null ? null : picture );
-                    //bundle.putString( "news_event_start_date", arrList.get(position).get("news_event_title").toString() );
-                    //bundle.putString( "news_event_end_date", arrList.get(position).get("news_event_title").toString() );
-                    fragment.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.container, fragment);
-                    fragmentTransaction.commit();
-                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            else
-            {
-                Log.d("INTENT check", "Intent was null");
-            }
-        }catch (Exception ex)
-        {
-            ex.printStackTrace();
         }
     }
 }

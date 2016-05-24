@@ -86,7 +86,8 @@ public class GcmMessageHandler extends GcmListenerService {
                     launchIntent.putExtra("message",message);
                     launchIntent.putExtra("picture",picture);
                 }
-
+                // set intent so it does not start a new activity
+                //launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 //gotoIntent.setClassName(context, "www.icebd.com.suzukibangladesh.splash.Splash");//Start activity when user taps on notification.
                 contentIntent = PendingIntent.getActivity(context,
                         (int) (Math.random() * 100), launchIntent,
@@ -121,7 +122,7 @@ public class GcmMessageHandler extends GcmListenerService {
                 //notification.flags = Notification.FLAG_AUTO_CANCEL;
                 count++;
                 notificationManager.notify(count, mBuilder.build());//This will generate seperate notification each time server sends.
-
+                FirstActivity.notificationClicked = true;
             } catch (Throwable e) {
                 e.printStackTrace();
             }
