@@ -80,7 +80,7 @@ import www.icebd.com.suzukibangladesh.utilities.FontManager;
 import www.icebd.com.suzukibangladesh.utilities.JsonParser;
 
 
-public class MapsActivity extends android.support.v4.app.Fragment implements Filterable,OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapsActivity extends android.support.v4.app.Fragment implements Filterable, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -101,6 +101,8 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
 
     List<MapsLocationObject.Locations> mapsLocationObjectList;
     GPSTracker gps;
+    String s_title = null;
+    Integer checking_key;
     double latitude, longitude;
     private ItemFilter mFilter = new ItemFilter();
 
@@ -123,6 +125,17 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container,
                 false);
+
+        Bundle bundle = this.getArguments();
+        checking_key = bundle.getInt("checking_key");
+        Log.d("TAG", "checking key is : " + checking_key);
+        if (checking_key == 1) {
+            s_title = bundle.getString("s_title");
+            Log.d("TAG", "checking title is : " + s_title);
+        } else {
+            //do nothing
+        }
+
         searchByDistrict = (EditText) rootView.findViewById(R.id.searchByDistrict);
         tv = (TextView) rootView.findViewById(R.id.textView3);
         context = getActivity().getApplicationContext();
@@ -166,28 +179,23 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                System.out.println("Text ["+s+"]");
+                System.out.println("Text [" + s + "]");
                 //MapsActivity.this.getFilter().filter(s.toString());
 
                 String answerString = searchByDistrict.getText().toString().toLowerCase();
-                if(mapsLocationObjectList != null)
-                {
+                if (mapsLocationObjectList != null) {
                     MapsLocationObject mapsLocationObject = new MapsLocationObject();
                     Iterator<MapsLocationObject.Locations> list = mapsLocationObjectList.iterator();
-                    while (list.hasNext())
-                    {
+                    while (list.hasNext()) {
                         final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
-                        if (answerString.equals(obj_maps_location.getDistrict()))
-                        {
+                        if (answerString.equals(obj_maps_location.getDistrict())) {
                             LatLng dha_lat_lng = new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng());
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dha_lat_lng, 12.0f));
 
 
-                        } else if (answerString.length() <= 0)
-                        {
+                        } else if (answerString.length() <= 0) {
                             gps = new GPSTracker(context);
-                            if (gps.canGetLocation())
-                            {
+                            if (gps.canGetLocation()) {
                                 moveToCurrentLocation(new LatLng(gps.getLatitude(), gps.getLongitude()));
                             }
                         }
@@ -197,18 +205,18 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
         return rootView;
     }
+
     @Override
-    public Filter getFilter()
-    {
+    public Filter getFilter() {
         return mFilter;
     }
+
     private class ItemFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -216,29 +224,23 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
             FilterResults result = new FilterResults();
             constraint = constraint.toString().toLowerCase();
             String answerString = searchByDistrict.getText().toString().toLowerCase();
-            if(mapsLocationObjectList != null)
-            {
+            if (mapsLocationObjectList != null) {
                 MapsLocationObject mapsLocationObject = new MapsLocationObject();
                 Iterator<MapsLocationObject.Locations> list = mapsLocationObjectList.iterator();
-                while (list.hasNext())
-                {
+                while (list.hasNext()) {
                     final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
-                    if (answerString.equals(obj_maps_location.getDistrict()))
-                    {
+                    if (answerString.equals(obj_maps_location.getDistrict())) {
                         final LatLng dha_lat_lng = new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng());
-                        new Thread(){
+                        new Thread() {
 
-                            public synchronized void run()
-                            {
+                            public synchronized void run() {
                                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dha_lat_lng, 12.0f));
                             }
                         };
 
-                    } else if (answerString.length() <= 0)
-                    {
+                    } else if (answerString.length() <= 0) {
                         gps = new GPSTracker(context);
-                        if (gps.canGetLocation())
-                        {
+                        if (gps.canGetLocation()) {
                             moveToCurrentLocation(new LatLng(gps.getLatitude(), gps.getLongitude()));
                         }
                     }
@@ -271,7 +273,7 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
         @Override
         public void onMyLocationChange(Location location) {            // iAmHereMarker.remove();
 
-            if (gpsCounter == 0) {
+            if (gpsCounter == 0 && checking_key == 0) {
 
                 gpsCounter = 1;
                 loc = new LatLng(location.getLatitude(), location.getLongitude());
@@ -280,7 +282,24 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
                 if (mMap != null) {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 12.0f));
                 }
-            }
+            } /*else if (checking_key == 1) {
+                HashMap<String, String> strLatLngList = new HashMap<String, String>();
+                List<MapsLocationObject.Locations> returnJsonData = null;
+                if (strLatLngList != null && returnJsonData != null) {
+                    MapsLocationObject mapsLocationObject = new MapsLocationObject();
+                    Iterator<MapsLocationObject.Locations> list = returnJsonData.iterator();
+                    while (list.hasNext()) {
+                        final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
+                        System.out.println("Return Location Type: " + obj_maps_location.getLocation_type());
+                        if (s_title.equals(obj_maps_location.getLocation_name())) {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng()), 12.0f));
+                        }
+                    }
+                }
+                else{
+                    Log.d("TAG", "Return data is null");
+                }
+            }*/
 
         }
     };
@@ -536,6 +555,8 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
                     final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
 
                     System.out.println("Return Location Type: " + obj_maps_location.getLocation_type());
+                    //if (checking_key.equals(0)) {
+                    Log.d("TAG", "Entered current class");
                     if (obj_maps_location.getLocation_type().contains("1")) {
                         //String key = (String) strLatLngList.get("1");
                         marker = mMap.addMarker(new MarkerOptions()
@@ -555,10 +576,18 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
                                         .defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                         );
                     }
+
+                    if(checking_key == 1){
+                        if (s_title.equals(obj_maps_location.getLocation_name())) {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(obj_maps_location.getLat(), obj_maps_location.getLng()), 12.0f));
+                        }
+                    }
+
                 }
             } else {
                 Toast.makeText(context, "Lat lng Data not found", Toast.LENGTH_LONG).show();
             }
+
         }
     }
 
