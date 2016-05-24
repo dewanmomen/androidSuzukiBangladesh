@@ -84,7 +84,9 @@ public class DetailNewsEvents extends Fragment {
         }
         else
         {
-            Toast.makeText(context,"No Data Found, please Try Again !",Toast.LENGTH_SHORT).show();
+            imageView.setVisibility(View.GONE);
+            //Toast.makeText(context,"No Data Found, please Try Again !",Toast.LENGTH_SHORT).show();
+            Log.i("Image :", "No image url found");
         }
 
 

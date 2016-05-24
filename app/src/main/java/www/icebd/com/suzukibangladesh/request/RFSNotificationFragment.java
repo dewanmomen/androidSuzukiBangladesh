@@ -81,6 +81,12 @@ public class RFSNotificationFragment extends Fragment {
             imageView.setVisibility(View.VISIBLE);
             imageLoader.displayImage(String.valueOf(Uri.parse(img_url)), imageView);
         }
+        else
+        {
+            imageView.setVisibility(View.GONE);
+            //Toast.makeText(context,"No Data Found, please Try Again !",Toast.LENGTH_SHORT).show();
+            Log.i("Image :", "No image url found");
+        }
 
         txt_header.setText(headerText);
         txt_body.setText(bodyText);
