@@ -29,14 +29,14 @@
         android:layout_height="30dp"
         android:text="Bike Model"
         android:gravity="center"
-        android:background="#d8d8d8"
+        android:background="@color/service_spinner_bg"
         android:id="@+id/txt_dropdown" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:background="#d8d8d8"
+        android:background="@color/suzuki_blue_color"
         android:gravity="center"
         >
     <TextView
@@ -98,31 +98,33 @@
 
         </RadioGroup>
 
-    <RadioGroup
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:id="@+id/rdo_grb_service_type_2"
-        android:checkedButton="@+id/repair"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_parts_repain"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/parts_change"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
+            android:text="PARTS CHANGE"
+            android:textStyle="bold"
+            android:background="@color/service_spinner_bg"/>
 
-            android:text="PARTS CHANGE"/>
-
-        <RadioButton
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/repair"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_height="35dp"
+            android:text="REPAIR"
+            android:textStyle="bold"
+            android:background="@color/service_spinner_bg"/>
 
-            android:text="REPAIR"/>
-
-    </RadioGroup>
+    </LinearLayout>
      <LinearLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
@@ -244,7 +246,7 @@
         android:hint="Say Something..."
         android:singleLine="false"
         android:minLines="5"
-       />
+        android:imeOptions="actionDone"/>
 
     <Button
         android:layout_width="match_parent"
@@ -254,7 +256,7 @@
         android:layout_below="@+id/btn_submit_service"
         android:id="@+id/btn_service_submit"
         android:layout_marginTop="10dp"
-        android:background="#475CCB"
+        android:background="@color/suzuki_blue_color"
         android:layout_alignParentRight="true"/>
 
 

@@ -196,27 +196,32 @@ public class Login extends Fragment implements View.OnClickListener, AsyncRespon
             focusView.requestFocus();
         } else
         {
-            HashMap<String, String> postData = new HashMap<String, String>();
-            String auth_key = pref.getString("auth_key",null);
-            Log.i("Test","Auth Key from shared preference "+auth_key);
-            customDialog = new CustomDialog(getActivity());
-            if(CheckNetworkConnection.isConnectionAvailable(context) == true)
-            {
-                if (auth_key != null)
-                {
-                    postData.put("auth_key",auth_key);
-                    postData.put("user_email",email.getText().toString());
-                    postData.put("user_pass",password.getText().toString());
-                    PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
-                    loginTask.execute(ConnectionManager.SERVER_URL+"login");
-                }
-            }
-            else
-            {
-                customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
-            }
+            goToLoginTask(pref,strEmail,strPassword);
         }
     }
+    public void goToLoginTask(SharedPreferences pref,String strEmail,String strPassword)
+    {
+        HashMap<String, String> postData = new HashMap<String, String>();
+        String auth_key = pref.getString("auth_key",null);
+        Log.i("Test","Auth Key from shared preference "+auth_key);
+        CustomDialog customDialog = new CustomDialog(getActivity());
+        if(CheckNetworkConnection.isConnectionAvailable(context) == true)
+        {
+            if (auth_key != null)
+            {
+                postData.put("auth_key",auth_key);
+                postData.put("user_email",strEmail);
+                postData.put("user_pass",strPassword);
+                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
+                loginTask.execute(ConnectionManager.SERVER_URL+"login");
+            }
+        }
+        else
+        {
+            customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
+        }
+    }
+
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -246,10 +251,13 @@ public class Login extends Fragment implements View.OnClickListener, AsyncRespon
             {
                 String auth_key = object.getString("auth_key");
                 String user_id = object.getString("user_id");
+                String user_name = object.getString("user_name");
+                System.out.println("user name is: "+user_name);
                 Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
 
                 editor.putString("is_login","1");
                 editor.putString("user_id",user_id);
+                editor.putString("user_name",user_name);
                 editor.commit();
 
                 ((FirstActivity)getActivity()).setDrawerAdapter();

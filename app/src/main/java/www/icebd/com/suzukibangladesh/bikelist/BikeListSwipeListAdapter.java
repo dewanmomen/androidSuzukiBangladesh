@@ -112,6 +112,8 @@ public class BikeListSwipeListAdapter extends BaseAdapter
         //holder.bikeImg.setImageResource( bikeList.get(position).thumble_img );
         //holder.bikeImg.setImageIcon( Icon.createWithContentUri( bikeList.get(position).thumble_img ) );
         Log.v("Engine : ",bikeList.get(position).getBike_cc().toString());
+        holder.bikeImg.setImageResource(0);
+        holder.bikeImg.setImageResource(android.R.color.transparent);
         imageLoader.displayImage(bikeList.get(position).getThumble_img(), holder.bikeImg, options,
                 new SimpleImageLoadingListener() {
                     @Override

@@ -234,11 +234,13 @@ public class SparePartsMyCart extends Fragment
                                     .getSpare_parts_price().trim())) * (Constant.listMyCartObj
                             .get(position).getaInteger()));
 
-                    price.setText(String.format("%.2f", priceofTotalItem) + Html.fromHtml("&#x9f3;"));// for taka -> 	&#x9f3; for euro -> &#8364;
+                    //price.setText(String.format("%.2f", priceofTotalItem) + Html.fromHtml("&#x9f3;"));// for taka -> 	&#x9f3; for euro -> &#8364;
+                    price.setText(String.format("TK %.2f", priceofTotalItem));
                 }
                 else
                 {
-                    price.setText("0"+ Html.fromHtml("&#x9f3;"));
+                    //price.setText("0"+ Html.fromHtml("&#x9f3;"));
+                    price.setText("TK 0");
                 }
 
                 cart_adapter.notifyDataSetChanged();
@@ -352,12 +354,15 @@ public class SparePartsMyCart extends Fragment
                     .get(k).getaInteger())) + total_price_footer;
         }
 
-        total_with_tax.setText(String.format("%.2f", total_price_footer) + Html.fromHtml("&#x9f3;"));
+        //total_with_tax.setText(String.format("%.2f", total_price_footer) + Html.fromHtml("&#x9f3;"));
+        total_with_tax.setText(String.format("TK %.2f", total_price_footer));
 
         //double totalTaxAmount = (total_price_footer* Constant.taxPercentage)/100;
         //double totalAfterSubtractionTaxAmount = total_price_footer - totalTaxAmount;
 
         //total_price.setText(String.format("%.2f", totalAfterSubtractionTaxAmount) + Html.fromHtml("&#x9f3;"));
-        total_price.setText(String.format("%.2f", total_price_footer) + Html.fromHtml("&#x9f3;"));
+
+        //total_price.setText(String.format("%.2f", total_price_footer) + Html.fromHtml("&#x9f3;"));
+        total_price.setText(String.format("TK %.2f", total_price_footer));
     }
 }

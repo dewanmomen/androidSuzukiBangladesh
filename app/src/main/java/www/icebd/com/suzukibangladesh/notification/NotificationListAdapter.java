@@ -144,7 +144,7 @@ public class NotificationListAdapter extends BaseAdapter
                     PromotionsDetails promotionsDetails = new PromotionsDetails();
                     Bundle bundle = new Bundle();
 
-                    bundle.putString("viewTitleName", "PROMOTIONS DETAILS");
+                    bundle.putString("viewTitleName", "Promotion");
 
                     bundle.putString( "promo_title", arrList.get(position).get("notification_title").toString() );
                     bundle.putString( "promo_desc", arrList.get(position).get("notification_message").toString() );
@@ -158,7 +158,7 @@ public class NotificationListAdapter extends BaseAdapter
                 }
                 else if(arrList.get(position).get("notification_type").toString().equals("quiz_publish"))
                 {
-                    ((FirstActivity)context).selectItem(7);
+                    ((FirstActivity)context).selectItem(8);
                 }
                 else if(arrList.get(position).get("notification_type").toString().equals("news"))
                 {
@@ -186,7 +186,7 @@ public class NotificationListAdapter extends BaseAdapter
 
                     DetailNewsEvents detailNewsEvents = new DetailNewsEvents();
                     Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","Events");
+                    bundle.putString("viewTitleName","Event");
                     bundle.putString( "news_event_title", arrList.get(position).get("notification_title").toString() );
                     bundle.putString( "news_event_desc", arrList.get(position).get("notification_message").toString() );
                     bundle.putString( "news_event_img", arrList.get(position).get("notification_pic").toString() );
@@ -204,7 +204,7 @@ public class NotificationListAdapter extends BaseAdapter
 
                     RFSNotificationFragment rfsNotificationFragment = new RFSNotificationFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","Quizzes Result Published");
+                    bundle.putString("viewTitleName","Quiz Result");
                     bundle.putString("img_url",arrList.get(position).get("notification_pic")==null?null:arrList.get(position).get("notification_pic"));
                     bundle.putString("headerText",arrList.get(position).get("notification_title").toString());
                     bundle.putString("bodyText",arrList.get(position).get("notification_message").toString());
@@ -221,7 +221,7 @@ public class NotificationListAdapter extends BaseAdapter
 
                     RFSNotificationFragment rfsNotificationFragment = new RFSNotificationFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","Requested Service Notification");
+                    bundle.putString("viewTitleName","Service");
                     bundle.putString("img_url",arrList.get(position).get("notification_pic")==null?null:arrList.get(position).get("notification_pic"));
                     bundle.putString("headerText",arrList.get(position).get("notification_title").toString());
                     bundle.putString("bodyText",arrList.get(position).get("notification_message").toString());
@@ -239,7 +239,7 @@ public class NotificationListAdapter extends BaseAdapter
 
                     RFSNotificationFragment rfsNotificationFragment = new RFSNotificationFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("viewTitleName","Requested Quotation Notification");
+                    bundle.putString("viewTitleName","Quotation");
                     bundle.putString("img_url",arrList.get(position).get("notification_pic")==null?null:arrList.get(position).get("notification_pic"));
                     bundle.putString("headerText",arrList.get(position).get("notification_title").toString());
                     bundle.putString("bodyText",arrList.get(position).get("notification_message").toString());

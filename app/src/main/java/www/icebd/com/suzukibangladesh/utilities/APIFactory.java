@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class APIFactory {
 
@@ -42,7 +44,7 @@ public class APIFactory {
 
 		return nameValuePairs;
 	}
-	public ArrayList<NameValuePair> getQuizResultInfo(String auth_key, String user_id, String quiz_id, ArrayList<HashMap<String, String>> quiz_answer)
+	public ArrayList<NameValuePair> getQuizResultInfo(String auth_key, String user_id, String quiz_id, ArrayList<HashMap<String, String>> quiz_answer) throws Exception
 	{
 
 		nameValuePairs = new ArrayList<NameValuePair>();
@@ -57,7 +59,6 @@ public class APIFactory {
 			nameValuePairs.add(new BasicNameValuePair("quiz_answer["+i+"][question_id]", map.get("question_id")));
 			nameValuePairs.add(new BasicNameValuePair("quiz_answer["+i+"][answer_id]", map.get("answer_id")));
 		}
-
 
 		return nameValuePairs;
 	}

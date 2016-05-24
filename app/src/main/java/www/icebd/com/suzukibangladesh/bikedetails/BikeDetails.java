@@ -780,6 +780,12 @@ public class BikeDetails extends Fragment implements AsyncResponse {
             imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 
             options = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(null)
+                    .showImageForEmptyUri(null)
+                    .showImageOnFail(null).cacheInMemory(false)
+                    .cacheOnDisk(false).considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565).build();
+            /*options = new DisplayImageOptions.Builder()
                     .showImageForEmptyUri(R.drawable.ic_empty)
                     .showImageOnFail(R.drawable.ic_error)
                     .resetViewBeforeLoading(true)
@@ -788,7 +794,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .considerExifParams(true)
                     .displayer(new FadeInBitmapDisplayer(300))
-                    .build();
+                    .build();*/
         }
 
         @Override

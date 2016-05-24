@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import www.icebd.com.suzukibangladesh.utilities.ConnectionManager;
 import www.icebd.com.suzukibangladesh.utilities.Constant;
 import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 import www.icebd.com.suzukibangladesh.utilities.FontManager;
+import www.icebd.com.suzukibangladesh.utilities.Tools;
 
 
 public class RequestServices extends Fragment implements AsyncResponse, View.OnClickListener {
@@ -47,7 +49,7 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
     SharedPreferences.Editor editor;
     Spinner dropdown_bike_name;
     Button submit;
-    RadioGroup service_type1, service_type2;
+    RadioGroup service_type1;
     CheckBox engine, electrical, suspension, while_tyre, brake, speedo_motor, gear, clutch_plate, oil_filter, body_parts;
     String auth_key;
     String[] bikeId;
@@ -55,6 +57,9 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
     TextView text_right;
     Context context;
     CustomDialog customDialog;
+    Button parts_change,repair;
+
+    int selectedPartsChangeAndRepair = 0;
 
 
     public static RequestServices newInstance() {
@@ -71,7 +76,7 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_service, container,
                 false);
-        getActivity().setTitle("Request For Service");
+        getActivity().setTitle("Service");
         context = getActivity().getApplicationContext();
         setupUI(rootView.findViewById(R.id.parentRequestService));
 
@@ -90,7 +95,33 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
         dropdown_bike_name = (Spinner) rootView.findViewById(R.id.txt_dropdown);
         submit = (Button) rootView.findViewById(R.id.btn_service_submit);
         service_type1 = (RadioGroup) rootView.findViewById(R.id.rdo_grp_service_type_1);
-        service_type2 = (RadioGroup) rootView.findViewById(R.id.rdo_grb_service_type_2);
+        //service_type2 = (RadioGroup) rootView.findViewById(R.id.rdo_grb_service_type_2);
+
+        parts_change = (Button) rootView.findViewById(R.id.parts_change);
+        parts_change.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                parts_change.setPressed(true);
+                parts_change.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
+                repair.setBackgroundColor(getResources().getColor(R.color.service_spinner_bg));
+                selectedPartsChangeAndRepair = 1;
+                return true;
+            }
+        });
+        repair = (Button) rootView.findViewById(R.id.repair);
+        repair.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                repair.setPressed(true);
+                repair.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
+                parts_change.setBackgroundColor(getResources().getColor(R.color.service_spinner_bg));
+                selectedPartsChangeAndRepair = 2;
+                return true;
+            }
+        });
+
         engine = (CheckBox) rootView.findViewById(R.id.chk_engine);
         electrical = (CheckBox) rootView.findViewById(R.id.chk_electrical);
         suspension = (CheckBox) rootView.findViewById(R.id.chk_suspension);
@@ -158,157 +189,207 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
 
-        HashMap<String, String> postData = new HashMap<String, String>();
-        // postData.put("mobile","android");
-        // postData.put("mobile","android");
-        String user_id = pref.getString("user_id", "Not found");
+        attemptSubmitRequestService();
 
-        if (!auth_key.equals("empty")) {
-            postData.put("auth_key", auth_key);
-            Log.i("Test", "auth_key :" + auth_key);
+    }
+    private void attemptSubmitRequestService()
+    {
 
-            postData.put("app_user_id", user_id);
-            Log.i("Test", "app_user_id :" + user_id);
-            //   postData.put("app_user_id",user_id);
+        boolean cancel = false;
+        View focusView = null;
 
-            int position = dropdown_bike_name.getSelectedItemPosition();
-            postData.put("bike_id", bikeId[position - 1]);
-            Log.i("Test", "bike_id :" + bikeId[position - 1]);
-            postData.put("bike_name", dropdown_bike_name.getSelectedItem().toString());
-            // postData.put("bike_name","GS150R");
-            Log.i("Test", "bike_name :" + dropdown_bike_name.getSelectedItem().toString());
-
-            int selected_service_1 = service_type1.getCheckedRadioButtonId();
-            String value_service1 = "";
-            switch (selected_service_1) {
-                case R.id.free:
-                    value_service1 = "free";
-                    break;
-                case R.id.paid:
-                    value_service1 = "paid";
-                    break;
-                case R.id.warranty:
-                    value_service1 = "warranty";
-                    break;
-                default:
-                    break;
-            }
-
-            postData.put("service_type", value_service1);
-            Log.i("Test", "service_type :" + value_service1);
-
-
-            int selected_service_2 = service_type2.getCheckedRadioButtonId();
-            String value_service2 = "";
-            switch (selected_service_2) {
-                case R.id.parts_change:
-                    value_service2 = "parts_change";
-                    break;
-                case R.id.repair:
-                    value_service2 = "repair";
-                    break;
-                default:
-                    break;
-            }
-
-            postData.put("servicing_type", value_service2);
-            Log.i("Test", "servicing_type :" + value_service2);
-
-            String service_option = "";
-
-            if (engine.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = engine.getText().toString();
-                } else {
-                    service_option = service_option + "," + engine.getText().toString();
-                }
-            }
-
-            if (electrical.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = electrical.getText().toString();
-                } else {
-                    service_option = service_option + "," + electrical.getText().toString();
-                }
-            }
-            if (suspension.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = suspension.getText().toString();
-                } else {
-                    service_option = service_option + "," + suspension.getText().toString();
-                }
-            }
-            if (while_tyre.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = while_tyre.getText().toString();
-                } else {
-                    service_option = service_option + "," + while_tyre.getText().toString();
-                }
-            }
-            if (brake.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = brake.getText().toString();
-                } else {
-                    service_option = service_option + "," + brake.getText().toString();
-                }
-            }
-            if (speedo_motor.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = speedo_motor.getText().toString();
-                } else {
-                    service_option = service_option + "," + speedo_motor.getText().toString();
-                }
-            }
-            if (gear.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = gear.getText().toString();
-                } else {
-                    service_option = service_option + "," + gear.getText().toString();
-                }
-            }
-            if (clutch_plate.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = clutch_plate.getText().toString();
-                } else {
-                    service_option = service_option + "," + clutch_plate.getText().toString();
-                }
-            }
-            if (oil_filter.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = oil_filter.getText().toString();
-                } else {
-                    service_option = service_option + "," + oil_filter.getText().toString();
-                }
-            }
-            if (body_parts.isChecked()) {
-                if (service_option.equals("")) {
-                    service_option = body_parts.getText().toString();
-                } else {
-                    service_option = service_option + "," + body_parts.getText().toString();
-                }
-            }
-
-            postData.put("service_option", service_option);
-            Log.i("Test", "service_option :" + service_option);
-
-            postData.put("cust_comment", userComments.getText().toString());
-            Log.i("Test", "cust_comment :" + userComments.getText().toString());
-
-            if (CheckNetworkConnection.isConnectedToInternet(context) == true) {
-                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
-                loginTask.execute(ConnectionManager.SERVER_URL + "reqService");
-            } else {
-                customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
-            }
-
-
-        } else {
-            Toast.makeText(getActivity(), "Connect to internet and restart the app", Toast.LENGTH_LONG).show();
+        // Check for a valid email address.
+        if (dropdown_bike_name.getSelectedItem().toString().trim().equals("Bike Model"))
+        {
+            Toast.makeText(context, "Bike Model Name not selected", Toast.LENGTH_SHORT).show();
+            focusView = dropdown_bike_name;
+            cancel = true;
+        }
+        else if ( selectedPartsChangeAndRepair == 0 )
+        {
+            Toast.makeText(context, "Please Select Parts Change or Repair", Toast.LENGTH_SHORT).show();
+            focusView = parts_change;
+            cancel = true;
+        }
+        else if (engine.isChecked() == false && electrical.isChecked() == false && suspension.isChecked() == false &&
+                while_tyre.isChecked() == false && brake.isChecked() == false && speedo_motor.isChecked() == false &&
+                gear.isChecked() == false && clutch_plate.isChecked() == false && oil_filter.isChecked() == false &&
+                body_parts.isChecked() == false)
+        {
+            Toast.makeText(context, "Please select at least one Item under Parts Change or Repair", Toast.LENGTH_SHORT).show();
+            focusView = engine;
+            cancel = true;
         }
 
+        if (cancel)
+        {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else
+        {
 
+            HashMap<String, String> postData = new HashMap<String, String>();
+            // postData.put("mobile","android");
+            // postData.put("mobile","android");
+            String user_id = pref.getString("user_id", "Not found");
+
+            if (!auth_key.equals("empty"))
+            {
+                postData.put("auth_key", auth_key);
+                Log.i("Test", "auth_key :" + auth_key);
+
+                postData.put("app_user_id", user_id);
+                Log.i("Test", "app_user_id :" + user_id);
+                //   postData.put("app_user_id",user_id);
+
+                int position = dropdown_bike_name.getSelectedItemPosition();
+                postData.put("bike_id", bikeId[position - 1]);
+                Log.i("Test", "bike_id :" + bikeId[position - 1]);
+                postData.put("bike_name", dropdown_bike_name.getSelectedItem().toString());
+                // postData.put("bike_name","GS150R");
+                Log.i("Test", "bike_name :" + dropdown_bike_name.getSelectedItem().toString());
+
+                int selected_service_1 = service_type1.getCheckedRadioButtonId();
+                String value_service1 = "";
+                switch (selected_service_1) {
+                    case R.id.free:
+                        value_service1 = "free";
+                        break;
+                    case R.id.paid:
+                        value_service1 = "paid";
+                        break;
+                    case R.id.warranty:
+                        value_service1 = "warranty";
+                        break;
+                    default:
+                        break;
+                }
+
+                postData.put("service_type", value_service1);
+                Log.i("Test", "service_type :" + value_service1);
+
+
+                //int selected_service_2 = service_type2.getCheckedRadioButtonId();
+                String value_service2 = "";
+                if(selectedPartsChangeAndRepair == 1)
+                {
+                    value_service2 = "parts_change";
+                }
+                else if(selectedPartsChangeAndRepair == 1)
+                {
+                    value_service2 = "repair";
+                }
+                /*switch (selected_service_2) {
+                    case R.id.parts_change:
+                        value_service2 = "parts_change";
+                        break;
+                    case R.id.repair:
+                        value_service2 = "repair";
+                        break;
+                    default:
+                        break;
+                }*/
+
+                postData.put("servicing_type", value_service2);
+                Log.i("Test", "servicing_type :" + value_service2);
+
+                String service_option = "";
+
+                if (engine.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = engine.getText().toString();
+                    } else {
+                        service_option = service_option + "," + engine.getText().toString();
+                    }
+                }
+
+                if (electrical.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = electrical.getText().toString();
+                    } else {
+                        service_option = service_option + "," + electrical.getText().toString();
+                    }
+                }
+                if (suspension.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = suspension.getText().toString();
+                    } else {
+                        service_option = service_option + "," + suspension.getText().toString();
+                    }
+                }
+                if (while_tyre.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = while_tyre.getText().toString();
+                    } else {
+                        service_option = service_option + "," + while_tyre.getText().toString();
+                    }
+                }
+                if (brake.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = brake.getText().toString();
+                    } else {
+                        service_option = service_option + "," + brake.getText().toString();
+                    }
+                }
+                if (speedo_motor.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = speedo_motor.getText().toString();
+                    } else {
+                        service_option = service_option + "," + speedo_motor.getText().toString();
+                    }
+                }
+                if (gear.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = gear.getText().toString();
+                    } else {
+                        service_option = service_option + "," + gear.getText().toString();
+                    }
+                }
+                if (clutch_plate.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = clutch_plate.getText().toString();
+                    } else {
+                        service_option = service_option + "," + clutch_plate.getText().toString();
+                    }
+                }
+                if (oil_filter.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = oil_filter.getText().toString();
+                    } else {
+                        service_option = service_option + "," + oil_filter.getText().toString();
+                    }
+                }
+                if (body_parts.isChecked()) {
+                    if (service_option.equals("")) {
+                        service_option = body_parts.getText().toString();
+                    } else {
+                        service_option = service_option + "," + body_parts.getText().toString();
+                    }
+                }
+
+                postData.put("service_option", service_option);
+                Log.i("Test", "service_option :" + service_option);
+
+                postData.put("cust_comment", userComments.getText().toString());
+                Log.i("Test", "cust_comment :" + userComments.getText().toString());
+
+                if (CheckNetworkConnection.isConnectedToInternet(context) == true) {
+                    PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
+                    loginTask.execute(ConnectionManager.SERVER_URL + "reqService");
+                }
+                else
+                {
+                    customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
+                }
+            }
+            else {
+                Toast.makeText(getActivity(), "Auth key not found,Please restart the app Again", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override

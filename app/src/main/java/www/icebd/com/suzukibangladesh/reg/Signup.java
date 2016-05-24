@@ -257,7 +257,7 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
             String status_code = object.getString("status_code");
             String message = object.getString("message");
             String auth_key = object.getString("auth_key");
-            String user_id = object.getString("user_id");
+            //String user_id = object.getString("user_id");
 
             FragmentManager fragmentManager = getFragmentManager();
            // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -267,17 +267,26 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
 
             if (status_code.equals("200"))
             {
+                String user_id = object.getString("user_id");
+                String user_name = object.getString("user_name");
                 Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
-                editor.putString("name",name.getText().toString());
-                editor.putString("email",email.getText().toString());
-                editor.putString("address",address.getText().toString());
-                editor.putString("mobile_no",mobile_no.getText().toString());
-                editor.putString("thana",thana.getText().toString());
+                editor.putString("user_name",user_name);
+                //editor.putString("email",email.getText().toString());
+                //editor.putString("address",address.getText().toString());
+                //editor.putString("mobile_no",mobile_no.getText().toString());
+                //editor.putString("thana",thana.getText().toString());
                 editor.putString("user_id",user_id);
                 editor.putString("is_login","1");
                 editor.commit();
 
-
+                /*if(CheckNetworkConnection.isConnectionAvailable(context) == true)
+                {
+                    Login.newInstance().goToLoginTask(pref,email.getText().toString(),password.getText().toString());
+                }
+                else
+                {
+                    customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
+                }*/
                 if( Constant.isDetermin == 1)// for requrstFor service
                 {
                     FragmentManager fm = getActivity().getSupportFragmentManager();

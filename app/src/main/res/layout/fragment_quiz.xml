@@ -8,146 +8,179 @@
     android:background="@drawable/bg_user_quiz">
 
      <LinearLayout
-         android:id="@+id/first_layout"
+         android:id="@+id/mesg_layout"
          android:layout_width="match_parent"
-         android:layout_height="50dp"
+         android:layout_height="match_parent"
          android:orientation="vertical"
-         android:paddingLeft="10dp"
-         android:paddingRight="10dp"
-         android:background="@color/suzuki_blue_color">
+         android:visibility="visible"
+         android:gravity="left|center_vertical"
+         android:clickable="true">
 
-         <LinearLayout
-             android:id="@+id/quiz_name_layout"
-             android:layout_width="match_parent"
-             android:layout_height="25dp"
-             android:orientation="vertical"
-             android:gravity="center">
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="20dp"
-                 android:id="@+id/textView"
-                 android:textColor="@color/white"
-                 android:textSize="13dp"
-                 android:text="Loading.."
-                 android:textAppearance="?android:attr/textAppearanceLarge"
-                 android:textStyle="bold"/>
-                 />
-             </LinearLayout>
-         <RelativeLayout
-             android:id="@+id/timer_icon_layout"
-             android:layout_width="match_parent"
-             android:layout_height="25dp">
          <TextView
              android:layout_width="wrap_content"
-             android:layout_height="20dp"
-             android:id="@+id/question_count"
-             android:text="Loading.."
+             android:layout_height="wrap_content"
+             android:id="@+id/text_message"
              android:textColor="@color/white"
              android:textSize="13dp"
-             />
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="20dp"
-                 android:id="@+id/timer_icon"
-                 android:layout_toLeftOf="@+id/tv"
-                 android:layout_marginRight="4dp"
-                 android:gravity="center"
-                 android:text="Loading.."
-                 android:textColor="@color/white"
-                 android:textSize="13dp"
-                 />
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="20dp"
-                 android:id="@+id/tv"
-                 android:layout_alignParentRight="true"
-                 android:text="Loading.."
-                 android:textColor="@color/white"
-                 android:textSize="13dp"
-                 />
-         </RelativeLayout>
+             android:text="fsffffffffffffffff"
+             android:textAppearance="?android:attr/textAppearanceLarge"
+             android:textStyle="bold"
+             android:clickable="true"
+             android:layout_margin="10dp"/>
 
      </LinearLayout>
-    <LinearLayout
-        android:id="@+id/second_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
 
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv"
-            android:text="fdfdfdf"
-            />-->
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Loading.."
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-        <RadioGroup
-            android:id="@+id/radioGroup1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+     <LinearLayout
+         android:id="@+id/main_quiz_layout"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical">
 
-            android:layout_weight="0.04" >
-            <RadioButton
-                android:id="@+id/radio0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Loading.."
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
-            <RadioButton
-                android:id="@+id/radio1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Loading.."
-                android:checked="false"
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
-            <RadioButton
-                android:id="@+id/radio2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Loading.."
-                android:checked="false"
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
-            <RadioButton
-                android:id="@+id/radio3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Loading.."
-                android:checked="false"
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
-        </RadioGroup>
+         <LinearLayout
+             android:id="@+id/first_layout"
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:orientation="vertical"
+             android:paddingLeft="10dp"
+             android:paddingRight="10dp"
+             android:background="@color/suzuki_blue_color">
+
+             <LinearLayout
+                 android:id="@+id/quiz_name_layout"
+                 android:layout_width="match_parent"
+                 android:layout_height="25dp"
+                 android:orientation="vertical"
+                 android:gravity="center">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="20dp"
+                     android:id="@+id/textView"
+                     android:textColor="@color/white"
+                     android:textSize="13dp"
+                     android:text=""
+                     android:textAppearance="?android:attr/textAppearanceLarge"
+                     android:textStyle="bold"/>
+                 />
+             </LinearLayout>
+             <RelativeLayout
+                 android:id="@+id/timer_icon_layout"
+                 android:layout_width="match_parent"
+                 android:layout_height="25dp">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="20dp"
+                     android:id="@+id/question_count"
+                     android:text=""
+                     android:textColor="@color/white"
+                     android:textSize="13dp"
+                     />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="20dp"
+                     android:id="@+id/timer_icon"
+                     android:layout_toLeftOf="@+id/tv"
+                     android:layout_marginRight="4dp"
+                     android:gravity="center"
+                     android:text=""
+                     android:textColor="@color/white"
+                     android:textSize="13dp"
+                     />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="20dp"
+                     android:id="@+id/tv"
+                     android:layout_alignParentRight="true"
+                     android:text=""
+                     android:textColor="@color/white"
+                     android:textSize="13dp"
+                     />
+             </RelativeLayout>
+
+         </LinearLayout>
+         <LinearLayout
+             android:id="@+id/second_layout"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:padding="20dp">
+
+             <!--<TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/tv"
+                 android:text="fdfdfdf"
+                 />-->
+             <TextView
+                 android:id="@+id/textView1"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text=""
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textColor="@color/white"
+                 android:textStyle="bold"/>
+             <RadioGroup
+                 android:id="@+id/radioGroup1"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+
+                 android:layout_weight="0.04" >
+                 <RadioButton
+                     android:id="@+id/radio0"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:checked="false"
+                     android:text=""
+                     android:textColor="@color/white"
+                     android:textStyle="bold"/>
+                 <RadioButton
+                     android:id="@+id/radio1"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text=""
+                     android:checked="false"
+                     android:textColor="@color/white"
+                     android:textStyle="bold"/>
+                 <RadioButton
+                     android:id="@+id/radio2"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text=""
+                     android:checked="false"
+                     android:textColor="@color/white"
+                     android:textStyle="bold"/>
+                 <RadioButton
+                     android:id="@+id/radio3"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:text=""
+                     android:checked="false"
+                     android:textColor="@color/white"
+                     android:textStyle="bold"/>
+             </RadioGroup>
 
 
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="bottom">
+         </LinearLayout>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             android:layout_weight="1"
+             android:gravity="bottom">
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@string/str_next"
-                android:background="@color/suzuki_blue_color"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                />
+             <Button
+                 android:id="@+id/button1"
+                 android:layout_width="match_parent"
+                 android:layout_height="50dp"
+                 android:text="@string/str_next"
+                 android:background="@color/suzuki_blue_color"
+                 android:textColor="@color/white"
+                 android:textStyle="bold"
+                 />
 
-        </LinearLayout>
+         </LinearLayout>
+
+     </LinearLayout>
+
+
 
 
 </LinearLayout>

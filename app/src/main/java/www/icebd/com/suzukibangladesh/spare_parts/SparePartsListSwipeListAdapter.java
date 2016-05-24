@@ -149,11 +149,16 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
         //BitmapDrawable drawableBitmap=new BitmapDrawable(Utils.getBitmapFromURL(listSparePartsItem.get(position).getThumble_img()));
         //holder.sparePartsImg.setBackgroundDrawable(drawableBitmap);
 
+        holder.sparePartsImg.setImageResource(0);
+        holder.sparePartsImg.setImageResource(android.R.color.transparent);
+        //imageLoader.clearMemoryCache();
+        //holder.sparePartsImg.setBackgroundColor(context.getResources().getColor(R.color.common_action_bar_splitter));
+
         imageLoader.displayImage(listSparePartsItem.get(position).getThumble_img(), holder.sparePartsImg, options,
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
-                        holder.progressBar.setProgress(0);
+                        //holder.progressBar.setProgress(0);
                         holder.progressBar.setVisibility(View.VISIBLE);
                     }
 
@@ -166,17 +171,17 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
                     public void onLoadingComplete(String imageUri, View view,Bitmap loadedImage) {
                         holder.progressBar.setVisibility(View.GONE);
                     }
-                }, new ImageLoadingProgressListener() {
+                /*}, new ImageLoadingProgressListener() {
                     @Override
                     public void onProgressUpdate(String imageUri, View view,int current, int total) {
                         holder.progressBar.setProgress(Math.round(100.0f * current/ total));
-                    }
+                    }*/
                 });
 
         holder.txtSparePartsName.setText( listSparePartsItem.get(position).getSpare_parts_name().toString() );
         holder.txtSparePartsBikeName.setText( listSparePartsItem.get(position).getBike_name().toString() );
         holder.txtSparePartsNumber.setText( listSparePartsItem.get(position).getSpare_parts_code().toString() );
-        holder.txtSparePartsPrice.setText( listSparePartsItem.get(position).getSpare_parts_price().toString() );
+        holder.txtSparePartsPrice.setText( "TK "+listSparePartsItem.get(position).getSpare_parts_price().toString() );
         holder.txtSparePartsName.setText( listSparePartsItem.get(position).getSpare_parts_name().toString() );
 
         holder.txtSparePartsAddToCart.setOnClickListener(new View.OnClickListener() {

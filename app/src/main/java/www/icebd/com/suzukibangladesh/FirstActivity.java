@@ -301,7 +301,7 @@ public class FirstActivity extends AppCompatActivity
                     // for login
                     //Toast.makeText(context,"Please Login",Toast.LENGTH_LONG).show();
                     Constant.isDetermin = 1;// requestForService
-                    selectItem(13);
+                    selectItem(14);
                 }
 
                 break;
@@ -448,6 +448,7 @@ public class FirstActivity extends AppCompatActivity
             if (status_code.equals("200"))
             {
                 editor.remove("user_id");
+                editor.remove("user_name");
                 editor.putString("is_login","0");
                 Constant.isDetermin = 0; // for go to HOme UI
                 editor.apply();
@@ -490,8 +491,11 @@ public class FirstActivity extends AppCompatActivity
         * which fragment:
         * 0 == home
         * 1 == my bike
-        * 2 == PremiumTakaJomaFragment
-        * 3 == FlexiLoadJomaFragment
+        * 4 == NewsEvents
+        * 5 == Location fragment
+        * 12 == Login
+        * 15 == SparePartsMyCart
+        * 16 == Notification
          */
         super.onKeyDown(keyCode, event);
         //Toast.makeText(FirstActivity.this, "back key pressed", Toast.LENGTH_SHORT).show();
@@ -521,7 +525,7 @@ public class FirstActivity extends AppCompatActivity
                         setBackKeyFlag(false);
                     }
                     else if(getWhichFragment() == 5){
-                        selectItem(7);
+                        selectItem(6);
                         setBackKeyFlag(false);
                     }
                     else if(getWhichFragment() == 12){
@@ -858,7 +862,7 @@ public class FirstActivity extends AppCompatActivity
                             Fragment fragment = new PromotionsDetails().newInstance();
                             Bundle bundle = new Bundle();
 
-                            bundle.putString("viewTitleName", "PROMOTIONS DETAILS");
+                            bundle.putString("viewTitleName", "Promotion");
 
                             bundle.putString("promo_title", title);
                             bundle.putString("promo_desc", message);
@@ -875,7 +879,7 @@ public class FirstActivity extends AppCompatActivity
 
                             Fragment fragment = new RFSNotificationFragment().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Requested Quotation Notification");
+                            bundle.putString("viewTitleName", "Quotation");
                             bundle.putString("img_url", picture == null ? null : picture);
                             bundle.putString("headerText", title.toString());
                             bundle.putString("bodyText", message);
@@ -891,7 +895,7 @@ public class FirstActivity extends AppCompatActivity
 
                             Fragment fragment = new RFSNotificationFragment().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Requested Service Notification");
+                            bundle.putString("viewTitleName", "Service");
                             bundle.putString("img_url", picture == null ? null : picture);
                             bundle.putString("headerText", title.toString());
                             bundle.putString("bodyText", message);
@@ -900,14 +904,14 @@ public class FirstActivity extends AppCompatActivity
                             fragmentTransaction.replace(R.id.container, fragment);
                             fragmentTransaction.commit();
                         } else if (NotificationType.equals("quiz_publish")) {
-                            ((FirstActivity) context).selectItem(7);
+                            ((FirstActivity) context).selectItem(8);
                         } else if (NotificationType.equals("quiz_result")) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                             Fragment fragment = new RFSNotificationFragment().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Quizzes Result Published");
+                            bundle.putString("viewTitleName", "Quiz Result");
                             bundle.putString("img_url", picture == null ? null : picture);
                             bundle.putString("headerText", title.toString());
                             bundle.putString("bodyText", message);
@@ -940,7 +944,7 @@ public class FirstActivity extends AppCompatActivity
 
                             Fragment fragment = new DetailNewsEvents().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Events");
+                            bundle.putString("viewTitleName", "Event");
                             bundle.putString("news_event_title", title);
                             bundle.putString("news_event_desc", message);
                             bundle.putString("news_event_img", picture == null ? null : picture);

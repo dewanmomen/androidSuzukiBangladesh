@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -50,9 +51,10 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
     ArrayList<HashMap<String, String>> arrList;
     List<Object> sections = new ArrayList <Object>();
 
+    LinearLayout mesg_layout,main_quiz_layout;
     RadioButton rda,rdb,rdc,rdd;
     RadioGroup rdaGroupquiz;
-    TextView question_count,txtQuestion, txtTitle,tv,timer_icon;
+    TextView text_message,question_count,txtQuestion, txtTitle,tv,timer_icon;
     Button btnNext;
     private Thread thread;
     boolean isRunning =false;
@@ -72,7 +74,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
     String title ;
     String end ;
     String start;
-    String auth_key,quizTitle,quizId;
+    String auth_key,quizTitle,quizId,end_date,start_date,prize_name,call_center_number;
     SharedPreferences pref ;
     SharedPreferences.Editor editor ;
     String question[]=new String[20] ,answerId[]=new String[20],questionId[]=new String[20],op1[]=new String[20],op2[]=new String[20],op3[]=new String[20],op4[]=new String[20],opId1[]=new String[20],opId2[]=new String[20],opId3[]=new String[20],opId4[]=new String[20];
@@ -106,6 +108,14 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
         inflater_temp=inflater;
 
         iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
+
+        mesg_layout = (LinearLayout)rootView.findViewById(R.id.mesg_layout) ;
+        mesg_layout.setVisibility(View.GONE);
+        main_quiz_layout = (LinearLayout)rootView.findViewById(R.id.main_quiz_layout) ;
+        main_quiz_layout.setVisibility(View.GONE);
+
+        text_message = (TextView)rootView.findViewById(R.id.text_message);
+
 
         question_count=(TextView)rootView.findViewById(R.id.question_count);
         question_count.setVisibility(View.VISIBLE);
@@ -158,6 +168,9 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
         }
         btnNext.setOnClickListener(this);
 
+        ((FirstActivity)getActivity()).setBackKeyFlag(true);
+        ((FirstActivity)getActivity()).setWhichFragment(0);
+
         return rootView;
     }
 
@@ -179,6 +192,9 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                 quizId = quizes.getString("id");
                 quizTitle=title;
                 Log.i("Test","title :"+title);
+                end_date = quizes.getString("end");
+                prize_name = quizes.getString("prize_name");
+                call_center_number = quizes.getString("call_center_number");
 
                 JSONArray questions =quizes.getJSONArray("questions");
                 txtTitle.setText(title);
@@ -220,10 +236,43 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                     Log.i("Test","option4 : "+ op4[i]);
 
                 }
+
+                if(questionId != null)
+                {
+                    mesg_layout.setVisibility(View.VISIBLE);
+                    main_quiz_layout.setVisibility(View.GONE);
+                    String msgs = "Dear "+pref.getString("user_name","")+", Welcome to "+quizTitle+
+                            "You have to answer 3 questions and for each question you will have 30 seconds to answer it."+
+                            "We will choose a winner on "+end_date+" and notify you."+
+                            "The grand prize for this contest is a "+prize_name+"."+
+                            "\n\nSo what are you waiting for, just tap and enjoy."+
+                            "For any questions please call "+call_center_number+"."+
+                            "\n\nThank you for your love for the \"Suzuki way of life\"."+
+                            "\n\nTap to Start";
+                    text_message.setText(msgs);
+                    mesg_layout.setClickable(true);
+                    mesg_layout.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            mesg_layout.setVisibility(View.GONE);
+                            main_quiz_layout.setVisibility(View.VISIBLE);
+                            showQuizes(callingIndex);
+                        }
+                    });
+                }
+
             }
             else
             {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                main_quiz_layout.setVisibility(View.GONE);
+                mesg_layout.setVisibility(View.VISIBLE);
+                String msgs = "Dear "+pref.getString("user_name","")+", there are no quizzes running at the moment."+
+                        "\n\nWe will notify you when the next contest begins."+
+                        "\n\nThank you for your love for the \"Suzuki way of life\".";
+                text_message.setText(msgs);
+                //Toast.makeText(context, message, Toast.LENGTH_LONG).show();
             }
             /*else if(status_code.equals("109"))
             {
@@ -231,7 +280,8 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                         false);
             }*/
         } catch (JSONException e) {
-            try {
+            try
+            {
                 JSONObject answer = new JSONObject(output);
                 Log.i("Test","Quiz Answer"+output);
                 Toast.makeText(context, "Quizz Data not Found please Try again", Toast.LENGTH_LONG).show();
@@ -239,12 +289,14 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                 btnNext.setVisibility(View.GONE);
 
                // String
-            } catch (Exception e1) {
+            }
+            catch (Exception e1)
+            {
                 e1.printStackTrace();
             }
             e.printStackTrace();
         }
-        showQuizes(callingIndex);
+
 
     }
 
@@ -256,6 +308,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
 
         if (questionsNo > indexNow) {
 
+            rdaGroupquiz.clearCheck();
             question_count.setText("Question "+(indexNow+1)+" of "+questionsNo);
             txtQuestion.setText(question[indexNow]);
             rda.setText(op1[indexNow]);
@@ -267,21 +320,21 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
             reverseTimer(30);
         }
         else {
-            question_count.setText("Quiz Completed");
+            question_count.setText("Quiz Finished !");
             txtTitle.setText("");
-            txtQuestion.setText("");
+            txtQuestion.setText("Thank You for participating, Please press Submit !");
             rda.setVisibility(View.INVISIBLE);
             rdb.setVisibility(View.INVISIBLE);
             rdc.setVisibility(View.INVISIBLE);
             rdd.setVisibility(View.INVISIBLE);
-            tv.setVisibility(View.INVISIBLE);
-            timer_icon.setVisibility(View.INVISIBLE);
-            btnNext.setText("Finish");
+            //tv.setVisibility(View.INVISIBLE);
+            //timer_icon.setVisibility(View.INVISIBLE);
+            tv.setTextColor(getResources().getColor(R.color.line_grey));
+            timer_icon.setTextColor(getResources().getColor(R.color.line_grey));
+            btnNext.setText("SUBMIT");
             isQuizFinish=true;
 
         }
-
-
     }
 
     public void reverseTimer(int Seconds){
@@ -348,6 +401,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                     {
                         quiz_answer = quiz_answer.substring(0, quiz_answer.length() - 1);
                     }
+                    System.out.println("question id:"+ questionId[i]+" answer id:"+answerId[i]);
                 /*HashMap<String, String> map1 = new HashMap();
                 map1.put("question_id",questionId[i]);
                 map1.put("answer_id",answerId[i]);
@@ -373,18 +427,18 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
         }
         else
         {
-            if (rda.isChecked() == false && rdb.isChecked() == false && rdc.isChecked() == false && rdd.isChecked() == false)
+           /* if (rda.isChecked() == false && rdb.isChecked() == false && rdc.isChecked() == false && rdd.isChecked() == false)
             {
                 Toast.makeText(context, "Please Choose Multiple Choice Answer", Toast.LENGTH_LONG).show();
             }
             else
-            {
-                //Toast.makeText(context, "radio click", Toast.LENGTH_LONG).show();
+            {*/
+                //Toast.makeText(context, "radio click"+opId1[callingIndex], Toast.LENGTH_LONG).show();
                 rda.setChecked(false);
                 rdb.setChecked(false);
                 rdc.setChecked(false);
                 rdd.setChecked(false);
-                rdaGroupquiz.clearCheck();
+                //rdaGroupquiz.clearCheck();
                 int selectId = rdaGroupquiz.getCheckedRadioButtonId();
                 switch (selectId)
                 {
@@ -405,7 +459,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                         break;
                 }
                 showQuizes(++callingIndex);
-            }
+            //}
         }
     }
 

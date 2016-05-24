@@ -238,6 +238,12 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
             imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 
             options = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(null)
+                    .showImageForEmptyUri(null)
+                    .showImageOnFail(null).cacheInMemory(false)
+                    .cacheOnDisk(true).considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565).build();
+            /*options = new DisplayImageOptions.Builder()
                     .showImageForEmptyUri(R.drawable.ic_empty)
                     .showImageOnFail(R.drawable.ic_error)
                     .resetViewBeforeLoading(true)
@@ -246,7 +252,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .considerExifParams(true)
                     .displayer(new FadeInBitmapDisplayer(300))
-                    .build();
+                    .build();*/
         }
 
         @Override
