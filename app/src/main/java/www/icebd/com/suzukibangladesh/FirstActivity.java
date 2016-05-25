@@ -86,11 +86,11 @@ import www.icebd.com.suzukibangladesh.utilities.ObjectDrawerItem;
 
 
 public class FirstActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AsyncResponse
+        implements NavigationView.OnNavigationItemSelectedListener, AsyncResponse
 
 {
-    SharedPreferences pref ;
-    SharedPreferences.Editor editor ;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     NavigationView navigationView;
 
@@ -107,6 +107,7 @@ public class FirstActivity extends AppCompatActivity
     public static boolean notificationClicked = false;
 
     private boolean backKeyFlag = false;
+
     public boolean isBackKeyFlag() {
         return backKeyFlag;
     }
@@ -116,6 +117,7 @@ public class FirstActivity extends AppCompatActivity
     }
 
     private int whichFragment = 0;
+
     public int getWhichFragment() {
         return whichFragment;
     }
@@ -123,7 +125,6 @@ public class FirstActivity extends AppCompatActivity
     public void setWhichFragment(int whichFragment) {
         this.whichFragment = whichFragment;
     }
-
 
 
     @Override
@@ -150,8 +151,7 @@ public class FirstActivity extends AppCompatActivity
         };*/
 
 
-
-        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
         //mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -165,21 +165,16 @@ public class FirstActivity extends AppCompatActivity
 
         setDrawerAdapter();
 
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
             }
         });
 
-        if(notificationClicked == true)
-        {
+        if (notificationClicked == true) {
             gotToFragment();
-        }
-        else
-        {
+        } else {
             //Select home by default
 
             String auth_key = pref.getString("auth_key", null);
@@ -216,11 +211,10 @@ public class FirstActivity extends AppCompatActivity
 
 
     }
-    public void setDrawerAdapter()
-    {
+
+    public void setDrawerAdapter() {
         ObjectDrawerItem[] drawerItem;
-        if(pref.getString("is_login","0").equals("1")== true)
-        {
+        if (pref.getString("is_login", "0").equals("1") == true) {
 
             drawerItem = new ObjectDrawerItem[16];
 
@@ -242,9 +236,7 @@ public class FirstActivity extends AppCompatActivity
             drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
             drawerItem[14] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
             drawerItem[15] = new ObjectDrawerItem("", "SUZUKI");
-        }
-        else
-        {
+        } else {
             drawerItem = new ObjectDrawerItem[15];
 
             drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
@@ -266,8 +258,6 @@ public class FirstActivity extends AppCompatActivity
         }
 
 
-
-
         //drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[13]);
 
 
@@ -279,8 +269,8 @@ public class FirstActivity extends AppCompatActivity
 
         Fragment fragment = null;
 
-        Log.i("userid : ",pref.getString("user_id","0"));
-        int userid = Integer.valueOf(pref.getString("user_id","0"));
+        Log.i("userid : ", pref.getString("user_id", "0"));
+        int userid = Integer.valueOf(pref.getString("user_id", "0"));
 
         switch (position) {
             case 1:
@@ -293,15 +283,13 @@ public class FirstActivity extends AppCompatActivity
                 fragment = new SpareParts().newInstance();
                 break;
             case 4:
-                if(pref.getString("is_login","0").equals("1") && userid >0)
-                {
+                if (pref.getString("is_login", "0").equals("1") && userid > 0) {
                     fragment = new RequestServices().newInstance();
-                }
-                else {
+                } else {
                     // for login
                     //Toast.makeText(context,"Please Login",Toast.LENGTH_LONG).show();
                     Constant.isDetermin = 1;// requestForService
-                    selectItem(14);
+                    selectItem(13);
                 }
 
                 break;
@@ -315,12 +303,10 @@ public class FirstActivity extends AppCompatActivity
                 fragment = new LocationsFragment().newInstance();
                 break;
             case 8:
-                if(pref.getString("is_login","0").equals("1") && userid >0)
-                {
-                    Log.i("userid login: ","inside");
+                if (pref.getString("is_login", "0").equals("1") && userid > 0) {
+                    Log.i("userid login: ", "inside");
                     fragment = new Quiz().newInstance();
-                }
-                else {
+                } else {
                     // for login
                     //Toast.makeText(context,"Please Login",Toast.LENGTH_LONG).show();
                     Constant.isDetermin = 2;// quizzes
@@ -337,9 +323,9 @@ public class FirstActivity extends AppCompatActivity
                     JsonParser jsonParser = new JsonParser();
                     String shareBody = "Welcome to Suzuki Bangladesh Official Mobile Apps\n" +
                             "\n" +
-                            jsonParser.mediaLink.getPlay_store()+"\n" +
+                            jsonParser.mediaLink.getPlay_store() + "\n" +
                             "\n" +
-                            jsonParser.mediaLink.getApp_store()+"\n" +
+                            jsonParser.mediaLink.getApp_store() + "\n" +
                             "\n" +
                             jsonParser.mediaLink.getFb();
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -349,7 +335,7 @@ public class FirstActivity extends AppCompatActivity
                     startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
 
 
-                }catch(Exception e) {
+                } catch (Exception e) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/appetizerandroid")));
                 }
                 break;
@@ -370,13 +356,12 @@ public class FirstActivity extends AppCompatActivity
                 fragment = new SuzukiAboutUs().newInstance();
                 break;
             case 14:
-                if(pref.getString("is_login","0").equals("1")== true)//logged in
+                if (pref.getString("is_login", "0").equals("1") == true)//logged in
                 {
                     //Toast.makeText(context,"Change Password Page",Toast.LENGTH_LONG).show();
                     fragment = new ChangePassword().newInstance();
                     mDrawerLayout.closeDrawer(mDrawerList);
-                }
-                else// login
+                } else// login
                 {
                     //Toast.makeText(context,"Login Page",Toast.LENGTH_LONG).show();
                     fragment = new Login().newInstance();
@@ -384,8 +369,7 @@ public class FirstActivity extends AppCompatActivity
                 }
                 break;
             case 15:
-                if(pref.getString("is_login","0").equals("1")== true)
-                {
+                if (pref.getString("is_login", "0").equals("1") == true) {
                     //fragment = new Logout().newInstance();
                     goLogout();
                 }
@@ -411,53 +395,46 @@ public class FirstActivity extends AppCompatActivity
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         //drawer.closeDrawer(GravityCompat.START);
     }
-    private void goLogout()
-    {
-        customDialog = new CustomDialog(context);
-        if(CheckNetworkConnection.isConnectionAvailable(context) == true)
-        {
-            HashMap<String, String> postData = new HashMap<String, String>();
-            String auth_key = pref.getString("auth_key",null);
-            String user_id = pref.getString("user_id",null);
-            String is_login = pref.getString("is_login","0");
-            if (auth_key != null)
-            {
-                postData.put("auth_key",auth_key);
-                postData.put("user_id",user_id);
 
-                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this,postData);
-                loginTask.execute(ConnectionManager.SERVER_URL+"logout");
+    private void goLogout() {
+        customDialog = new CustomDialog(context);
+        if (CheckNetworkConnection.isConnectionAvailable(context) == true) {
+            HashMap<String, String> postData = new HashMap<String, String>();
+            String auth_key = pref.getString("auth_key", null);
+            String user_id = pref.getString("user_id", null);
+            String is_login = pref.getString("is_login", "0");
+            if (auth_key != null) {
+                postData.put("auth_key", auth_key);
+                postData.put("user_id", user_id);
+
+                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
+                loginTask.execute(ConnectionManager.SERVER_URL + "logout");
             }
-        }
-        else
-        {
+        } else {
             customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
         }
 
     }
+
     @Override
     public void processFinish(String output) //logout async task
     {
-        Log.i("Test",output);
+        Log.i("Test", output);
         JSONObject object = null;
         try {
             object = new JSONObject(output);
             String status_code = object.getString("status_code");
             String message = object.getString("message");
 
-            if (status_code.equals("200"))
-            {
+            if (status_code.equals("200")) {
                 editor.remove("user_id");
-                editor.remove("user_name");
-                editor.putString("is_login","0");
+                editor.putString("is_login", "0");
                 Constant.isDetermin = 0; // for go to HOme UI
                 editor.apply();
                 setDrawerAdapter();
                 selectItem(1);
-            }
-            else
-            {
-                Toast.makeText( context,message,Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -465,12 +442,13 @@ public class FirstActivity extends AppCompatActivity
 
 
     }
+
     public String getFacebookPageURL(Context context) {
         PackageManager packageManager = context.getPackageManager();
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
             packageManager.getPackageInfo("com.facebook.katana", 0);
-            System.out.println("facebook version code: "+versionCode);
+            System.out.println("facebook version code: " + versionCode);
 
             return getResources().getString(R.string.facebook_url_schemes);
             /*if (versionCode >= 3002850) { //newer versions of fb app
@@ -482,20 +460,18 @@ public class FirstActivity extends AppCompatActivity
             }*/
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("err facebook: ",e.getMessage());
+            Log.e("err facebook: ", e.getMessage());
             return getResources().getString(R.string.facebook_page_address); //normal web url
         }
     }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         /*
         * which fragment:
         * 0 == home
         * 1 == my bike
-        * 4 == NewsEvents
-        * 5 == Location fragment
-        * 12 == Login
-        * 15 == SparePartsMyCart
-        * 16 == Notification
+        * 2 == PremiumTakaJomaFragment
+        * 3 == FlexiLoadJomaFragment
          */
         super.onKeyDown(keyCode, event);
         //Toast.makeText(FirstActivity.this, "back key pressed", Toast.LENGTH_SHORT).show();
@@ -503,38 +479,31 @@ public class FirstActivity extends AppCompatActivity
             case KeyEvent.KEYCODE_BACK:
                 if (isBackKeyFlag()) {
 
-                    if(getWhichFragment() == 0)
-                    {
+                    if (getWhichFragment() == 0) {
                         selectItem(1);
                         setBackKeyFlag(false);
 
-                    }
-                    else if(getWhichFragment() == 1) {
+                    } else if (getWhichFragment() == 1) {
                         selectItem(2);
                         setBackKeyFlag(false);
-                    }
-                    else if(getWhichFragment() == 15){
+                    } else if (getWhichFragment() == 15) {
                         //selectItem(15);
                         Fragment fragment = new SparePartsMyCart().newInstance();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
                         setBackKeyFlag(false);
-                    }
-                    else if(getWhichFragment() == 4){
+                    } else if (getWhichFragment() == 4) {
                         selectItem(5);
                         setBackKeyFlag(false);
-                    }
-                    else if(getWhichFragment() == 5){
-                        selectItem(6);
+                    } else if (getWhichFragment() == 5) {
+                        selectItem(7);
                         setBackKeyFlag(false);
-                    }
-                    else if(getWhichFragment() == 12){
+                    } else if (getWhichFragment() == 12) {
                         Fragment fragment = new Login().newInstance();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
                         setBackKeyFlag(false);
-                    }
-                    else if(getWhichFragment() == 16){
+                    } else if (getWhichFragment() == 16) {
                         Fragment fragment = new Notification().newInstance();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
@@ -593,19 +562,23 @@ public class FirstActivity extends AppCompatActivity
             return true;
 
 
-        }
-        else if (id==R.id.action_find_location)
-        {
-            fragmentManager.beginTransaction()
+        } else if (id == R.id.action_find_location) {
+            /*fragmentManager.beginTransaction()
                     .replace(R.id.container, MapsActivity.newInstance())
-                    .commit();
+                    .commit();*/
+            MapsActivity mapsActivity = new MapsActivity();
+            Bundle bundle = new Bundle();
+            bundle.putInt("checking_key", 0);
+            mapsActivity.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, mapsActivity);
+            fragmentTransaction.commit();
             return true;
-        }
-        else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
 
-       // return super.onOptionsItemSelected(item);
+        // return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -647,7 +620,7 @@ public class FirstActivity extends AppCompatActivity
                     .replace(R.id.container, Promotions.newInstance())
                     .commit();
 
-        }else if (id == R.id.nav_quizzes) {
+        } else if (id == R.id.nav_quizzes) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, Quiz.newInstance())
                     .commit();
@@ -662,30 +635,27 @@ public class FirstActivity extends AppCompatActivity
                     .replace(R.id.container, InviteFriends.newInstance())
                     .commit();
 
-        }
-        else if (id == R.id.nav_social_media) {
+        } else if (id == R.id.nav_social_media) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, SocialMedia.newInstance())
                     .commit();
 
-        }else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, Logout.newInstance())
                     .commit();
 
-        }else if (id == R.id.nav_change_password) {
+        } else if (id == R.id.nav_change_password) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ChangePassword.newInstance())
                     .commit();
 
-        }else if (id == R.id.nav_reset_password) {
+        } else if (id == R.id.nav_reset_password) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ResetPassword.newInstance())
                     .commit();
 
-        }
-
-        else if (id == R.id.nav_login) {
+        } else if (id == R.id.nav_login) {
 
 
           /*  fragmentManager.beginTransaction()
@@ -695,8 +665,7 @@ public class FirstActivity extends AppCompatActivity
                     .replace(R.id.container, Login.newInstance())
                     .commit();
 
-        }
-        else if (id == R.id.nav_sign_up) {
+        } else if (id == R.id.nav_sign_up) {
 
 
           /*  fragmentManager.beginTransaction()
@@ -736,20 +705,18 @@ public class FirstActivity extends AppCompatActivity
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public class SetNotificationTask extends AsyncTask<Void, Void, String>
-    {
+    public class SetNotificationTask extends AsyncTask<Void, Void, String> {
         private String RESULT = "OK";
         private ArrayList<NameValuePair> returnJsonData;
-        private ArrayList<NameValuePair> nvp2=null;
+        private ArrayList<NameValuePair> nvp2 = null;
         private InputStream response;
         private JsonParser jsonParser;
 
         private String methodName = "";
-        private String unique_device_id, notification_key, auth,platform;
+        private String unique_device_id, notification_key, auth, platform;
 
         //UserLoginTask(String email, String password)
-        SetNotificationTask(String unique_device_id,String notification_key, String auth,String platform)
-        {
+        SetNotificationTask(String unique_device_id, String notification_key, String auth, String platform) {
             this.unique_device_id = unique_device_id;
             this.notification_key = notification_key;
             this.auth = auth;
@@ -761,32 +728,27 @@ public class FirstActivity extends AppCompatActivity
 
             //progressDialog = ProgressDialog.show(context, null, null);
         }
+
         @Override
-        protected String doInBackground(Void... params)
-        {
-            try
-            {
-                if (ConnectionManager.hasInternetConnection())
-                {
+        protected String doInBackground(Void... params) {
+            try {
+                if (ConnectionManager.hasInternetConnection()) {
                     //auth_key = "b78c0c986e4a3d962cd220427bc8ff07";
-                    nvp2 = apiFactory.setNotificationKeyInfo(unique_device_id,notification_key,auth,platform);
+                    nvp2 = apiFactory.setNotificationKeyInfo(unique_device_id, notification_key, auth, platform);
                     methodName = "setNotificationKey";
                     response = ConnectionManager.getResponseFromServer(methodName, nvp2);
                     jsonParser = new JsonParser();
 
-                    System.out.println("server response : "+response);
+                    System.out.println("server response : " + response);
                     returnJsonData = jsonParser.parseAPIsetNotificationKeyInfo(response);
                     System.out.println("return data : " + returnJsonData);
 
-                }
-                else
-                {
+                } else {
                     RESULT = getString(R.string.error_no_internet);
                     return RESULT;
                 }
                 return RESULT;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 //ex.printStackTrace();
                 Log.e("APITask:", ex.getMessage());
                 RESULT = getString(R.string.error_sever_connection);
@@ -795,55 +757,45 @@ public class FirstActivity extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(String result)
-        {
+        protected void onPostExecute(String result) {
             //progressDialog.dismiss();
-            if(RESULT.equalsIgnoreCase("OK"))
-            {
-                try
-                {
+            if (RESULT.equalsIgnoreCase("OK")) {
+                try {
                     //finish();
 
-                    if (returnJsonData.size() > 0 && returnJsonData != null && returnJsonData.get(0).getValue().equals("true") == true )
-                    {
+                    if (returnJsonData.size() > 0 && returnJsonData != null && returnJsonData.get(0).getValue().equals("true") == true) {
                         //preferenceUtil.setPINstatus(1);
                         Toast.makeText(getApplicationContext(), returnJsonData.get(1).getValue(), Toast.LENGTH_SHORT).show();
-                        editor.putString("gcm_registration_token",Constant.notificationKey);
+                        editor.putString("gcm_registration_token", Constant.notificationKey);
                         editor.apply();
                         //String auth_key = returnJsonData.get(3).getValue();
                         //editor.putString("auth_key",auth_key);
                         //editor.commit();
 
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println("data return : " + returnJsonData);
                         Toast.makeText(getApplicationContext(), "Request Data Not Found, Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     Log.e("APITask data error :", ex.getMessage());
                 }
-            }
-            else {
+            } else {
 
                 customDialog.alertDialog("ERROR", result);
             }
         }
+
         @Override
-        protected void onCancelled()
-        {
+        protected void onCancelled() {
             setNotificationTask = null;
             //progressDialog.dismiss();
         }
     }
-    private void gotToFragment()
-    {
+
+    private void gotToFragment() {
         Intent intent = getIntent();
-        if(intent != null)
-        {
+        if (intent != null) {
             String NotificationType = intent.getAction();
 
             System.out.println("From Push Notification Type : " + NotificationType);
@@ -851,8 +803,7 @@ public class FirstActivity extends AppCompatActivity
             String message = intent.getStringExtra("message");
             String picture = intent.getStringExtra("picture");
             // promotions, request_for_quotation, request_for_service, quiz_publish, quiz_result, news, event
-            try
-            {
+            try {
                 if (notificationClicked == true) {
                     if (NotificationType != null) {
                         if (NotificationType.equals("promotions")) {
@@ -862,7 +813,7 @@ public class FirstActivity extends AppCompatActivity
                             Fragment fragment = new PromotionsDetails().newInstance();
                             Bundle bundle = new Bundle();
 
-                            bundle.putString("viewTitleName", "Promotion");
+                            bundle.putString("viewTitleName", "PROMOTIONS DETAILS");
 
                             bundle.putString("promo_title", title);
                             bundle.putString("promo_desc", message);
@@ -879,7 +830,7 @@ public class FirstActivity extends AppCompatActivity
 
                             Fragment fragment = new RFSNotificationFragment().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Quotation");
+                            bundle.putString("viewTitleName", "Requested Quotation Notification");
                             bundle.putString("img_url", picture == null ? null : picture);
                             bundle.putString("headerText", title.toString());
                             bundle.putString("bodyText", message);
@@ -895,7 +846,7 @@ public class FirstActivity extends AppCompatActivity
 
                             Fragment fragment = new RFSNotificationFragment().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Service");
+                            bundle.putString("viewTitleName", "Requested Service Notification");
                             bundle.putString("img_url", picture == null ? null : picture);
                             bundle.putString("headerText", title.toString());
                             bundle.putString("bodyText", message);
@@ -904,14 +855,14 @@ public class FirstActivity extends AppCompatActivity
                             fragmentTransaction.replace(R.id.container, fragment);
                             fragmentTransaction.commit();
                         } else if (NotificationType.equals("quiz_publish")) {
-                            ((FirstActivity) context).selectItem(8);
+                            ((FirstActivity) context).selectItem(7);
                         } else if (NotificationType.equals("quiz_result")) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                             Fragment fragment = new RFSNotificationFragment().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Quiz Result");
+                            bundle.putString("viewTitleName", "Quizzes Result Published");
                             bundle.putString("img_url", picture == null ? null : picture);
                             bundle.putString("headerText", title.toString());
                             bundle.putString("bodyText", message);
@@ -944,7 +895,7 @@ public class FirstActivity extends AppCompatActivity
 
                             Fragment fragment = new DetailNewsEvents().newInstance();
                             Bundle bundle = new Bundle();
-                            bundle.putString("viewTitleName", "Event");
+                            bundle.putString("viewTitleName", "Events");
                             bundle.putString("news_event_title", title);
                             bundle.putString("news_event_desc", message);
                             bundle.putString("news_event_img", picture == null ? null : picture);

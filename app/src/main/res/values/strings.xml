@@ -28,6 +28,7 @@
     <!--<string name="gcm_defaultSenderId">880658290830</string>-->
     <string name="gcm_defaultSenderId">448016797152</string>
     <string name="search_by_district_name">    Search by District name</string>
+    <string name="search_by_locations">    Search locations</string>
     <string name="title_activity_maps">Map</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

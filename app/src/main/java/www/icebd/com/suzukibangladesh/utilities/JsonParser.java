@@ -340,7 +340,7 @@ public class JsonParser
 					obj_maps_location.setLocation_id(location_id);
 					String location_type = jsonResponse.getString("location_type");
 					obj_maps_location.setLocation_type(location_type);
-					String location_name = jsonResponse.getString("location_name");
+					String location_name = jsonResponse.getString("location_name").trim();
 					obj_maps_location.setLocation_name(location_name);
 					String location_address = jsonResponse.getString("location_address");
 					obj_maps_location.setLocation_address(location_address);

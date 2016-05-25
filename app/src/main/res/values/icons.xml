@@ -28,4 +28,10 @@
 	<string name="fa_search_icon">&#xf002;</string>
 
 	<string name="fa_timer_icon">&#xf017;</string>
+
+	<string name="l_contact_person_icon">&#xf007;</string>
+	<string name="l_address">&#xf1ad;</string>
+	<string name="l_mobile_number">&#xf095;</string>
+	<string name="l_map">&#xf279;</string>
+	<string name="l_search">&#xf002;</string>
 </resources>

@@ -18,7 +18,8 @@
        android:layout_height="48dp"
        android:layout_margin="10dp"
        android:background="@drawable/search_by_district"
-       android:weightSum="10">
+       android:weightSum="10"
+       android:visibility="gone">
 
       <EditText
           android:id="@+id/searchByDistrict"

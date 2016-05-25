@@ -5,16 +5,16 @@ import java.util.List;
 /**
  * Created by Acer on 5/17/2016.
  */
-public class MapsLocationObject
-{
+public class MapsLocationObject {
     private String message;
     private boolean status;
     private int status_code;
     private List<Locations> listLocation;
 
-    public MapsLocationObject(){}
-    public MapsLocationObject(String message,boolean status,int status_code,List<Locations> listLocation)
-    {
+    public MapsLocationObject() {
+    }
+
+    public MapsLocationObject(String message, boolean status, int status_code, List<Locations> listLocation) {
         this.message = message;
         this.status = status;
         this.status_code = status_code;
@@ -54,10 +54,7 @@ public class MapsLocationObject
     }
 
 
-
-
-    public class Locations
-    {
+    public class Locations {
 
         private String location_id;
         private String location_type;
@@ -71,15 +68,12 @@ public class MapsLocationObject
         private String district;
 
 
-
-
-        public Locations(){}
-
+        public Locations() {
+        }
 
 
         public Locations(String location_id, String location_type, String location_name, String location_address,
-                         String location_contact_person_name, String location_contact_person_email, String location_contact_person_phone, double lat, double lng, String district)
-        {
+                         String location_contact_person_name, String location_contact_person_email, String location_contact_person_phone, double lat, double lng, String district) {
             this.location_id = location_id;
             this.location_type = location_type;
             this.location_name = location_name;
@@ -147,6 +141,7 @@ public class MapsLocationObject
         public void setLocation_contact_person_phone(String location_contact_person_phone) {
             this.location_contact_person_phone = location_contact_person_phone;
         }
+
         public double getLat() {
             return lat;
         }
@@ -162,13 +157,12 @@ public class MapsLocationObject
         public void setLng(double lng) {
             this.lng = lng;
         }
-        public String getDistrict()
-        {
+
+        public String getDistrict() {
             return district;
         }
 
-        public void setDistrict(String district)
-        {
+        public void setDistrict(String district) {
             this.district = district;
         }
 
