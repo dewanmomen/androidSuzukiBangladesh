@@ -346,7 +346,7 @@ public class LocationsFragment extends Fragment {
                     //finish();
 
                     if (mapsLocationObjectList.size() > 0 && mapsLocationObjectList != null) {
-                        Toast.makeText(context, "inside do post", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "inside do post", Toast.LENGTH_SHORT).show();
                         populateListView();
 
                     } else {

@@ -338,7 +338,7 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(getContext(), "GPS is Enabled in your device", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "GPS is Enabled in your device", Toast.LENGTH_LONG).show();
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -477,7 +477,7 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
                     //finish();
 
                     if (mapsLocationObjectList.size() > 0 && mapsLocationObjectList != null) {
-                        Toast.makeText(context, "inside do post", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "inside do post", Toast.LENGTH_SHORT).show();
                         //returnJsonData = mapsLocationObjectList;
                         new PlaceAMarker(mapsLocationObjectList).execute();
 

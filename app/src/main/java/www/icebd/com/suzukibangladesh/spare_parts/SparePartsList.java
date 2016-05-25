@@ -294,7 +294,7 @@ public class SparePartsList extends Fragment implements SwipeRefreshLayout.OnRef
                     if (returnJsonData.size() > 0 && returnJsonData != null && returnJsonData.get(0).isStatus() == true )
                     {
                         //preferenceUtil.setPINstatus(1);
-                        Toast.makeText(getActivity(), returnJsonData.get(0).getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), returnJsonData.get(0).getMessage(), Toast.LENGTH_SHORT).show();
 
                         listSparePartsItem = returnJsonData.get(0).getSparePartsItemsList();
                         runOnUiThread(new Runnable() {
