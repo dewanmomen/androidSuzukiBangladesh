@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import www.icebd.com.suzukibangladesh.R;
+import www.icebd.com.suzukibangladesh.maps.MapsActivity;
+import www.icebd.com.suzukibangladesh.menu.LocationsFragment;
 import www.icebd.com.suzukibangladesh.utilities.FontManager;
 
 /**
@@ -34,13 +39,15 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
     LayoutInflater inflater;
     Context context;
     private List<Custom_dealer_list> dealer_lists = new ArrayList<Custom_dealer_list>();
+    LocationsFragment locationsFragment;
 
     public DealerSearchAdapter() {
     }
 
-    public DealerSearchAdapter(Context context, List<Custom_dealer_list> mProductArrayList) {
+    public DealerSearchAdapter(Context context, List<Custom_dealer_list> mProductArrayList,LocationsFragment locationsFragment) {
         this.context = context;
         this.mOriginalValues = mProductArrayList;
+        this.locationsFragment = locationsFragment;
         //this.mOriginalValues.addAll(mProductArrayList);
         this.mDisplayedValues = mProductArrayList;
         //inflater = LayoutInflater.from(context);
@@ -128,6 +135,26 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
                     return;
                 }
                 context.startActivity(callIntent);
+            }
+        });
+
+        TextView show_on_map = (TextView) itemView.findViewById(R.id.show_on_map);
+        show_on_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapsActivity mapsActivity = new MapsActivity();
+                Bundle bundle = new Bundle();
+                bundle.putString("s_title", custom_dealer_list.getTitle());
+                bundle.putInt("checking_key", 1);
+                mapsActivity.setArguments(bundle);
+                FragmentManager fragmentManager = locationsFragment.getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, mapsActivity);
+                fragmentTransaction.commit();
+                    /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, MapsActivity.newInstance())
+                            .commit();*/
             }
         });
 

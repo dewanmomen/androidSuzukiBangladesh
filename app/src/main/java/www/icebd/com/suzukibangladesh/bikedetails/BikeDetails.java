@@ -143,6 +143,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
         lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         webView = (WebView) rootView.findViewById(R.id.help_webview);
 
+
         Log.i("Bike ID: ", String.valueOf(bike_id));
         tableLayout = (TableLayout) rootView.findViewById(R.id.main_table);
         bike_name_tv = (TextView) rootView.findViewById(R.id.bike_name);
@@ -241,6 +242,10 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     /*WebSettings w = webView.getSettings();
                     w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                     w.setPluginState(WebSettings.PluginState.ON);*/
+                }
+                else
+                {
+                    webView.setVisibility(View.GONE);
                 }
 
                 JSONObject specification = bikeDetails.getJSONObject("specification");

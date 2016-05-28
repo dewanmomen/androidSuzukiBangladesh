@@ -235,8 +235,6 @@ public class Quotation extends Fragment implements AsyncResponse, View.OnClickLi
             {
                 customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
             }
-
-
         }
     }
     public void setupUI(View view) {

@@ -491,42 +491,47 @@ public class JsonParser
 		try
 		{
 			jsonResponse = new JSONObject(jsonData);
-
-			boolean status = jsonResponse.getBoolean("status");
-			jsonArrayList.add(new BasicNameValuePair("status", String.valueOf(status)));
-
-			String message = jsonResponse.getString("message");
-			jsonArrayList.add(new BasicNameValuePair("message", message));
-			int status_code = jsonResponse.getInt("status_code");
-			jsonArrayList.add(new BasicNameValuePair("status_code", String.valueOf(status_code)));
-			if(status == false)
+			if(jsonData == null)
 			{
 				jsonArrayList = null;
 			}
 			else
 			{
-				jarray = jsonResponse.getJSONArray("link");
+				boolean status = jsonResponse.getBoolean("status");
+				jsonArrayList.add(new BasicNameValuePair("status", String.valueOf(status)));
 
-				for (int i = 0; i < jarray.length(); i++)
+				String message = jsonResponse.getString("message");
+				jsonArrayList.add(new BasicNameValuePair("message", message));
+				int status_code = jsonResponse.getInt("status_code");
+				jsonArrayList.add(new BasicNameValuePair("status_code", String.valueOf(status_code)));
+				if (status == false)
 				{
-					jsonResponse = jarray.getJSONObject(i);
-					mediaLink = new MediaLink();
-					media_id = jsonResponse.getString("media_id");
-					mediaLink.setMedia_id(media_id);
-					play_store = jsonResponse.getString("play_store");
-					mediaLink.setPlay_store(play_store);
+					jsonArrayList = null;
+				} else
+				{
+					jarray = jsonResponse.getJSONArray("link");
 
-					fb = jsonResponse.getString("fb");
-					mediaLink.setFb(fb);
-					app_store = jsonResponse.getString("app_store");
-					mediaLink.setApp_store(app_store);
+					for (int i = 0; i < jarray.length(); i++)
+					{
+						jsonResponse = jarray.getJSONObject(i);
+						mediaLink = new MediaLink();
+						media_id = jsonResponse.getString("media_id");
+						mediaLink.setMedia_id(media_id);
+						play_store = jsonResponse.getString("play_store");
+						mediaLink.setPlay_store(play_store);
 
-					jsonArrayList.add(new BasicNameValuePair("media_id", media_id));
-					jsonArrayList.add(new BasicNameValuePair("play_store", play_store));
-					jsonArrayList.add(new BasicNameValuePair("fb", fb));
-					jsonArrayList.add(new BasicNameValuePair("app_store", app_store));
+						fb = jsonResponse.getString("fb");
+						mediaLink.setFb(fb);
+						app_store = jsonResponse.getString("app_store");
+						mediaLink.setApp_store(app_store);
 
-					//jsonArrayList.add(mediaLink);
+						jsonArrayList.add(new BasicNameValuePair("media_id", media_id));
+						jsonArrayList.add(new BasicNameValuePair("play_store", play_store));
+						jsonArrayList.add(new BasicNameValuePair("fb", fb));
+						jsonArrayList.add(new BasicNameValuePair("app_store", app_store));
+
+						//jsonArrayList.add(mediaLink);
+					}
 				}
 			}
 		}

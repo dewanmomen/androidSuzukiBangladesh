@@ -26,6 +26,7 @@ import www.icebd.com.suzukibangladesh.bikelist.BikeListSwipeListAdapter;
 import www.icebd.com.suzukibangladesh.spare_parts.SparePartsList;
 import www.icebd.com.suzukibangladesh.spare_parts.SparePartsMyCart;
 import www.icebd.com.suzukibangladesh.utilities.APIFactory;
+import www.icebd.com.suzukibangladesh.utilities.Constant;
 import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 import www.icebd.com.suzukibangladesh.utilities.FontManager;
 
@@ -122,7 +123,14 @@ public class SpareParts extends Fragment
                 goToSparePartsAddToCartFragment(0);
             }
         });
-        initTop();
+        if(Constant.goToSparePartOrMyCart == 0)
+        {
+            initTop();
+        }
+        else
+        {
+            goToSparePartsAddToCartFragment(0);
+        }
 
         ((FirstActivity)getActivity()).setBackKeyFlag(true);
         ((FirstActivity)getActivity()).setWhichFragment(0);

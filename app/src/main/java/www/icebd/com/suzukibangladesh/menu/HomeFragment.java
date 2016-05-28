@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment implements AsyncResponse {
         btnInviteFriends.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                ((FirstActivity)getActivity()).selectItem(9);
+                ((FirstActivity)getActivity()).selectItem(10);
 
             }
         });

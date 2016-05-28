@@ -425,11 +425,16 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
 
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, string) {
+
+
+                //ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, string)
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_bike_name, string)
+                {
                     public View getView(int position, View convertView, ViewGroup parent) {
 
                         View v = super.getView(position, convertView, parent);
 
+                        ((TextView) v).setGravity(Gravity.CENTER);
                         ((TextView) v).setTextSize(16);
                         return v;
 
@@ -439,12 +444,11 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
 
                         View v = super.getDropDownView(position, convertView, parent);
 
-                        ((TextView) v).setGravity(Gravity.CENTER);
+                        ((TextView) v).setGravity(Gravity.LEFT);
 
                         return v;
 
                     }
-
                 };
 
                 dropdown_bike_name.setAdapter(adapter);

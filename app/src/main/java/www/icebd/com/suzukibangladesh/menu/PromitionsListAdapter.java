@@ -141,7 +141,7 @@ public class PromitionsListAdapter extends BaseAdapter
                 PromotionsDetails promotionsDetails = new PromotionsDetails();
                 Bundle bundle = new Bundle();
 
-                bundle.putString("viewTitleName", "PROMOTIONS DETAILS");
+                bundle.putString("viewTitleName", "Promotion");
 
                 bundle.putString( "promo_title", arrList.get(position).get("promo_title").toString() );
                 bundle.putString( "promo_desc", arrList.get(position).get("promo_desc").toString() );

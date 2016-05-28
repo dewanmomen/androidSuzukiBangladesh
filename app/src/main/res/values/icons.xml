@@ -34,4 +34,7 @@
 	<string name="l_mobile_number">&#xf095;</string>
 	<string name="l_map">&#xf279;</string>
 	<string name="l_search">&#xf002;</string>
+
+	<string name="fa_home_delivery">&#xf0d1;</string>
+	<string name="fa_picup_point">&#xf290;</string>
 </resources>

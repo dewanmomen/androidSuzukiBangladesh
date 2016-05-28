@@ -61,7 +61,7 @@
         <activity
             android:name=".FirstActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <!--<intent-filter>
                 <action android:name="android.intent.action.DIAL" />
             </intent-filter>-->
@@ -138,7 +138,10 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key" /> <!--for debug-->
+        <!--<meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBrB0kw1EmfnM4wpymz6WGpWUDIMfwmDXU"/>-->
 
        <!-- <activity
             android:name=".maps.MapsActivity"

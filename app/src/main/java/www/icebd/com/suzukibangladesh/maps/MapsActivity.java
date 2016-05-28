@@ -17,10 +17,12 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +71,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import www.icebd.com.suzukibangladesh.R;
+import www.icebd.com.suzukibangladesh.app.CheckNetworkConnection;
 import www.icebd.com.suzukibangladesh.app.GPSTracker;
 import www.icebd.com.suzukibangladesh.app.LatLong;
 import www.icebd.com.suzukibangladesh.json.AsyncResponse;
@@ -112,6 +116,12 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
     private Marker marker;
     private MapView mMapView;
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
+    private View view;
+    RelativeLayout relativeLayout;
+
+    String auth_key = null;
+
     public static MapsActivity newInstance() {
         MapsActivity fragment = new MapsActivity();
         return fragment;
@@ -125,6 +135,9 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_maps, container,
                 false);
+        relativeLayout = (RelativeLayout)rootView.findViewById(R.id.rootLay);
+
+
 
         Bundle bundle = this.getArguments();
         checking_key = bundle.getInt("checking_key");
@@ -153,16 +166,29 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
         editor = pref.edit();
 
         HashMap<String, String> postData = new HashMap<String, String>();
-        String auth_key = pref.getString("auth_key", null);
+        auth_key = pref.getString("auth_key", null);
         if ((auth_key != null)) {
             postData.put("auth_key", auth_key);
 
+            apiFactory = new APIFactory();
+            customDialog = new CustomDialog(getActivity());
+            if (CheckNetworkConnection.isConnectionAvailable(context) == true)
+            {
+                if(checkPermission())
+                {
+                    Toast.makeText(context,"Permission already granted.",Toast.LENGTH_LONG).show();
+                    //Snackbar.make(relativeLayout,"Permission already granted.",Snackbar.LENGTH_LONG).show();
+                    getMapLoactionTask = new GetMapLoactionTask(auth_key);
+                    getMapLoactionTask.execute((Void) null);
+                }
+                else
+                {
+                    requestPermission();
+                }
 
-            if (isNetworkAvailable()) {
-                apiFactory = new APIFactory();
-                customDialog = new CustomDialog(getActivity());
-                getMapLoactionTask = new GetMapLoactionTask(auth_key);
-                getMapLoactionTask.execute((Void) null);
+            }
+            else {
+                customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
             }
 
         } else {
@@ -209,7 +235,50 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
 
             }
         });
+
         return rootView;
+    }
+
+    private boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            Toast.makeText(context,"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.",Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(context,"Permission Granted, Now you can access location data.",Toast.LENGTH_LONG).show();
+                    //Snackbar.make(relativeLayout,"Permission Granted, Now you can access location data.",Snackbar.LENGTH_LONG).show();
+                    getMapLoactionTask = new GetMapLoactionTask(auth_key);
+                    getMapLoactionTask.execute((Void) null);
+
+                } else {
+                    Toast.makeText(context,"Permission Denied, You cannot access location data.",Toast.LENGTH_LONG).show();
+                    //Snackbar.make(relativeLayout,"Permission Denied, You cannot access location data.",Snackbar.LENGTH_LONG).show();
+
+                }
+                break;
+        }
     }
 
     @Override
@@ -526,10 +595,10 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
             String[] strArr = null;
             while (list.hasNext()) {
                 MapsLocationObject.Locations mapsLocation = (MapsLocationObject.Locations) list.next();
-                System.out.println("address location: " + mapsLocation.getLocation_address());
 
-                String strGetLatLng = getLatLng(mapsLocation.getLocation_address().replaceAll(" ", "%20"));
 
+                String strGetLatLng = getLatLng(mapsLocation.getLocation_address().replaceAll(" ", "+")+","+mapsLocation.getDistrict().toString().trim()+","+"Bangladesh");
+                System.out.println("address location: " + strGetLatLng);
                 if (strGetLatLng != null) {
                     strArr = strGetLatLng.split(",");
                     mapsLocation.setLat(Double.valueOf(strArr[0]));
@@ -652,7 +721,5 @@ public class MapsActivity extends android.support.v4.app.Fragment implements Fil
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         //Zoom out to zoom level 10, animating with a duration of 2 seconds.
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-
-
     }
 }

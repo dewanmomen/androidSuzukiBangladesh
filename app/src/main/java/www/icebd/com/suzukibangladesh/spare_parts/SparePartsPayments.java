@@ -51,6 +51,7 @@ public class SparePartsPayments extends Fragment{
 
         //dialer = (Button) rootView.findViewById(R.id.dialer);
         //dialer.setOnClickListener(this);
+        Constant.goToSparePartOrMyCart = 1;
         ((FirstActivity)getActivity()).setBackKeyFlag(true);
         ((FirstActivity)getActivity()).setWhichFragment(15);
         return rootView;

@@ -57,6 +57,9 @@
     <string name="total_with_vat_txt">Total (inc VAT)</string>
     <string name="pay_with">PAY WITH</string>
     <string name="no_items_display_txt">No Item Found</string>
+    <string name="txt_delivery_charge">Delivery Charge</string>
+    <string name="delivery_inside_dhaka_price">120</string>
+    <string name="delivery_outside_dhaka_price">150</string>
 
     <string name="text_accept_bkash">We accept bKash payment</string>
     <string name="text_access_bkash">Access bKash system from own bKash wallet</string>

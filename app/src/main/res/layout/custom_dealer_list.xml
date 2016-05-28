@@ -18,7 +18,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
             android:text="shop title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#828282" />
@@ -35,7 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:textSize="14sp"
                 android:text="C"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#555555" />
@@ -46,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:textSize="14sp"
                 android:text="contact person"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#555555" />
@@ -64,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:textSize="14sp"
                 android:text="A"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#555555" />
@@ -75,7 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:textSize="14sp"
                 android:text="shop address"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#555555" />
@@ -93,7 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:textSize="14sp"
                 android:text="M"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#555555" />
@@ -104,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
+                android:textSize="14sp"
                 android:text="mobile number"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#555555" />
@@ -117,8 +124,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:text="shop type"
+            android:layout_margin="8dp"
+            android:textSize="14dp"
+            android:text=""
 
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#A7A7A7" />
@@ -128,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/mobile_number_view"
             android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_margin="8dp">
 
             <LinearLayout
                 android:id="@+id/contact_details_on_map"
@@ -138,8 +146,8 @@
                 android:layout_weight="1"
                 android:background="#F1F0F1"
                 android:gravity="center"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -147,14 +155,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/show_on_map"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="8dp"
                     android:text="Show on Map"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <!--<Button
@@ -172,8 +184,8 @@
                 android:layout_weight="1"
                 android:background="#0059A9"
                 android:gravity="center"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/caller_icon"
@@ -181,6 +193,7 @@
                     android:layout_height="wrap_content"
                     android:text="B"
                     android:gravity="center"
+                    android:textSize="14sp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/white" />
 
@@ -189,6 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Call"
+                    android:textSize="14sp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/white" />
 

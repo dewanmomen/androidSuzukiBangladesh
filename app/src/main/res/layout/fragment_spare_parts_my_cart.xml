@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/shop_mother_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/shop_table_header"
@@ -118,6 +118,16 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/deliver_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/row_txt_delivery"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:text=""
+                        android:textSize="14sp" />
+
+                    <TextView
                         android:id="@+id/total_with_tax"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -147,10 +157,28 @@
                         android:textSize="11sp" />
 
                     <View
-                        android:id="@+id/description_event_view23"
+                        android:id="@+id/view_delivery_line"
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/subtotal_tv"
+                        android:layout_marginTop="7dp"
+                        android:background="#2A385A" />
+
+                    <TextView
+                        android:id="@+id/row_txt_delivery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view_delivery_line"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="17dp"
+                        android:text="@string/txt_delivery_charge"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:id="@+id/description_event_view23"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/row_txt_delivery"
                         android:layout_marginTop="7dp"
                         android:background="#2A385A" />
 
@@ -172,12 +200,144 @@
                         android:layout_marginTop="7dp"
                         android:background="#2A385A" />
 
+                    <LinearLayout
+                        android:id="@+id/delivery_info_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/description_event_view22"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select your Delivery Type"
+                            android:textSize="10dp"
+                            android:textStyle="bold"/>
+                        
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+                            
+                            <LinearLayout
+                                android:id="@+id/home_deleivery_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:background="@color/suzuki_blue_color"
+                                android:clickable="true">
+
+                                <TextView
+                                    android:id="@+id/left"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="14dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/white"/>
+
+                                <TextView
+                                    android:id="@+id/label_home_delivery"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Home Delivery"
+                                    android:textSize="14dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/white"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/collect_from_store_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:background="@color/line_grey"
+                                android:clickable="true">
+
+                                <TextView
+                                    android:id="@+id/right"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="14dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black"/>
+
+                                <TextView
+                                    android:id="@+id/label_picup_point"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pickup Point"
+                                    android:textSize="14dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black"/>
+
+                            </LinearLayout>
+
+
+                            
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/txt_picup_point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="14dp"
+                            android:layout_marginTop="10dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:visibility="gone"/>
+
+                        <RadioGroup
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/radio_group_inside_outside_dhk"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <RadioButton android:id="@+id/radio_inside_dhaka"
+                                         android:layout_width="0dp"
+                                         android:layout_weight="1"
+                                         android:layout_height="wrap_content"
+                                         android:text="Inside Dhaka"
+                                android:textSize="12dp"/>
+
+                            <RadioButton android:id="@+id/radio_outside_dhaka"
+                                         android:layout_width="0dp"
+                                         android:layout_weight="1"
+                                         android:layout_height="wrap_content"
+                                         android:text="Outside Dhaka"
+                                         android:textSize="12dp"/>
+                        </RadioGroup>
+
+                       <EditText
+                           android:id="@+id/txt_deleivery_address"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/border"
+                           android:inputType="textMultiLine"
+                           android:lines="5"
+                           android:gravity="top|left"
+                           android:layout_marginTop="5dp"
+                           android:hint="Enter your Delivery Address."
+                           android:textSize="14dp"/>
+
+                    </LinearLayout>
+
                     <Button
                         android:id="@+id/checkout_thisCart"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/description_event_view22"
-                        android:layout_marginTop="25dp"
+                        android:layout_below="@+id/delivery_info_layout"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="100dp"
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/mycart_pay_with_bkash"

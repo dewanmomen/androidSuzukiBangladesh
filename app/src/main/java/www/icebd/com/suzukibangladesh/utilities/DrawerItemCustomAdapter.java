@@ -59,6 +59,12 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem>
             //imageViewIcon.setText(folder.icon);
             //imageViewIcon.setTextSize(20);
             //imageViewIcon.setTypeface(custom_font);
+
+            /*textViewName.setClickable(false);
+            imageViewIcon.setClickable(false);
+            imageViewIcon.setFocusableInTouchMode(false);
+            textViewName.setFocusableInTouchMode(false);*/
+
             textViewName.setText(folder.name);
             imageViewIcon.setVisibility(View.GONE);
             textViewName.setTextSize(20);
@@ -82,6 +88,18 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem>
         //textViewName.setText(folder.name);
 
         return listItem;
+    }
+
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    public boolean isEnabled(int position) {
+        // return false if position == position you want to disable
+        if(position == 0)
+            return false;
+        else
+            return true;
     }
 
 }

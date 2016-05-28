@@ -19,7 +19,11 @@ public class Constant {
 	public static final double taxPercentage = 24.0;
 	public static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 0;
 
+	public static int goToSparePartOrMyCart = 0; // o = spare parts list, 1= my cart
 	public static List<SparePartsListObject.SparePartsItem> listMyCartObj = new ArrayList<SparePartsListObject.SparePartsItem>();
+	public static int delivery_type = 0; // 0 = pickup point, 1 = inside_dhaka, 2 = outside_dhaka;
+	public static String delivery_category = null;
+
 	public static int isDetermin = 0;
 	//public static boolean isSparePartsPurchase = false;
 	//public static boolean isQuizzes = false;

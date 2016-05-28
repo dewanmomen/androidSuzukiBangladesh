@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +66,8 @@ public class ChangePassword extends Fragment implements View.OnClickListener, As
         View rootView = inflater.inflate(R.layout.change_password, container,
                 false);
         context = getActivity().getApplicationContext();
+        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         setupUI(rootView.findViewById(R.id.parentChangePass));
         getActivity().setTitle("Change Password");
 
@@ -112,6 +115,7 @@ public class ChangePassword extends Fragment implements View.OnClickListener, As
     private void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+
     }
 
     @Override

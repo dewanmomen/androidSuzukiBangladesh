@@ -156,7 +156,7 @@ public class LocationsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dealerSearchAdapter = new DealerSearchAdapter(getActivity(), dealer_lists);
+                dealerSearchAdapter = new DealerSearchAdapter(context, dealer_lists,LocationsFragment.this);
                 dealerSearchAdapter.getFilter().filter(s.toString());
                 lv.setAdapter(dealerSearchAdapter);
             }

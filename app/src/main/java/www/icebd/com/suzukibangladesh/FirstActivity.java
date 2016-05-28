@@ -281,6 +281,7 @@ public class FirstActivity extends AppCompatActivity
                 break;
             case 3:
                 fragment = new SpareParts().newInstance();
+                Constant.goToSparePartOrMyCart = 0;
                 break;
             case 4:
                 if (pref.getString("is_login", "0").equals("1") && userid > 0) {
@@ -496,9 +497,13 @@ public class FirstActivity extends AppCompatActivity
                         setBackKeyFlag(false);
                     } else if (getWhichFragment() == 15) {
                         //selectItem(15);
-                        Fragment fragment = new SparePartsMyCart().newInstance();
+                        /*Fragment fragment = new SparePartsMyCart().newInstance();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();*/
+                        Fragment fragment = new SpareParts().newInstance();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+
                         setBackKeyFlag(false);
                     } else if (getWhichFragment() == 4) {
                         selectItem(5);
