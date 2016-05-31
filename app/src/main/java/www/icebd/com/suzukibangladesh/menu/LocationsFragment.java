@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -78,6 +79,7 @@ public class LocationsFragment extends Fragment {
     Context context;
     CustomDialog customDialog;
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private List<Custom_dealer_list> dealer_lists = new ArrayList<Custom_dealer_list>();
     private ListView lv;
     private ArrayAdapter<Custom_dealer_list> adapter;
@@ -115,8 +117,10 @@ public class LocationsFragment extends Fragment {
         tv = (TextView) rootView.findViewById(R.id.location_icon);
 
         Typeface iconFont = FontManager.getTypeface(getActivity(), FontManager.FONTAWESOME);
-        tv.setText(getResources().getString(R.string.l_search));
+        tv.setText(context.getResources().getString(R.string.l_search));
         tv.setTypeface(iconFont);
+
+        lv = (ListView) rootView.findViewById(R.id.list_of_dealer);
 
         imageLoader = ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
@@ -156,9 +160,10 @@ public class LocationsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dealerSearchAdapter = new DealerSearchAdapter(context, dealer_lists,LocationsFragment.this);
+                //dealerSearchAdapter = new DealerSearchAdapter(context, dealer_lists,LocationsFragment.this);
                 dealerSearchAdapter.getFilter().filter(s.toString());
-                lv.setAdapter(dealerSearchAdapter);
+                //lv.setAdapter(dealerSearchAdapter);
+
             }
 
             @Override
@@ -171,8 +176,8 @@ public class LocationsFragment extends Fragment {
     }
 
     private void populateListView() {
-        adapter = new DealerListAdapter();
-        adapter.clear();
+        //adapter = new DealerListAdapter();
+        //adapter.clear();
         if (mapsLocationObjectList != null) {
             Log.d("TAG", "Entered checking");
             MapsLocationObject mapsLocationObject = new MapsLocationObject();
@@ -181,11 +186,15 @@ public class LocationsFragment extends Fragment {
                 final MapsLocationObject.Locations obj_maps_location = (MapsLocationObject.Locations) list.next();
                 dealer_lists.add(new Custom_dealer_list(obj_maps_location.getLocation_name(), obj_maps_location.getLocation_contact_person_name()
                         , obj_maps_location.getLocation_address(), obj_maps_location.getLocation_contact_person_phone()
-                        , obj_maps_location.getLocation_type()));
+                        , obj_maps_location.getLocation_type(),obj_maps_location.getDistrict()));
 
             }
-            lv = (ListView) getActivity().findViewById(R.id.list_of_dealer);
-            lv.setAdapter(adapter);
+            dealerSearchAdapter = new DealerSearchAdapter(context, dealer_lists,LocationsFragment.this);
+            lv.setAdapter(dealerSearchAdapter);
+
+            dealerSearchAdapter.notifyDataSetChanged();
+            //lv = (ListView) getActivity().findViewById(R.id.list_of_dealer);
+            //lv.setAdapter(adapter);
         }
     }
 
@@ -209,6 +218,8 @@ public class LocationsFragment extends Fragment {
             Typeface iconFont = FontManager.getTypeface(getActivity(), FontManager.FONTAWESOME);
 
             final Custom_dealer_list custom_dealer_list = dealer_lists.get(position);
+            LinearLayout contact_details_on_map = (LinearLayout) itemView.findViewById(R.id.contact_details_on_map);
+            LinearLayout layout_call = (LinearLayout) itemView.findViewById(R.id.layout_call);
 
             TextView shop_title = (TextView) itemView.findViewById(R.id.shop_title);
             TextView contact_person_icon = (TextView) itemView.findViewById(R.id.contact_person_icon);
@@ -223,27 +234,27 @@ public class LocationsFragment extends Fragment {
             TextView caller = (TextView) itemView.findViewById(R.id.caller);
             TextView shop_type = (TextView) itemView.findViewById(R.id.shop_type);
 
-            shop_title.setText(custom_dealer_list.getTitle());
+            shop_title.setText(custom_dealer_list.getShop_title());
 
-            contact_person_icon.setText(getResources().getString(R.string.l_contact_person_icon));
+            contact_person_icon.setText(context.getResources().getString(R.string.l_contact_person_icon));
             contact_person_icon.setTypeface(iconFont);
             contact_person.setText(custom_dealer_list.getContact_person());
 
-            shop_address_icon.setText(getResources().getString(R.string.l_address));
+            shop_address_icon.setText(context.getResources().getString(R.string.l_address));
             shop_address_icon.setTypeface(iconFont);
             shop_address.setText(custom_dealer_list.getAddress());
 
-            mobile_number_icon.setText(getResources().getString(R.string.l_mobile_number));
+            mobile_number_icon.setText(context.getResources().getString(R.string.l_mobile_number));
             mobile_number_icon.setTypeface(iconFont);
             mobile_number.setText(custom_dealer_list.getMobile_number());
 
-            map_icon.setText(getResources().getString(R.string.l_map));
+            map_icon.setText(context.getResources().getString(R.string.l_map));
             map_icon.setTypeface(iconFont);
-            show_on_map.setOnClickListener(new View.OnClickListener() {
+            contact_details_on_map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MapsActivity mapsActivity = new MapsActivity();
-                    bundle.putString("s_title", custom_dealer_list.getTitle());
+                    bundle.putString("s_title", custom_dealer_list.getShop_title());
                     bundle.putInt("checking_key", 1);
                     mapsActivity.setArguments(bundle);
                     FragmentManager fragmentManager = getFragmentManager();
@@ -257,38 +268,105 @@ public class LocationsFragment extends Fragment {
                 }
             });
 
-            caller_icon.setText(getResources().getString(R.string.l_mobile_number));
+            caller_icon.setText(context.getResources().getString(R.string.l_mobile_number));
             caller_icon.setTypeface(iconFont);
-            caller.setOnClickListener(new View.OnClickListener() {
+            layout_call.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String dialer_number = "tel:" + custom_dealer_list.getMobile_number();
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse(dialer_number));
-                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
+
+                    try {
+                        if (checkPermission()) {
+                            //Toast.makeText(context, "Permission already granted.", Toast.LENGTH_LONG).show();
+                            String dialer_number = "tel:" + custom_dealer_list.getMobile_number();
+                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                            callIntent.setData(Uri.parse(dialer_number));
+                            callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            getActivity().startActivity(callIntent);
+
+                        } else {
+                            requestPermission();
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-                    getActivity().startActivity(callIntent);
+
                 }
             });
 
             if (custom_dealer_list.getShop_type().equals("1")) {
-                shop_type.setText("Show Room");
-            } else {
                 shop_type.setText("Service Center");
+            } else {
+
+                shop_type.setText("Show Room");
             }
 
             return itemView;
         }
 
+    }
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(context, android.Manifest.permission.CALL_PHONE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private void requestPermission() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.CALL_PHONE)) {
+
+            Toast.makeText(context, "Call Phone permission allows us to call a user. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+            //requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE}, PERMISSION_REQUEST_CODE);
+
+        } else {
+            //ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.CALL_PHONE}, PERMISSION_REQUEST_CODE);
+            requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE}, PERMISSION_REQUEST_CODE);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    callSOS();
+                } else {
+                    Toast.makeText(context, "You must granted phone call dialer permission", Toast.LENGTH_LONG).show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void callSOS() {
+        String number = "tel:" + context.getResources().getString(R.string.sos_value);
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse(number));
+        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //callIntent.setPackage("com.android.phone");
+        //callIntent.setPackage("com.android.server.telecom");
+        this.startActivity(callIntent);
     }
 
     public class GetMapLoactionTask extends AsyncTask<Void, Void, String> {

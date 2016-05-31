@@ -10,22 +10,24 @@ public class Custom_dealer_list {
     public String mobile_number;
     public String shop_type;
 
+
+
+    public String district;
+
     public Custom_dealer_list(){
 
     }
 
-    public Custom_dealer_list(String shop_title, String contact_person, String address, String mobile_number, String shop_type) {
+    public Custom_dealer_list(String shop_title, String contact_person, String address, String mobile_number, String shop_type,String district) {
         super();
         this.shop_title = shop_title;
         this.contact_person = contact_person;
         this.address = address;
         this.mobile_number = mobile_number;
         this.shop_type = shop_type;
+        this.district = district;
     }
 
-    public void setTitle(String shop_title) {
-        this.shop_title = shop_title;
-    }
 
     public void setContact_person(String contact_person) {
         this.contact_person = contact_person;
@@ -43,9 +45,6 @@ public class Custom_dealer_list {
         this.shop_type = shop_type;
     }
 
-    public String getTitle() {
-        return shop_title;
-    }
 
     public String getContact_person() {
         return contact_person;
@@ -61,5 +60,24 @@ public class Custom_dealer_list {
 
     public String getShop_type() {
         return shop_type;
+    }
+    public String getDistrict()
+    {
+        return district;
+    }
+
+    public String getShop_title()
+    {
+        return shop_title;
+    }
+
+    public void setDistrict(String district)
+    {
+        this.district = district;
+    }
+
+    public void setShop_title(String shop_title)
+    {
+        this.shop_title = shop_title;
     }
 }

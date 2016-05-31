@@ -22,13 +22,13 @@ public class Constant {
 	public static int goToSparePartOrMyCart = 0; // o = spare parts list, 1= my cart
 	public static List<SparePartsListObject.SparePartsItem> listMyCartObj = new ArrayList<SparePartsListObject.SparePartsItem>();
 	public static int delivery_type = 0; // 0 = pickup point, 1 = inside_dhaka, 2 = outside_dhaka;
-	public static String delivery_category = null;
+	public static String delivery_category = "";
 
 	public static int isDetermin = 0;
 	//public static boolean isSparePartsPurchase = false;
 	//public static boolean isQuizzes = false;
 
-	public static String urlHistoryOfSuzuki = "http://icebd.com/suzuki/admin/history";
-	public static String urlAboutUs = "http://icebd.com/suzuki/admin/aboutUs";
+	public static String urlHistoryOfSuzuki = "http://iceapps.org/suzuki/admin/history";
+	public static String urlAboutUs = "http://iceapps.org/suzuki/admin/aboutUs";
 
 }

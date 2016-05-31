@@ -39,6 +39,7 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
     LayoutInflater inflater;
     Context context;
     private List<Custom_dealer_list> dealer_lists = new ArrayList<Custom_dealer_list>();
+    private List<Custom_dealer_list> searchDealer_lists = new ArrayList<Custom_dealer_list>();
     LocationsFragment locationsFragment;
 
     public DealerSearchAdapter() {
@@ -86,6 +87,9 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
 
         final Custom_dealer_list custom_dealer_list = mDisplayedValues.get(position);
 
+        LinearLayout contact_details_on_map = (LinearLayout) itemView.findViewById(R.id.contact_details_on_map);
+        LinearLayout layout_call = (LinearLayout) itemView.findViewById(R.id.layout_call);
+
         TextView shop_title = (TextView) itemView.findViewById(R.id.shop_title);
         TextView contact_person_icon = (TextView) itemView.findViewById(R.id.contact_person_icon);
         TextView contact_person = (TextView) itemView.findViewById(R.id.contact_person);
@@ -98,7 +102,7 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
         TextView caller = (TextView) itemView.findViewById(R.id.caller);
         TextView shop_type = (TextView) itemView.findViewById(R.id.shop_type);
 
-        shop_title.setText(custom_dealer_list.getTitle());
+        shop_title.setText(custom_dealer_list.getShop_title());
 
         contact_person_icon.setText(context.getResources().getString(R.string.l_contact_person_icon));
         contact_person_icon.setTypeface(iconFont);
@@ -117,7 +121,7 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
 
         caller_icon.setText(context.getResources().getString(R.string.l_mobile_number));
         caller_icon.setTypeface(iconFont);
-        caller.setOnClickListener(new View.OnClickListener() {
+        layout_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String dialer_number = "tel:" + custom_dealer_list.getMobile_number();
@@ -139,12 +143,12 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
         });
 
         TextView show_on_map = (TextView) itemView.findViewById(R.id.show_on_map);
-        show_on_map.setOnClickListener(new View.OnClickListener() {
+        contact_details_on_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MapsActivity mapsActivity = new MapsActivity();
                 Bundle bundle = new Bundle();
-                bundle.putString("s_title", custom_dealer_list.getTitle());
+                bundle.putString("s_title", custom_dealer_list.getShop_title());
                 bundle.putInt("checking_key", 1);
                 mapsActivity.setArguments(bundle);
                 FragmentManager fragmentManager = locationsFragment.getFragmentManager();
@@ -158,11 +162,11 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
             }
         });
 
-        if(custom_dealer_list.getShop_type().equals("1")){
-            shop_type.setText("Show Room");
-        }
-        else{
+        if (custom_dealer_list.getShop_type().equals("1")) {
             shop_type.setText("Service Center");
+        } else {
+
+            shop_type.setText("Show Room");
         }
 
         return itemView;
@@ -238,11 +242,11 @@ public class DealerSearchAdapter extends BaseAdapter implements Filterable {
                         String address = mOriginalValues.get(i).address;
                         String mobile_number = mOriginalValues.get(i).mobile_number;
                         String shop_type = mOriginalValues.get(i).shop_type;
-                        if (shop_title.toLowerCase().startsWith(constraint.toString()) || contact_person.toLowerCase().startsWith(constraint.toString())
-                                || address.toLowerCase().startsWith(constraint.toString()) || mobile_number.toLowerCase().startsWith(constraint.toString())
-                                || shop_type.toLowerCase().startsWith(constraint.toString())) {
+                        if (shop_title.toLowerCase().contains(constraint.toString()) || contact_person.toLowerCase().contains(constraint.toString())
+                                || address.toLowerCase().contains(constraint.toString()) || mobile_number.toLowerCase().contains(constraint.toString())
+                                || shop_type.toLowerCase().contains(constraint.toString())) {
                             FilteredArrList.add(new Custom_dealer_list(mOriginalValues.get(i).shop_title, mOriginalValues.get(i).contact_person, mOriginalValues.get(i).address
-                                    , mOriginalValues.get(i).mobile_number, mOriginalValues.get(i).shop_type));
+                                    , mOriginalValues.get(i).mobile_number, mOriginalValues.get(i).shop_type,mOriginalValues.get(i).district));
                         }
                     }
                     // set the Filtered result to return

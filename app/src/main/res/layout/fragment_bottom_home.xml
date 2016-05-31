@@ -59,6 +59,7 @@
         android:layout_alignBottom="@+id/image"
         android:gravity="left"
         android:background="@color/home_mybike_bg_color"
-        android:id="@+id/txt_dropdown" />
+        android:id="@+id/txt_dropdown"
+        android:visibility="gone"/>
 
 </RelativeLayout>

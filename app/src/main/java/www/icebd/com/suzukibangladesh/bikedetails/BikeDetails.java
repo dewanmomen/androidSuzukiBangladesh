@@ -3,6 +3,7 @@ package www.icebd.com.suzukibangladesh.bikedetails;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -30,6 +31,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -235,7 +238,39 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     webView.getSettings().setDomStorageEnabled(true);
 
                     webView.loadUrl(video_url);
-                    webView.setWebChromeClient(new WebChromeClient() {
+                    webView.setWebViewClient(new WebViewClient()
+                    {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                            view.loadUrl(url);
+                            return true;
+                            //return super.shouldOverrideUrlLoading(view, url);
+                        }
+
+                        @Override
+                        public void onPageStarted(WebView view, String url, Bitmap favicon)
+                        {
+                            //progressDialog = ProgressDialog.show(getActivity(), null, null);
+                            super.onPageStarted(view, url, favicon);
+                        }
+
+                        @Override
+                        public void onPageFinished(WebView view, String url)
+                        {
+                            //progressDialog.dismiss();
+                            super.onPageFinished(view, url);
+                        }
+
+                        @Override
+                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error)
+                        {
+                            //progressDialog.dismiss();
+                            //Toast.makeText(getActivity(), "Your Internet Connection May not be active, Please Try Again " , Toast.LENGTH_LONG).show();
+                            super.onReceivedError(view, request, error);
+                            loadError();
+                        }
+
                     });
                     webView.getSettings().setPluginState(WebSettings.PluginState.ON);
 
@@ -249,12 +284,14 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 }
 
                 JSONObject specification = bikeDetails.getJSONObject("specification");
+                JSONArray Engine = specification.getJSONArray("Engine");
+                JSONArray Tyre_Size = specification.getJSONArray("TyreSize");
+                JSONArray Brake = specification.getJSONArray("Brake");
+                JSONArray Transmission = specification.getJSONArray("Transmission");
                 JSONArray Electrical = specification.getJSONArray("Electrical");
                 JSONArray Suspension = specification.getJSONArray("Suspension");
-                JSONArray Tyre_Size = specification.getJSONArray("Tyre-Size");
-                JSONArray Brake = specification.getJSONArray("Brake");
                 JSONArray Dimensions = specification.getJSONArray("Dimensions");
-                JSONArray Engine = specification.getJSONArray("Engine");
+
 
                /* View space1 = new View(this);
                 space1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
@@ -265,10 +302,10 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
                 TextView engineTextView = new TextView(context);
                 engineTextView.setText("Engine");
-                engineTextView.setTextColor(getResources().getColor(R.color.white));
+                engineTextView.setTextColor(context.getResources().getColor(R.color.white));
                 row.addView(engineTextView);
                 row.setPadding(26, 0, 0, 10);
-                row.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));//"#939393"
+                row.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_header_bg));//"#939393"
                 tableLayout.addView(row);
 
 
@@ -294,23 +331,23 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     TextView engine_Value_TextView = new TextView(context);
                     engine_Value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
 
-                    engine_Title_TextView.setTextColor(getResources().getColor(R.color.line_grey));
-                    engine_Value_TextView.setTextColor(getResources().getColor(R.color.black));
-                    txt_culon.setTextColor(getResources().getColor(R.color.black));
+                    engine_Title_TextView.setTextColor(context.getResources().getColor(R.color.line_grey));
+                    engine_Value_TextView.setTextColor(context.getResources().getColor(R.color.black));
+                    txt_culon.setTextColor(context.getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
                         engine_Title_TextView.setText(" " + specification_title);
                         txt_culon.setText(": ");
                         engine_Value_TextView.setText(specification_value);
-                        engine_Title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        txt_culon.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        engine_Value_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));
-                        //row_engine.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        engine_Title_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        txt_culon.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        engine_Value_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));
+                        //row_engine.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
 
                     } else {
                         engine_Title_TextView.setText(" " + specification_title);
                         txt_culon.setText(":");
                         engine_Value_TextView.setText(specification_value);
-                        row_engine.setBackgroundColor(getResources().getColor(R.color.white));
+                        row_engine.setBackgroundColor(context.getResources().getColor(R.color.white));
                     }
                     row_engine.addView(engine_Title_TextView);
                     row_engine.addView(txt_culon);
@@ -327,7 +364,226 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 }
 
                  /*Engine end from here */
+                View space4 = new View(context);
+                space4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space4);
+                 /* Tyre started from here */
 
+                TableRow row_tyre = new TableRow(context);
+                row_tyre.setLayoutParams(new TableRow.LayoutParams(300,
+                        TableLayout.LayoutParams.WRAP_CONTENT));
+
+                TextView tyre_TextView = new TextView(context);
+                tyre_TextView.setText("Tyre Size");
+                tyre_TextView.setTextColor(context.getResources().getColor(R.color.white));
+                row_tyre.addView(tyre_TextView);
+                row_tyre.setPadding(26, 0, 0, 10);
+                row_tyre.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_header_bg));
+                tableLayout.addView(row_tyre);
+
+                View space14 = new View(context);
+                space14.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space14);
+
+                for (int i = 0; i < Tyre_Size.length(); i++) {
+                    JSONObject Tyre_SizeObject = Tyre_Size.getJSONObject(i);
+                    String specification_title = Tyre_SizeObject.getString("specification_title");
+                    String specification_value = Tyre_SizeObject.getString("specification_value");
+
+                    TableRow dynamic_row = new TableRow(context);
+                    dynamic_row.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT));
+
+                    TextView title_TextView = new TextView(context);
+                    title_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 1.2f));
+                    TextView txt_culon = new TextView(context);
+                    txt_culon.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT));
+                    TextView value_TextView = new TextView(context);
+                    value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
+
+                    title_TextView.setTextColor(context.getResources().getColor(R.color.line_grey));
+                    value_TextView.setTextColor(context.getResources().getColor(R.color.black));
+                    txt_culon.setTextColor(context.getResources().getColor(R.color.black));
+                    if ((i % 2) == 0) {
+                        title_TextView.setText(" " +specification_title);
+                        txt_culon.setText(":");
+                        value_TextView.setText(specification_value);
+                        title_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        txt_culon.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        value_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));
+                        //row_engine.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        dynamic_row.addView(title_TextView);
+                        dynamic_row.addView(txt_culon);
+                        dynamic_row.addView(value_TextView);
+                    } else {
+                        title_TextView.setText(" " +specification_title);
+                        txt_culon.setText(":");
+                        value_TextView.setText(specification_value);
+                        dynamic_row.setBackgroundColor(context.getResources().getColor(R.color.white));
+                        dynamic_row.addView(title_TextView);
+                        dynamic_row.addView(txt_culon);
+                        dynamic_row.addView(value_TextView);
+                    }
+
+                    dynamic_row.setPadding(26, 5, 26, 5);
+
+                   /* if((i%2)==0)
+                        dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
+                    tableLayout.addView(dynamic_row, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                    Log.i("Test", "specification_title " + " : " + specification_title);
+                    Log.i("Test", "specification_value" + " : " + specification_value);
+                }
+
+                 /* Tyre end from here */
+
+                View space5 = new View(context);
+                space5.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space5);
+
+                /* Brake started from here */
+                TableRow row_brake = new TableRow(context);
+                row_brake.setLayoutParams(new TableRow.LayoutParams(300,
+                        TableLayout.LayoutParams.WRAP_CONTENT));
+
+                TextView brake_TextView = new TextView(context);
+                brake_TextView.setText("Brake");
+                brake_TextView.setTextColor(context.getResources().getColor(R.color.white));
+                row_brake.addView(brake_TextView);
+                row_brake.setPadding(26, 0, 0, 10);
+                row_brake.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_header_bg));
+                tableLayout.addView(row_brake);
+
+                View space15 = new View(context);
+                space15.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space15);
+
+
+                for (int i = 0; i < Brake.length(); i++) {
+                    JSONObject BrakeObject = Brake.getJSONObject(i);
+                    String specification_title = BrakeObject.getString("specification_title");
+                    String specification_value = BrakeObject.getString("specification_value");
+
+                    TableRow dynamic_row = new TableRow(context);
+                    dynamic_row.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT));
+
+                    TextView title_TextView = new TextView(context);
+                    title_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 1.2f));
+                    TextView txt_culon = new TextView(context);
+                    txt_culon.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT));
+                    TextView value_TextView = new TextView(context);
+                    value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
+
+                    title_TextView.setTextColor(context.getResources().getColor(R.color.line_grey));
+                    value_TextView.setTextColor(context.getResources().getColor(R.color.black));
+                    txt_culon.setTextColor(context.getResources().getColor(R.color.black));
+                    if ((i % 2) == 0) {
+                        title_TextView.setText(" " +specification_title);
+                        txt_culon.setText(":");
+                        value_TextView.setText(specification_value);
+                        title_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        txt_culon.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        value_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));
+                        //row_engine.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        dynamic_row.addView(title_TextView);
+                        dynamic_row.addView(txt_culon);
+                        dynamic_row.addView(value_TextView);
+                    } else {
+                        title_TextView.setText(" " +specification_title);
+                        txt_culon.setText(":");
+                        value_TextView.setText(specification_value);
+                        dynamic_row.setBackgroundColor(context.getResources().getColor(R.color.white));
+                        dynamic_row.addView(title_TextView);
+                        dynamic_row.addView(txt_culon);
+                        dynamic_row.addView(value_TextView);
+                    }
+
+                    dynamic_row.setPadding(26, 5, 26, 5);
+
+                   /* if((i%2)==0)
+                        dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
+                    tableLayout.addView(dynamic_row, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                    Log.i("Test", "specification_title " + " : " + specification_title);
+                    Log.i("Test", "specification_value" + " : " + specification_value);
+                }
+
+                 /* Brake end from here */
+
+                View space6 = new View(context);
+                space6.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space6);
+
+                 /* Transmission started from here */
+                TableRow row_transmission = new TableRow(context);
+                row_transmission.setLayoutParams(new TableRow.LayoutParams(300,
+                        TableLayout.LayoutParams.WRAP_CONTENT));
+
+                TextView transmission_TextView = new TextView(context);
+                transmission_TextView.setText("Transmission");
+                transmission_TextView.setTextColor(context.getResources().getColor(R.color.white));
+                row_transmission.addView(transmission_TextView);
+                row_transmission.setPadding(26, 0, 0, 10);
+                row_transmission.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_header_bg));
+                tableLayout.addView(row_transmission);
+
+                View space20 = new View(context);
+                space20.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space20);
+
+
+                for (int i = 0; i < Transmission.length(); i++) {
+                    JSONObject TransmissionObject = Transmission.getJSONObject(i);
+                    String specification_title = TransmissionObject.getString("specification_title");
+                    String specification_value = TransmissionObject.getString("specification_value");
+
+                    TableRow dynamic_row = new TableRow(context);
+                    dynamic_row.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT));
+
+                    TextView title_TextView = new TextView(context);
+                    title_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 1.2f));
+                    TextView txt_culon = new TextView(context);
+                    txt_culon.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT));
+                    TextView value_TextView = new TextView(context);
+                    value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
+
+                    title_TextView.setTextColor(context.getResources().getColor(R.color.line_grey));
+                    value_TextView.setTextColor(context.getResources().getColor(R.color.black));
+                    txt_culon.setTextColor(context.getResources().getColor(R.color.black));
+                    if ((i % 2) == 0) {
+                        title_TextView.setText(" " +specification_title);
+                        txt_culon.setText(":");
+                        value_TextView.setText(specification_value);
+                        title_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        txt_culon.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        value_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));
+                        //row_engine.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        dynamic_row.addView(title_TextView);
+                        dynamic_row.addView(txt_culon);
+                        dynamic_row.addView(value_TextView);
+                    } else {
+                        title_TextView.setText(" " +specification_title);
+                        txt_culon.setText(":");
+                        value_TextView.setText(specification_value);
+                        dynamic_row.setBackgroundColor(context.getResources().getColor(R.color.white));
+                        dynamic_row.addView(title_TextView);
+                        dynamic_row.addView(txt_culon);
+                        dynamic_row.addView(value_TextView);
+                    }
+
+                    dynamic_row.setPadding(26, 5, 26, 5);
+
+                   /* if((i%2)==0)
+                        dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
+                    tableLayout.addView(dynamic_row, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                    Log.i("Test", "specification_title " + " : " + specification_title);
+                    Log.i("Test", "specification_value" + " : " + specification_value);
+                }
+
+                 /* Transmission end from here */
 
                 View space1 = new View(context);
                 space1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
@@ -343,10 +599,10 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
                 TextView electricalTextView = new TextView(context);
                 electricalTextView.setText("Electrical");
-                electricalTextView.setTextColor(getResources().getColor(R.color.white));
+                electricalTextView.setTextColor(context.getResources().getColor(R.color.white));
                 rowelctrical.addView(electricalTextView);
                 rowelctrical.setPadding(26, 0, 0, 10);
-                rowelctrical.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
+                rowelctrical.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(rowelctrical);
 
 
@@ -372,17 +628,17 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     TextView value_TextView = new TextView(context);
                     value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
 
-                    title_TextView.setTextColor(getResources().getColor(R.color.line_grey));
-                    value_TextView.setTextColor(getResources().getColor(R.color.black));
-                    txt_culon.setTextColor(getResources().getColor(R.color.black));
+                    title_TextView.setTextColor(context.getResources().getColor(R.color.line_grey));
+                    value_TextView.setTextColor(context.getResources().getColor(R.color.black));
+                    txt_culon.setTextColor(context.getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
                         title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
-                        title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        txt_culon.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        value_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));
-                        //row_engine.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        title_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        txt_culon.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        value_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));
+                        //row_engine.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
                         dynamic_row.addView(title_TextView);
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
@@ -390,7 +646,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
-                        dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
+                        dynamic_row.setBackgroundColor(context.getResources().getColor(R.color.white));
                         dynamic_row.addView(title_TextView);
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
@@ -419,10 +675,10 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
                 TextView susp_TextView = new TextView(context);
                 susp_TextView.setText("Suspension");
-                susp_TextView.setTextColor(getResources().getColor(R.color.white));
+                susp_TextView.setTextColor(context.getResources().getColor(R.color.white));
                 row_susp.addView(susp_TextView);
                 row_susp.setPadding(26, 0, 0, 10);
-                row_susp.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
+                row_susp.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(row_susp);
 
                 View space13 = new View(context);
@@ -454,17 +710,17 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                             android.widget.TableRow.LayoutParams.WRAP_CONTENT, 1.0f));*/
                     value_TextView.setMaxLines(3);
                     // value_TextView.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-                    title_TextView.setTextColor(getResources().getColor(R.color.line_grey));
-                    value_TextView.setTextColor(getResources().getColor(R.color.black));
-                    txt_culon.setTextColor(getResources().getColor(R.color.black));
+                    title_TextView.setTextColor(context.getResources().getColor(R.color.line_grey));
+                    value_TextView.setTextColor(context.getResources().getColor(R.color.black));
+                    txt_culon.setTextColor(context.getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
                         title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
-                        title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        txt_culon.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        value_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));
-                        //row_engine.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        title_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        txt_culon.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        value_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));
+                        //row_engine.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
                         dynamic_row.addView(title_TextView);
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
@@ -472,7 +728,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
-                        dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
+                        dynamic_row.setBackgroundColor(context.getResources().getColor(R.color.white));
                         dynamic_row.addView(title_TextView);
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
@@ -488,157 +744,9 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
                  /* Suspension end from here */
 
-                View space4 = new View(context);
-                space4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
-                tableLayout.addView(space4);
-
-
-                 /* Tyre started from here */
-
-                TableRow row_tyre = new TableRow(context);
-                row_tyre.setLayoutParams(new TableRow.LayoutParams(300,
-                        TableLayout.LayoutParams.WRAP_CONTENT));
-
-                TextView tyre_TextView = new TextView(context);
-                tyre_TextView.setText("Tyre");
-                tyre_TextView.setTextColor(getResources().getColor(R.color.white));
-                row_tyre.addView(tyre_TextView);
-                row_tyre.setPadding(26, 0, 0, 10);
-                row_tyre.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
-                tableLayout.addView(row_tyre);
-
-                View space14 = new View(context);
-                space14.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
-                tableLayout.addView(space14);
-
-                for (int i = 0; i < Tyre_Size.length(); i++) {
-                    JSONObject Tyre_SizeObject = Tyre_Size.getJSONObject(i);
-                    String specification_title = Tyre_SizeObject.getString("specification_title");
-                    String specification_value = Tyre_SizeObject.getString("specification_value");
-
-                    TableRow dynamic_row = new TableRow(context);
-                    dynamic_row.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                            TableLayout.LayoutParams.WRAP_CONTENT));
-
-                    TextView title_TextView = new TextView(context);
-                    title_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 1.2f));
-                    TextView txt_culon = new TextView(context);
-                    txt_culon.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT));
-                    TextView value_TextView = new TextView(context);
-                    value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
-
-                    title_TextView.setTextColor(getResources().getColor(R.color.line_grey));
-                    value_TextView.setTextColor(getResources().getColor(R.color.black));
-                    txt_culon.setTextColor(getResources().getColor(R.color.black));
-                    if ((i % 2) == 0) {
-                        title_TextView.setText(" " +specification_title);
-                        txt_culon.setText(":");
-                        value_TextView.setText(specification_value);
-                        title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        txt_culon.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        value_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));
-                        //row_engine.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        dynamic_row.addView(title_TextView);
-                        dynamic_row.addView(txt_culon);
-                        dynamic_row.addView(value_TextView);
-                    } else {
-                        title_TextView.setText(" " +specification_title);
-                        txt_culon.setText(":");
-                        value_TextView.setText(specification_value);
-                        dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
-                        dynamic_row.addView(title_TextView);
-                        dynamic_row.addView(txt_culon);
-                        dynamic_row.addView(value_TextView);
-                    }
-
-                    dynamic_row.setPadding(26, 5, 26, 5);
-
-                   /* if((i%2)==0)
-                        dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
-                    tableLayout.addView(dynamic_row, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
-                    Log.i("Test", "specification_title " + " : " + specification_title);
-                    Log.i("Test", "specification_value" + " : " + specification_value);
-                }
-
-                 /* Type end from here */
-                View space5 = new View(context);
-                space5.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
-                tableLayout.addView(space5);
-
-                 /* Brake started from here */
-                TableRow row_brake = new TableRow(context);
-                row_brake.setLayoutParams(new TableRow.LayoutParams(300,
-                        TableLayout.LayoutParams.WRAP_CONTENT));
-
-                TextView brake_TextView = new TextView(context);
-                brake_TextView.setText("Brake");
-                brake_TextView.setTextColor(getResources().getColor(R.color.white));
-                row_brake.addView(brake_TextView);
-                row_brake.setPadding(26, 0, 0, 10);
-                row_brake.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
-                tableLayout.addView(row_brake);
-
-                View space15 = new View(context);
-                space15.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
-                tableLayout.addView(space15);
-
-
-                for (int i = 0; i < Brake.length(); i++) {
-                    JSONObject BrakeObject = Brake.getJSONObject(i);
-                    String specification_title = BrakeObject.getString("specification_title");
-                    String specification_value = BrakeObject.getString("specification_value");
-
-                    TableRow dynamic_row = new TableRow(context);
-                    dynamic_row.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                            TableLayout.LayoutParams.WRAP_CONTENT));
-
-                    TextView title_TextView = new TextView(context);
-                    title_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 1.2f));
-                    TextView txt_culon = new TextView(context);
-                    txt_culon.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT));
-                    TextView value_TextView = new TextView(context);
-                    value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
-
-                    title_TextView.setTextColor(getResources().getColor(R.color.line_grey));
-                    value_TextView.setTextColor(getResources().getColor(R.color.black));
-                    txt_culon.setTextColor(getResources().getColor(R.color.black));
-                    if ((i % 2) == 0) {
-                        title_TextView.setText(" " +specification_title);
-                        txt_culon.setText(":");
-                        value_TextView.setText(specification_value);
-                        title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        txt_culon.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        value_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));
-                        //row_engine.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        dynamic_row.addView(title_TextView);
-                        dynamic_row.addView(txt_culon);
-                        dynamic_row.addView(value_TextView);
-                    } else {
-                        title_TextView.setText(" " +specification_title);
-                        txt_culon.setText(":");
-                        value_TextView.setText(specification_value);
-                        dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
-                        dynamic_row.addView(title_TextView);
-                        dynamic_row.addView(txt_culon);
-                        dynamic_row.addView(value_TextView);
-                    }
-
-                    dynamic_row.setPadding(26, 5, 26, 5);
-
-                   /* if((i%2)==0)
-                        dynamic_row.setBackgroundColor(Color.parseColor("#d8d8d8"));*/
-                    tableLayout.addView(dynamic_row, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
-                    Log.i("Test", "specification_title " + " : " + specification_title);
-                    Log.i("Test", "specification_value" + " : " + specification_value);
-                }
-
-                 /* Brake end from here */
-
-                View space6 = new View(context);
-                space6.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
-                tableLayout.addView(space6);
+                View space7 = new View(context);
+                space7.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space7);
 
                  /* Dimensions started from here */
 
@@ -648,10 +756,10 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
                 TextView dimension_TextView = new TextView(context);
                 dimension_TextView.setText("Dimensions");
-                dimension_TextView.setTextColor(getResources().getColor(R.color.white));
+                dimension_TextView.setTextColor(context.getResources().getColor(R.color.white));
                 row_dimension.addView(dimension_TextView);
                 row_dimension.setPadding(26, 0, 0, 10);
-                row_dimension.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_header_bg));
+                row_dimension.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_header_bg));
                 tableLayout.addView(row_dimension);
 
                 View space16 = new View(context);
@@ -674,17 +782,17 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     TextView value_TextView = new TextView(context);
                     value_TextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.FILL_PARENT, 0.2f));
 
-                    title_TextView.setTextColor(getResources().getColor(R.color.line_grey));
-                    value_TextView.setTextColor(getResources().getColor(R.color.black));
-                    txt_culon.setTextColor(getResources().getColor(R.color.black));
+                    title_TextView.setTextColor(context.getResources().getColor(R.color.line_grey));
+                    value_TextView.setTextColor(context.getResources().getColor(R.color.black));
+                    txt_culon.setTextColor(context.getResources().getColor(R.color.black));
                     if ((i % 2) == 0) {
                         title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
-                        title_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        txt_culon.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
-                        value_TextView.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));
-                        //row_engine.setBackgroundColor(getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        title_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        txt_culon.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
+                        value_TextView.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));
+                        //row_engine.setBackgroundColor(context.getResources().getColor(R.color.bike_details_spec_row_bg));//"#d8d8d8"
                         dynamic_row.addView(title_TextView);
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
@@ -692,7 +800,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                         title_TextView.setText(" " +specification_title);
                         txt_culon.setText(":");
                         value_TextView.setText(specification_value);
-                        dynamic_row.setBackgroundColor(getResources().getColor(R.color.white));
+                        dynamic_row.setBackgroundColor(context.getResources().getColor(R.color.white));
                         dynamic_row.addView(title_TextView);
                         dynamic_row.addView(txt_culon);
                         dynamic_row.addView(value_TextView);
@@ -709,9 +817,9 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 }
 
                  /* Dimensions end from here */
-                View space7 = new View(context);
-                space7.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
-                tableLayout.addView(space7);
+                View space8 = new View(context);
+                space8.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 15));
+                tableLayout.addView(space8);
 
 
                 NUM_PAGES = images.length();
@@ -735,7 +843,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                     pairs[i].setLayoutParams(lp);
                     pairs[i].setId(i);
                     //pairs[i].setText((i + 1) + ": something");
-                    pairs[i].setText(getResources().getString(R.string.fa_motorcycle));
+                    pairs[i].setText(context.getResources().getString(R.string.fa_motorcycle));
                     pairs[i].setTypeface(iconFont);
                     //pairs[i].setTextColor( Color.BLACK );
 
@@ -763,6 +871,19 @@ public class BikeDetails extends Fragment implements AsyncResponse {
 
 
     }
+    private void loadError() {
+        String html = "<html><body><table width=\"100%\" height=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"
+                + "<tr>"
+                + "<td><div style=\"color:red;font-size:20px;font-weight:bold;\">Your device don't have internet connection, Please Connect with Internet and Try Again !</font></div></td>"
+                + "</tr>" + "</table><html><body>";
+        System.out.println("html " + html);
+
+        String base64 = android.util.Base64.encodeToString(html.getBytes(),
+                android.util.Base64.DEFAULT);
+        webView.loadData(base64, "text/html; charset=utf-8", "base64");
+        System.out.println("loaded html");
+    }
+
 
     @Override
     public void onDestroy() {
@@ -964,8 +1085,8 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                 LinearLayout.LayoutParams layoutParamsL = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layout.setLayoutParams(layoutParamsL);
                 //layout.setGravity(Gravity.CENTER_HORIZONTAL);
-                int widthPX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, getResources().getDisplayMetrics());
-                int heightPX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, getResources().getDisplayMetrics());
+                int widthPX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, context.getResources().getDisplayMetrics());
+                int heightPX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, context.getResources().getDisplayMetrics());
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(widthPX, heightPX);
 
                 //photo.setAdjustViewBounds(true);

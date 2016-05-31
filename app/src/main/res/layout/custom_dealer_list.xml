@@ -179,10 +179,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_call"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#0059A9"
+                android:clickable="true"
                 android:gravity="center"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp">

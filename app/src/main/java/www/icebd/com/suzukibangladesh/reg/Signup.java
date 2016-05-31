@@ -287,6 +287,7 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
                 {
                     customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
                 }*/
+                ((FirstActivity)getActivity()).setDrawerAdapter();
                 if( Constant.isDetermin == 1)// for requrstFor service
                 {
                     FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -305,7 +306,7 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
                     fragmentTransaction.replace(R.id.container, quiz);
                     fragmentTransaction.commit();
                 }
-                else if( Constant.isDetermin == 3)
+                /*else if( Constant.isDetermin == 3)
                 {
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -313,7 +314,7 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
                     SparePartsMyCart sparePartsMyCart = new SparePartsMyCart();
                     fragmentTransaction.replace(R.id.container, sparePartsMyCart);
                     fragmentTransaction.commit();
-                }
+                }*/
                 else
                 {
                     Intent intent = new Intent(getActivity(), FirstActivity.class);

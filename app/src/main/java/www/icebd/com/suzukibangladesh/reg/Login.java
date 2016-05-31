@@ -279,7 +279,7 @@ public class Login extends Fragment implements View.OnClickListener, AsyncRespon
                     fragmentTransaction.replace(R.id.container, quiz);
                     fragmentTransaction.commit();
                 }
-                else if( Constant.isDetermin == 3)
+/*                else if( Constant.isDetermin == 3)
                 {
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -287,7 +287,7 @@ public class Login extends Fragment implements View.OnClickListener, AsyncRespon
                     SparePartsMyCart sparePartsMyCart = new SparePartsMyCart();
                     fragmentTransaction.replace(R.id.container, sparePartsMyCart);
                     fragmentTransaction.commit();
-                }
+                }*/
                 else
                 {
                     Intent intent = new Intent(getActivity(), FirstActivity.class);

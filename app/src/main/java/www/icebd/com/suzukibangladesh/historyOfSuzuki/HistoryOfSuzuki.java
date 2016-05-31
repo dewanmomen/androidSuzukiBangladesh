@@ -49,7 +49,7 @@ import www.icebd.com.suzukibangladesh.utilities.Constant;
 import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
 
 
-public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
+public class HistoryOfSuzuki extends Fragment {
     WebView webView;
     SharedPreferences pref ;
     SharedPreferences.Editor editor ;
@@ -83,9 +83,9 @@ public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 
-        ((Button) rootView.findViewById(R.id.btnRetry)).setOnClickListener(this);
+        /*((Button) rootView.findViewById(R.id.btnRetry)).setOnClickListener(this);
         mlLayoutRequestError = (LinearLayout)rootView.findViewById(R.id.lLayoutRequestError);
-        mhErrorLayoutHide = getErrorLayoutHideHandler();
+        mhErrorLayoutHide = getErrorLayoutHideHandler();*/
 
         webView = (WebView) rootView.findViewById(R.id.webViewHistoryOfSuzuki);
         customDialog = new CustomDialog(getActivity());
@@ -107,7 +107,7 @@ public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
 
         return rootView;
     }
-    @Override
+    /*@Override
     public void onClick(View v) {
         int id = v.getId();
 
@@ -120,15 +120,15 @@ public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
             webView.reload();
             mbErrorOccured = false;
         }
-    }
+    }*/
     private class MyWebViewClient extends WebViewClient
     {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-            //view.loadUrl(url);
-            //return true;
-            return super.shouldOverrideUrlLoading(view, url);
+            view.loadUrl(url);
+            return true;
+            //return super.shouldOverrideUrlLoading(view, url);
         }
 
         @Override
@@ -142,10 +142,10 @@ public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
         public void onPageFinished(WebView view, String url)
         {
             progressDialog.dismiss();
-            if (mbErrorOccured == false && mbReloadPressed) {
+            /*if (mbErrorOccured == false && mbReloadPressed) {
                 hideErrorLayout();
                 mbReloadPressed = false;
-            }
+            }*/
             super.onPageFinished(view, url);
         }
 
@@ -153,13 +153,27 @@ public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error)
         {
             progressDialog.dismiss();
-            mbErrorOccured = true;
-            showErrorLayout();
-            //super.onReceivedError(view, request, error);
+            //Toast.makeText(getActivity(), "Your Internet Connection May not be active, Please Try Again " , Toast.LENGTH_LONG).show();
+            /*mbErrorOccured = true;
+            showErrorLayout();*/
+            super.onReceivedError(view, request, error);
+            loadError();
+        }
+        private void loadError() {
+            String html = "<html><body><table width=\"100%\" height=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"
+                    + "<tr>"
+                    + "<td><div style=\"color:red;font-size:20px;font-weight:bold;\">Your device don't have internet connection, Please Connect with Internet and Try Again !</font></div></td>"
+                    + "</tr>" + "</table><html><body>";
+            System.out.println("html " + html);
+
+            String base64 = android.util.Base64.encodeToString(html.getBytes(),
+                    android.util.Base64.DEFAULT);
+            webView.loadData(base64, "text/html; charset=utf-8", "base64");
+            System.out.println("loaded html");
         }
     }
 
-    private void showErrorLayout() {
+   /* private void showErrorLayout() {
         mlLayoutRequestError.setVisibility(View.VISIBLE);
     }
 
@@ -175,7 +189,7 @@ public class HistoryOfSuzuki extends Fragment implements View.OnClickListener {
                 super.handleMessage(msg);
             }
         };
-    }
+    }*/
     public void setupUI(View view) {
 
         //Set up touch listener for non-text box views to hide keyboard.

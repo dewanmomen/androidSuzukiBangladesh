@@ -199,6 +199,54 @@ public class JsonParser
 		// return JSON String
 		return jsonArrayList;
 	}
+	public ArrayList<NameValuePair> parseAPIgetSparePartsPurchaseInfo(InputStream json) throws Exception
+	{
+		jsonArrayList = new ArrayList<NameValuePair>();
+
+		try
+		{
+			reader = new BufferedReader(new InputStreamReader(json, "iso-8859-1"), 8);
+			builder = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null)
+			{
+				System.out.println("read line : "+line);
+				builder.append(line + "\n");
+			}
+			json.close();
+
+			jsonData = builder.toString();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			Log.e("Buffer Error", "Error converting result " + e.toString());
+		}
+		try
+		{
+			jsonResponse = new JSONObject(jsonData);
+
+			boolean status = jsonResponse.getBoolean("status");
+			jsonArrayList.add(new BasicNameValuePair("status", String.valueOf(status)));
+			int status_code = jsonResponse.getInt("status_code");
+			jsonArrayList.add(new BasicNameValuePair("status_code", String.valueOf(status_code)));
+			String message = jsonResponse.getString("message");
+			jsonArrayList.add(new BasicNameValuePair("message", message));
+
+			/*if(status == false)
+			{
+				jsonArrayList = null;
+			}*/
+		}
+		catch(JSONException e)
+		{
+			e.printStackTrace();
+			Log.e("JSON Parser", "Error parsing data " + e.toString());
+			//checking...
+		}
+		// return JSON String
+		return jsonArrayList;
+	}
 
 	public ArrayList<BikeList> parseAPIgetBikeListInfo(InputStream json) throws Exception
 	{
@@ -350,6 +398,10 @@ public class JsonParser
 					obj_maps_location.setLocation_contact_person_email(location_contact_person_email);
 					String location_contact_person_phone = jsonResponse.getString("location_contact_person_phone");
 					obj_maps_location.setLocation_contact_person_phone(location_contact_person_phone);
+					String latitude = jsonResponse.getString("latitude");
+					obj_maps_location.setLat(Double.valueOf(latitude));
+					String longitude = jsonResponse.getString("longitude");
+					obj_maps_location.setLng(Double.valueOf(longitude));
 					String district = jsonResponse.getString("district");
 					obj_maps_location.setDistrict(district.toLowerCase());
 

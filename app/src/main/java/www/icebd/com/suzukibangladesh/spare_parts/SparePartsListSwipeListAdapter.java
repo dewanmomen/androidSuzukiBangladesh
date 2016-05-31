@@ -3,6 +3,7 @@ package www.icebd.com.suzukibangladesh.spare_parts;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -60,6 +61,9 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
     private ItemFilter mFilter = new ItemFilter();
 
     Context context;
+
+    SharedPreferences pref ;
+    SharedPreferences.Editor editor;
 
     /*****************************/
     Matrix matrix = new Matrix();
@@ -187,14 +191,25 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
         holder.txtSparePartsAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, listSparePartsItem.get(position).getSpare_parts_name().toString()+" Added to Cart", Toast.LENGTH_LONG).show();
-                /*SparePartsListObject obj_sparePartsList = new SparePartsListObject();
-                SparePartsListObject.SparePartsItem obj_sparePartsItem = obj_sparePartsList.new SparePartsItem();
+                pref = context.getSharedPreferences("SuzukiBangladeshPref", context.MODE_PRIVATE);
+                editor = pref.edit();
+                String user_id = pref.getString("user_id", "0");
+                if(user_id.equals("0"))
+                {
+                    Toast.makeText(context, "Please Login to Add Item to My Cart !", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(context, listSparePartsItem.get(position).getSpare_parts_name().toString()+" Added to Cart", Toast.LENGTH_LONG).show();
+                    /*SparePartsListObject obj_sparePartsList = new SparePartsListObject();
+                    SparePartsListObject.SparePartsItem obj_sparePartsItem = obj_sparePartsList.new SparePartsItem();
 
-                MyCartObject myCartObject = new MyCartObject(obj_sparePartsItem,qnt+1);
-                Constant.listMyCartObj.add(obj_sparePartsItem);
-                */
-                AddToGlobalArray(listSparePartsItem.get(position));
+                    MyCartObject myCartObject = new MyCartObject(obj_sparePartsItem,qnt+1);
+                    Constant.listMyCartObj.add(obj_sparePartsItem);
+                    */
+                    AddToGlobalArray(listSparePartsItem.get(position));
+                }
+
             }
         });
 
@@ -408,7 +423,8 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
             FilterResults result = new FilterResults();
             constraint = constraint.toString().toLowerCase();
             listSparePartsItem.clear();
-            if (constraint.length() == 0) {
+            if (constraint.length() == 0)
+            {
                 listSparePartsItem.addAll(listSparePartsItemSearch);
             }
             else

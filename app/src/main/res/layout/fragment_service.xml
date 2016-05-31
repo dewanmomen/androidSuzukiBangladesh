@@ -198,7 +198,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="WHILE/TYRE"
+            android:text="WHEEL/TYRE"
             android:id="@+id/chk_while_tyre"
             android:layout_marginLeft="20dp"/>
         <CheckBox

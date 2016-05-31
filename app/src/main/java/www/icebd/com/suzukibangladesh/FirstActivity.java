@@ -151,7 +151,7 @@ public class FirstActivity extends AppCompatActivity
         };*/
 
 
-        mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mNavigationDrawerItemTitles = this.getResources().getStringArray(R.array.navigation_drawer_items_array);
         //mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -179,14 +179,14 @@ public class FirstActivity extends AppCompatActivity
 
             String auth_key = pref.getString("auth_key", null);
             String noti_key = pref.getString("gcm_registration_token", null);
-            Log.i("Test", "GCM registration token :" + noti_key);
+            //Log.i("Test", "GCM registration token :" + noti_key);
 
             if (auth_key != null && noti_key == null) {
                 HashMap<String, String> postData = new HashMap<String, String>();
 
                 String android_id = Settings.Secure.getString(this.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
-                Log.i("Test", "Android ID : " + android_id);
+                //Log.i("Test", "Android ID : " + android_id);
 
                 String unique_device_id = android_id;
                 String platform = "1";
@@ -218,47 +218,47 @@ public class FirstActivity extends AppCompatActivity
 
             drawerItem = new ObjectDrawerItem[16];
 
-            drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
-            drawerItem[1] = new ObjectDrawerItem(getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
-            drawerItem[2] = new ObjectDrawerItem(getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
-            drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
-            drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
-            drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "Locations");
-            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
-            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
-            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
-            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
+            drawerItem[0] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
+            drawerItem[1] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
+            drawerItem[2] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
+            drawerItem[3] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
+            drawerItem[4] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
+            drawerItem[5] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
+            drawerItem[6] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_map_marker), "Locations");
+            drawerItem[7] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
+            drawerItem[8] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
+            drawerItem[9] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
+            drawerItem[10] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
 
 
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "About Us");
-            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
-            drawerItem[14] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
+            drawerItem[11] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
+            drawerItem[12] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_about_us), "About Us");
+            drawerItem[13] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_change_pass), mNavigationDrawerItemTitles[10]);
+            drawerItem[14] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_sign_out), mNavigationDrawerItemTitles[12]);
             drawerItem[15] = new ObjectDrawerItem("", "SUZUKI");
         } else {
             drawerItem = new ObjectDrawerItem[15];
 
-            drawerItem[0] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
-            drawerItem[1] = new ObjectDrawerItem(getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
-            drawerItem[2] = new ObjectDrawerItem(getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
-            drawerItem[3] = new ObjectDrawerItem(getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
-            drawerItem[4] = new ObjectDrawerItem(getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
-            drawerItem[5] = new ObjectDrawerItem(getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
-            drawerItem[6] = new ObjectDrawerItem(getResources().getString(R.string.fa_map_marker), "Locations");
-            drawerItem[7] = new ObjectDrawerItem(getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
-            drawerItem[8] = new ObjectDrawerItem(getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
-            drawerItem[9] = new ObjectDrawerItem(getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
-            drawerItem[10] = new ObjectDrawerItem(getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
+            drawerItem[0] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[0]);
+            drawerItem[1] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_motorcycle), mNavigationDrawerItemTitles[1]);
+            drawerItem[2] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_spare_parts), mNavigationDrawerItemTitles[2]);
+            drawerItem[3] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_request_service), mNavigationDrawerItemTitles[3]);
+            drawerItem[4] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_news_events), mNavigationDrawerItemTitles[4]);
+            drawerItem[5] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_promotions), mNavigationDrawerItemTitles[5]);
+            drawerItem[6] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_map_marker), "Locations");
+            drawerItem[7] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_quizzes), mNavigationDrawerItemTitles[6]);
+            drawerItem[8] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_phone), mNavigationDrawerItemTitles[7]);
+            drawerItem[9] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_invite_friends), mNavigationDrawerItemTitles[8]);
+            drawerItem[10] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_facebook_square), mNavigationDrawerItemTitles[9]);
 
-            drawerItem[11] = new ObjectDrawerItem(getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
-            drawerItem[12] = new ObjectDrawerItem(getResources().getString(R.string.fa_about_us), "About Us");
-            drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_sign_in), mNavigationDrawerItemTitles[11]);
+            drawerItem[11] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_history_of_suzuki), "History Of Suzuki");
+            drawerItem[12] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_about_us), "About Us");
+            drawerItem[13] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_sign_in), mNavigationDrawerItemTitles[11]);
             drawerItem[14] = new ObjectDrawerItem("", "SUZUKI");
         }
 
 
-        //drawerItem[13] = new ObjectDrawerItem(getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[13]);
+        //drawerItem[13] = new ObjectDrawerItem(this.getResources().getString(R.string.fa_home), mNavigationDrawerItemTitles[13]);
 
 
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
@@ -269,7 +269,7 @@ public class FirstActivity extends AppCompatActivity
 
         Fragment fragment = null;
 
-        Log.i("userid : ", pref.getString("user_id", "0"));
+        //Log.i("userid : ", pref.getString("user_id", "0"));
         int userid = Integer.valueOf(pref.getString("user_id", "0"));
 
         switch (position) {
@@ -305,7 +305,7 @@ public class FirstActivity extends AppCompatActivity
                 break;
             case 8:
                 if (pref.getString("is_login", "0").equals("1") && userid > 0) {
-                    Log.i("userid login: ", "inside");
+                    //Log.i("userid login: ", "inside");
                     fragment = new Quiz().newInstance();
                 } else {
                     // for login
@@ -333,7 +333,7 @@ public class FirstActivity extends AppCompatActivity
                     sharingIntent.setType("text/plain");
                     sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                    startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
+                    startActivity(Intent.createChooser(sharingIntent, this.getResources().getString(R.string.share_using)));
 
 
                 } catch (Exception e) {
@@ -420,7 +420,7 @@ public class FirstActivity extends AppCompatActivity
     @Override
     public void processFinish(String output) //logout async task
     {
-        Log.i("Test", output);
+        //Log.i("Test", output);
         JSONObject object = null;
         try {
             object = new JSONObject(output);
@@ -454,20 +454,20 @@ public class FirstActivity extends AppCompatActivity
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
             packageManager.getPackageInfo("com.facebook.katana", 0);
-            System.out.println("facebook version code: " + versionCode);
+            //System.out.println("facebook version code: " + versionCode);
 
-            return getResources().getString(R.string.facebook_url_schemes);
+            return this.getResources().getString(R.string.facebook_url_schemes);
             /*if (versionCode >= 3002850) { //newer versions of fb app
                 System.out.println("facebook new version");
-                return "fb://facewebmodal/f?href=" + getResources().getString(R.string.facebook_page_address);
+                return "fb://facewebmodal/f?href=" + this.getResources().getString(R.string.facebook_page_address);
             } else { //older versions of fb app
                 System.out.println("facebook old version");
-                return getResources().getString(R.string.facebook_url_schemes);
+                return this.getResources().getString(R.string.facebook_url_schemes);
             }*/
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("err facebook: ", e.getMessage());
-            return getResources().getString(R.string.facebook_page_address); //normal web url
+            //Log.e("err facebook: ", e.getMessage());
+            return this.getResources().getString(R.string.facebook_page_address); //normal web url
         }
     }
 
@@ -757,9 +757,9 @@ public class FirstActivity extends AppCompatActivity
                     response = ConnectionManager.getResponseFromServer(methodName, nvp2);
                     jsonParser = new JsonParser();
 
-                    System.out.println("server response : " + response);
+                    //System.out.println("server response : " + response);
                     returnJsonData = jsonParser.parseAPIsetNotificationKeyInfo(response);
-                    System.out.println("return data : " + returnJsonData);
+                    //System.out.println("return data : " + returnJsonData);
 
                 } else {
                     RESULT = getString(R.string.error_no_internet);
@@ -768,7 +768,7 @@ public class FirstActivity extends AppCompatActivity
                 return RESULT;
             } catch (Exception ex) {
                 //ex.printStackTrace();
-                Log.e("APITask:", ex.getMessage());
+                //Log.e("APITask:", ex.getMessage());
                 RESULT = getString(R.string.error_sever_connection);
                 return RESULT;
             }
@@ -791,12 +791,12 @@ public class FirstActivity extends AppCompatActivity
                         //editor.commit();
 
                     } else {
-                        System.out.println("data return : " + returnJsonData);
+                        //System.out.println("data return : " + returnJsonData);
                         Toast.makeText(getApplicationContext(), "Request Data Not Found, Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    Log.e("APITask data error :", ex.getMessage());
+                    //Log.e("APITask data error :", ex.getMessage());
                 }
             } else {
 
@@ -816,7 +816,7 @@ public class FirstActivity extends AppCompatActivity
         if (intent != null) {
             String NotificationType = intent.getAction();
 
-            System.out.println("From Push Notification Type : " + NotificationType);
+            //System.out.println("From Push Notification Type : " + NotificationType);
             String title = intent.getStringExtra("title");
             String message = intent.getStringExtra("message");
             String picture = intent.getStringExtra("picture");

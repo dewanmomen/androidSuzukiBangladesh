@@ -103,8 +103,8 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 parts_change.setPressed(true);
-                parts_change.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-                repair.setBackgroundColor(getResources().getColor(R.color.service_spinner_bg));
+                parts_change.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+                repair.setBackgroundColor(context.getResources().getColor(R.color.service_spinner_bg));
                 selectedPartsChangeAndRepair = 1;
                 return true;
             }
@@ -115,8 +115,8 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 repair.setPressed(true);
-                repair.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-                parts_change.setBackgroundColor(getResources().getColor(R.color.service_spinner_bg));
+                repair.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+                parts_change.setBackgroundColor(context.getResources().getColor(R.color.service_spinner_bg));
                 selectedPartsChangeAndRepair = 2;
                 return true;
             }
@@ -279,7 +279,7 @@ public class RequestServices extends Fragment implements AsyncResponse, View.OnC
                 {
                     value_service2 = "parts_change";
                 }
-                else if(selectedPartsChangeAndRepair == 1)
+                else if(selectedPartsChangeAndRepair == 2)
                 {
                     value_service2 = "repair";
                 }

@@ -91,13 +91,13 @@ public class SpareParts extends Fragment
             public void onClick(View v)
             {
 
-                spare_parts_tab_layout.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-                font_spare_parts.setTextColor(getResources().getColor(R.color.white));
-                txt_spare_parts.setTextColor(getResources().getColor(R.color.white));
+                spare_parts_tab_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+                font_spare_parts.setTextColor(context.getResources().getColor(R.color.white));
+                txt_spare_parts.setTextColor(context.getResources().getColor(R.color.white));
 
-                my_cart_tab_layout.setBackgroundColor(getResources().getColor(R.color.line_grey));
-                font_my_cart.setTextColor(getResources().getColor(R.color.black));
-                txt_my_cart.setTextColor(getResources().getColor(R.color.black));
+                my_cart_tab_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+                font_my_cart.setTextColor(context.getResources().getColor(R.color.black));
+                txt_my_cart.setTextColor(context.getResources().getColor(R.color.black));
 
                 goToSparePartsListFragment(0);
             }
@@ -112,13 +112,13 @@ public class SpareParts extends Fragment
             @Override
             public void onClick(View v)
             {
-                my_cart_tab_layout.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-                font_my_cart.setTextColor(getResources().getColor(R.color.white));
-                txt_my_cart.setTextColor(getResources().getColor(R.color.white));
+                my_cart_tab_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+                font_my_cart.setTextColor(context.getResources().getColor(R.color.white));
+                txt_my_cart.setTextColor(context.getResources().getColor(R.color.white));
 
-                spare_parts_tab_layout.setBackgroundColor(getResources().getColor(R.color.line_grey));
-                font_spare_parts.setTextColor(getResources().getColor(R.color.black));
-                txt_spare_parts.setTextColor(getResources().getColor(R.color.black));
+                spare_parts_tab_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+                font_spare_parts.setTextColor(context.getResources().getColor(R.color.black));
+                txt_spare_parts.setTextColor(context.getResources().getColor(R.color.black));
 
                 goToSparePartsAddToCartFragment(0);
             }
@@ -129,6 +129,13 @@ public class SpareParts extends Fragment
         }
         else
         {
+            my_cart_tab_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+            font_my_cart.setTextColor(context.getResources().getColor(R.color.white));
+            txt_my_cart.setTextColor(context.getResources().getColor(R.color.white));
+
+            spare_parts_tab_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+            font_spare_parts.setTextColor(context.getResources().getColor(R.color.black));
+            txt_spare_parts.setTextColor(context.getResources().getColor(R.color.black));
             goToSparePartsAddToCartFragment(0);
         }
 

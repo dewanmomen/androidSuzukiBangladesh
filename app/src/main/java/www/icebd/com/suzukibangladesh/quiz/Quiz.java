@@ -242,11 +242,11 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
                     mesg_layout.setVisibility(View.VISIBLE);
                     main_quiz_layout.setVisibility(View.GONE);
                     String msgs = "Dear "+pref.getString("user_name","")+", Welcome to "+quizTitle+
-                            "You have to answer 3 questions and for each question you will have 30 seconds to answer it."+
-                            "We will choose a winner on "+end_date+" and notify you."+
-                            "The grand prize for this contest is a "+prize_name+"."+
+                            ". You have to answer "+questionsNo+" questions and for each question you will have 30 seconds to answer it."+
+                            " We will choose a winner on "+end_date+" and notify you."+
+                            " The grand prize for this contest is a "+prize_name+"."+
                             "\n\nSo what are you waiting for, just tap and enjoy."+
-                            "For any questions please call "+call_center_number+"."+
+                            " For any questions please call "+call_center_number+"."+
                             "\n\nThank you for your love for the \"Suzuki way of life\"."+
                             "\n\nTap to Start";
                     text_message.setText(msgs);
@@ -315,7 +315,7 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
             rdb.setText(op2[indexNow]);
             rdc.setText(op3[indexNow]);
             rdd.setText(op4[indexNow]);
-            timer_icon.setText(getResources().getString(R.string.fa_timer_icon));
+            timer_icon.setText(context.getResources().getString(R.string.fa_timer_icon));
             timer_icon.setTypeface(iconFont);
             reverseTimer(30);
         }
@@ -329,8 +329,8 @@ public class Quiz extends Fragment implements AsyncResponse, View.OnClickListene
             rdd.setVisibility(View.INVISIBLE);
             //tv.setVisibility(View.INVISIBLE);
             //timer_icon.setVisibility(View.INVISIBLE);
-            tv.setTextColor(getResources().getColor(R.color.line_grey));
-            timer_icon.setTextColor(getResources().getColor(R.color.line_grey));
+            tv.setTextColor(context.getResources().getColor(R.color.line_grey));
+            timer_icon.setTextColor(context.getResources().getColor(R.color.line_grey));
             btnNext.setText("SUBMIT");
             isQuizFinish=true;
 

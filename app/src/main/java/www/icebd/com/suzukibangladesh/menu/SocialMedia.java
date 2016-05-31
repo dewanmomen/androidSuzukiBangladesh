@@ -52,14 +52,14 @@ public class SocialMedia extends Fragment {
             //System.out.println("facebook version code: "+versionCode);
 
             if (versionCode >= 3002850) { //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + getResources().getString(R.string.facebook_page_address);
+                return "fb://facewebmodal/f?href=" + context.getResources().getString(R.string.facebook_page_address);
             } else { //older versions of fb app
-                return getResources().getString(R.string.facebook_url_schemes);
+                return context.getResources().getString(R.string.facebook_url_schemes);
             }
         } catch (Exception e) {
             //e.printStackTrace();
             //Log.e("err facebook: ",e.getMessage());
-            return getResources().getString(R.string.facebook_page_address); //normal web url
+            return context.getResources().getString(R.string.facebook_page_address); //normal web url
         }
     }
 

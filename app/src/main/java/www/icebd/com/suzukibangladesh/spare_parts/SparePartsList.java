@@ -130,7 +130,7 @@ public class SparePartsList extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                if( ((SparePartsListSwipeListAdapter.Holder)view.getTag()).txtSparePartsAddToCart.getText().equals(getResources().getString(R.string.fa_shopping_add_to_cart)) )
+                if( ((SparePartsListSwipeListAdapter.Holder)view.getTag()).txtSparePartsAddToCart.getText().equals(context.getResources().getString(R.string.fa_shopping_add_to_cart)) )
                 {
                     Toast.makeText(context, "You Clicked "+listSparePartsItem.get(position).getSpare_parts_name().toString(), Toast.LENGTH_LONG).show();
                     SparePartsListObject obj_sparePartsList = new SparePartsListObject();

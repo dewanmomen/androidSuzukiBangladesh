@@ -1,6 +1,7 @@
 package www.icebd.com.suzukibangladesh.menu;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import www.icebd.com.suzukibangladesh.R;
 
 
 public class InviteFriends extends Fragment {
+
+    Context context;
 
     public static InviteFriends newInstance() {
         InviteFriends fragment = new InviteFriends();
@@ -27,6 +30,8 @@ public class InviteFriends extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_invite_friends, container,
                 false);
 
+        context = getActivity().getApplicationContext();
+
         MediaLink mediaLink = new MediaLink();
         String shareBody = "Welcome to Suzuki Bangladesh Official Mobile App\n" +
                 "\n" +
@@ -39,7 +44,7 @@ public class InviteFriends extends Fragment {
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
+        startActivity(Intent.createChooser(sharingIntent, context.getResources().getString(R.string.share_using)));
         return rootView;
     }
 

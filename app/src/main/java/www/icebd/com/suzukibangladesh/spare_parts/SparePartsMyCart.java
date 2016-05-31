@@ -103,8 +103,8 @@ public class SparePartsMyCart extends Fragment
         deviceTotalWidth = dispDefault.getWidth();
         deviceTotalHeight = dispDefault.getHeight();
 
-        //Bundle bundle = this.getArguments();
-        //int myInt = bundle.getInt("selectedTab", 0);
+        Bundle bundle = this.getArguments();
+        int myInt = bundle.getInt("selectedTab", 0);
 
         setupUIInitialize(rootView);
 
@@ -119,6 +119,7 @@ public class SparePartsMyCart extends Fragment
                 switch (checkedId)
                 {
                     case R.id.radio_inside_dhaka:
+                        Constant.delivery_category = "home_delivery";
                         deliver_amount = 120;
                         Constant.delivery_type = 1;
                         view_delivery_line.setVisibility(View.VISIBLE);
@@ -129,6 +130,7 @@ public class SparePartsMyCart extends Fragment
                         //Toast.makeText(context,"radio clicked inside_dhaka", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.radio_outside_dhaka:
+                        Constant.delivery_category = "home_delivery";
                         deliver_amount = 150;
                         Constant.delivery_type = 2;
                         view_delivery_line.setVisibility(View.VISIBLE);
@@ -149,15 +151,15 @@ public class SparePartsMyCart extends Fragment
             @Override
             public void onClick(View v)
             {
-                Constant.delivery_type = 0;
+                //Constant.delivery_type = 0;
                 deliver_amount = 0;
                 radio_group_inside_outside_dhk.clearCheck();
-                home_deleivery_layout.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-                label_home_delivery.setTextColor(getResources().getColor(R.color.white));
-                left.setTextColor(getResources().getColor(R.color.white));
-                collect_from_store_layout.setBackgroundColor(getResources().getColor(R.color.line_grey));
-                label_picup_point.setTextColor(getResources().getColor(R.color.black));
-                right.setTextColor(getResources().getColor(R.color.black));
+                home_deleivery_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+                label_home_delivery.setTextColor(context.getResources().getColor(R.color.white));
+                left.setTextColor(context.getResources().getColor(R.color.white));
+                collect_from_store_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+                label_picup_point.setTextColor(context.getResources().getColor(R.color.black));
+                right.setTextColor(context.getResources().getColor(R.color.black));
                 view_delivery_line.setVisibility(View.GONE);
                 row_txt_delivery.setVisibility(View.GONE);
                 deliver_price.setVisibility(View.GONE);
@@ -174,12 +176,12 @@ public class SparePartsMyCart extends Fragment
             @Override
             public void onClick(View v)
             {
-                collect_from_store_layout.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-                label_picup_point.setTextColor(getResources().getColor(R.color.white));
-                right.setTextColor(getResources().getColor(R.color.white));
-                home_deleivery_layout.setBackgroundColor(getResources().getColor(R.color.line_grey));
-                label_home_delivery.setTextColor(getResources().getColor(R.color.black));
-                left.setTextColor(getResources().getColor(R.color.black));
+                collect_from_store_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+                label_picup_point.setTextColor(context.getResources().getColor(R.color.white));
+                right.setTextColor(context.getResources().getColor(R.color.white));
+                home_deleivery_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+                label_home_delivery.setTextColor(context.getResources().getColor(R.color.black));
+                left.setTextColor(context.getResources().getColor(R.color.black));
                 view_delivery_line.setVisibility(View.GONE);
                 row_txt_delivery.setVisibility(View.GONE);
                 deliver_price.setVisibility(View.GONE);
@@ -190,49 +192,81 @@ public class SparePartsMyCart extends Fragment
                 txt_picup_point.setVisibility(View.VISIBLE);
                 Constant.delivery_category = "pickup_point";
                 Constant.delivery_type = 0;
-                txt_picup_point.setText("After your order has been confirmed a customer service representative will call and update you with the nearest pickup point. Thank you.");
+                txt_picup_point.setText(context.getResources().getString(R.string.picup_delivery_text));
                 SetFinalPrice();
 
             }
         });
 
-        if(Constant.delivery_category.equals("pickup_point") == true) // for saved data
+        if(Constant.delivery_category.toString().equals("pickup_point") == true) // for saved data
         {
-            collect_from_store_layout.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-            label_picup_point.setTextColor(getResources().getColor(R.color.white));
-            right.setTextColor(getResources().getColor(R.color.white));
-            home_deleivery_layout.setBackgroundColor(getResources().getColor(R.color.line_grey));
-            label_home_delivery.setTextColor(getResources().getColor(R.color.black));
-            left.setTextColor(getResources().getColor(R.color.black));
+            System.out.println("inside pickup point");
+            collect_from_store_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+            label_picup_point.setTextColor(context.getResources().getColor(R.color.white));
+            right.setTextColor(context.getResources().getColor(R.color.white));
+            home_deleivery_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+            label_home_delivery.setTextColor(context.getResources().getColor(R.color.black));
+            left.setTextColor(context.getResources().getColor(R.color.black));
             view_delivery_line.setVisibility(View.GONE);
             row_txt_delivery.setVisibility(View.GONE);
             deliver_price.setVisibility(View.GONE);
 
             radio_group_inside_outside_dhk.setVisibility(View.GONE);
             txt_deleivery_address.setVisibility(View.GONE);
+
+            txt_picup_point.setVisibility(View.VISIBLE);
+            Constant.delivery_category = "pickup_point";
+            Constant.delivery_type = 0;
+            txt_picup_point.setText(context.getResources().getString(R.string.picup_delivery_text));
+            SetFinalPrice();
         }
-        else if(Constant.delivery_category.equals("home_delivery") == true)
+        //else if(Constant.delivery_category.equals("home_delivery") == true)
+        if(Constant.delivery_type == 1)
         {
-            home_deleivery_layout.setBackgroundColor(getResources().getColor(R.color.suzuki_blue_color));
-            label_home_delivery.setTextColor(getResources().getColor(R.color.white));
-            left.setTextColor(getResources().getColor(R.color.white));
-            collect_from_store_layout.setBackgroundColor(getResources().getColor(R.color.line_grey));
-            label_picup_point.setTextColor(getResources().getColor(R.color.black));
-            right.setTextColor(getResources().getColor(R.color.black));
+            System.out.println("inside home delivery type 1");
+            home_deleivery_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+            label_home_delivery.setTextColor(context.getResources().getColor(R.color.white));
+            left.setTextColor(context.getResources().getColor(R.color.white));
+            collect_from_store_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+            label_picup_point.setTextColor(context.getResources().getColor(R.color.black));
+            right.setTextColor(context.getResources().getColor(R.color.black));
             view_delivery_line.setVisibility(View.VISIBLE);
             row_txt_delivery.setVisibility(View.VISIBLE);
             deliver_price.setVisibility(View.VISIBLE);
 
-            if(Constant.delivery_type == 1)
-            {
+            txt_picup_point.setVisibility(View.GONE);
+            Constant.delivery_category = "home_delivery";
+
+            radio_group_inside_outside_dhk.setVisibility(View.VISIBLE);
+            txt_deleivery_address.setVisibility(View.VISIBLE);
+
                 radio_inside_dhaka.setChecked(true);
                 radio_outside_dhaka.setChecked(false);
-            }
-            else if(Constant.delivery_type == 1)
-            {
+
+            SetFinalPrice();
+        }
+        else if(Constant.delivery_type == 2)
+        {
+            System.out.println("inside home delivery type 2");
+            home_deleivery_layout.setBackgroundColor(context.getResources().getColor(R.color.suzuki_blue_color));
+            label_home_delivery.setTextColor(context.getResources().getColor(R.color.white));
+            left.setTextColor(context.getResources().getColor(R.color.white));
+            collect_from_store_layout.setBackgroundColor(context.getResources().getColor(R.color.line_grey));
+            label_picup_point.setTextColor(context.getResources().getColor(R.color.black));
+            right.setTextColor(context.getResources().getColor(R.color.black));
+            view_delivery_line.setVisibility(View.VISIBLE);
+            row_txt_delivery.setVisibility(View.VISIBLE);
+            deliver_price.setVisibility(View.VISIBLE);
+
+            txt_picup_point.setVisibility(View.GONE);
+            Constant.delivery_category = "home_delivery";
+
+            radio_group_inside_outside_dhk.setVisibility(View.VISIBLE);
+            txt_deleivery_address.setVisibility(View.VISIBLE);
+
+
                 radio_outside_dhaka.setChecked(true);
                 radio_inside_dhaka.setChecked(false);
-            }
             SetFinalPrice();
         }
 
@@ -283,10 +317,10 @@ public class SparePartsMyCart extends Fragment
         radio_outside_dhaka = (RadioButton)rootView.findViewById(R.id.radio_outside_dhaka);
         txt_deleivery_address = (EditText) rootView.findViewById(R.id.txt_deleivery_address);
         left = (TextView)rootView.findViewById(R.id.left);
-        left.setText(getResources().getString(R.string.fa_home_delivery));
+        left.setText(context.getResources().getString(R.string.fa_home_delivery));
         left.setTypeface(iconFont);
         right = (TextView)rootView.findViewById(R.id.right);
-        right.setText(getResources().getString(R.string.fa_picup_point));
+        right.setText(context.getResources().getString(R.string.fa_picup_point));
         right.setTypeface(iconFont);
 
         view_delivery_line = (View) rootView.findViewById(R.id.view_delivery_line);
@@ -316,9 +350,13 @@ public class SparePartsMyCart extends Fragment
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 SparePartsPayments sparePartsPayments = new SparePartsPayments();
-                //Bundle bundle = new Bundle();
-                //bundle.putInt("bike_id", 1);
-                //sparePartsPayments.setArguments(bundle);
+                Bundle bundle = new Bundle();
+                bundle.putString("delivery_charge", String.valueOf(deliver_amount));
+                bundle.putString("total_item_price", String.valueOf(total_price_footer));
+                bundle.putString("gross_amount", String.valueOf(total_price_footer+deliver_amount));
+                bundle.putString("delivery_address", txt_deleivery_address.getText().toString());
+
+                sparePartsPayments.setArguments(bundle);
                 fragmentTransaction.replace(R.id.container, sparePartsPayments);
                 fragmentTransaction.commit();
             }
@@ -329,9 +367,12 @@ public class SparePartsMyCart extends Fragment
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             SparePartsPayments sparePartsPayments = new SparePartsPayments();
-            //Bundle bundle = new Bundle();
-            //bundle.putInt("bike_id", 1);
-            //sparePartsPayments.setArguments(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString("delivery_charge", String.valueOf(deliver_amount));
+            bundle.putString("total_item_price", String.valueOf(total_price_footer));
+            bundle.putString("gross_amount", String.valueOf(total_price_footer+deliver_amount));
+            bundle.putString("delivery_address", txt_deleivery_address.getText().toString());
+            sparePartsPayments.setArguments(bundle);
             fragmentTransaction.replace(R.id.container, sparePartsPayments);
             fragmentTransaction.commit();
         }
@@ -342,7 +383,7 @@ public class SparePartsMyCart extends Fragment
 
         if(listMyCartObj.size() == 0)
         {
-            textview_no_item_add_card.setText(getResources().getString(R.string.no_items_display_txt));
+            textview_no_item_add_card.setText(context.getResources().getString(R.string.no_items_display_txt));
             textview_no_item_add_card.setVisibility(View.VISIBLE);
             //Item.setPadding(0, 10, 0, 0);
             spare_parts_table_footer.setVisibility(View.GONE);
@@ -503,6 +544,7 @@ public class SparePartsMyCart extends Fragment
         {
             qtyData.add(String.valueOf(i));
         }
+
         final ArrayAdapter<String> qtyDataAdapter = new ArrayAdapter<String>(context,R.layout.row_item_qty, qtyData);
         //qtyDataAdapter.setDropDownViewResource(R.layout.profile_spinner_dropdown_item);
         qtyDataAdapter.notifyDataSetChanged();

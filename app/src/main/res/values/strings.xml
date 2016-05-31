@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Suzuki Bangladesh</string>
-    <string name="serverAddress">http://icebd.com/suzuki/suzukiApi/Server/</string>
     <string name="auth_key">9736fd0b8c4dfd2964acbfb31d24eed3</string>
     <string name="user_id">0</string>
     <string name="txt_suzuki">SUZUKI</string>
@@ -60,13 +59,14 @@
     <string name="txt_delivery_charge">Delivery Charge</string>
     <string name="delivery_inside_dhaka_price">120</string>
     <string name="delivery_outside_dhaka_price">150</string>
+    <string name="picup_delivery_text">After your order has been confirmed a customer service representative will call and update you with the nearest pickup point. Thank you.</string>
 
     <string name="text_accept_bkash">We accept bKash payment</string>
     <string name="text_access_bkash">Access bKash system from own bKash wallet</string>
     <string name="text_bkash_step1">Step 1 : Select 3.payment</string>
-    <string name="text_bkash_step2">Step 2 : Merchant bKash wallet no. 01777776660</string>
+    <string name="text_bkash_step2">Step 2 : Merchant bKash wallet no. 01787681201</string>
     <string name="text_bkash_step3">Step 3 : Enter amount : Total Price (Such as 190)</string>
-    <string name="text_bkash_step4">Step 4 : Enter Reference : Subscribe code L3RE5281</string>
+    <string name="text_bkash_step4">Step 4 : Enter Reference : Customer\'s Personal Mobile Number</string>
     <string name="text_bkash_step5">Step 5 : Enter Counter No. 1</string>
     <string name="text_bkash_ok">Then ok</string>
     <string name="text_bkash_rec_trx">You will receive a payment confirmation SMS with</string>

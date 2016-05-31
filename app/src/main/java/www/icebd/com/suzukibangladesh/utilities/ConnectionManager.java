@@ -33,7 +33,8 @@ import android.util.Log;
 
 public class ConnectionManager {
 	
-	public static String SERVER_URL = "http://icebd.com/suzuki/suzukiApi/server/";
+	//public static String SERVER_URL = "http://icebd.com/suzuki/suzukiApi/server/";
+	public static String SERVER_URL = "http://iceapps.org/suzuki/suzukiApi/Server/";
 
 	private static String response = null;
 	private final static int GETRequest = 1;
@@ -105,16 +106,16 @@ public class ConnectionManager {
 		HttpClient httpClient = new DefaultHttpClient();
 
 		HttpPost postRequest = new HttpPost(SERVER_URL+methodName);
-		System.out.println("server url :"+SERVER_URL+methodName);
+		//System.out.println("server url :"+SERVER_URL+methodName);
 		postRequest.setEntity(new UrlEncodedFormEntity(postData));
-		System.out.println("post data :"+postData);
+		//System.out.println("post data :"+postData);
 		HttpResponse httpResponse = httpClient.execute(postRequest);
 		int statusCode = httpResponse.getStatusLine().getStatusCode();
 		//boolean status = httpResponse.getStatusLine(
-		System.out.println("staus code :"+statusCode);
+		//System.out.println("staus code :"+statusCode);
 		if(statusCode == HttpStatus.SC_OK)
 		{
-			System.out.println("inside staus code :"+statusCode);
+			//System.out.println("inside staus code :"+statusCode);
 			HttpEntity entity = httpResponse.getEntity();
 			if(entity != null)
 			{
