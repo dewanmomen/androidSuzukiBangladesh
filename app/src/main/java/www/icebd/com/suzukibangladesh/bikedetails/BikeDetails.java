@@ -53,6 +53,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -908,9 +909,12 @@ public class BikeDetails extends Fragment implements AsyncResponse {
             options = new DisplayImageOptions.Builder()
                     .showImageOnLoading(null)
                     .showImageForEmptyUri(null)
-                    .showImageOnFail(null).cacheInMemory(false)
-                    .cacheOnDisk(false).considerExifParams(true)
-                    .bitmapConfig(Bitmap.Config.RGB_565).build();
+                    .showImageOnFail(null)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .build();
             /*options = new DisplayImageOptions.Builder()
                     .showImageForEmptyUri(R.drawable.ic_empty)
                     .showImageOnFail(R.drawable.ic_error)
@@ -940,6 +944,9 @@ public class BikeDetails extends Fragment implements AsyncResponse {
             ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
 
+            MemoryCacheUtils.removeFromCache(IMAGE_URLS[position], imageLoader.getMemoryCache());
+            //DiskCacheUtils.removeFromCache(bikeList.get(position).getThumble_img(), imageLoader.getDiskCache());
+
             imageLoader.displayImage(IMAGE_URLS[position], imageView, options, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
@@ -966,7 +973,7 @@ public class BikeDetails extends Fragment implements AsyncResponse {
                             message = "Unknown error";
                             break;
                     }
-                    Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
 
                     spinner.setVisibility(View.GONE);
                 }

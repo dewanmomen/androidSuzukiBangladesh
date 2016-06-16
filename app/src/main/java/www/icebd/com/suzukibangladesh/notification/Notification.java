@@ -150,7 +150,7 @@ public class Notification extends Fragment implements AsyncResponse {
                     R.layout.list_item_news, new String[] { "news_event_title", "news_event_desc","news_event_img_url"},
                     new int[] { R.id.txt_title, R.id.description, R.id.image_list });*/
 
-            notificationListAdapter = new NotificationListAdapter(getActivity(), arrList,this);
+            notificationListAdapter = new NotificationListAdapter(context, arrList,this);
             list.setAdapter(notificationListAdapter);
 
         }

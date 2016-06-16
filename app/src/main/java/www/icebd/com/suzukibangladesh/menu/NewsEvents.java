@@ -157,7 +157,7 @@ public class NewsEvents extends Fragment implements AsyncResponse {
                     R.layout.list_item_news, new String[] { "news_event_title", "news_event_desc","news_event_img_url"},
                     new int[] { R.id.txt_title, R.id.description, R.id.image_list });*/
 
-            newsEventsListAdapter = new NewsEventsListAdapter(getActivity(), arrList, this);
+            newsEventsListAdapter = new NewsEventsListAdapter(context, arrList, this);
             list.setAdapter(newsEventsListAdapter);
             //imageLoader.displayImage(String.valueOf(Uri.parse(arrList.get(4).toString())), imageView);
 

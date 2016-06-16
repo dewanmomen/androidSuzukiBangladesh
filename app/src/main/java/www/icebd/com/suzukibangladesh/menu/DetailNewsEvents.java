@@ -2,6 +2,7 @@ package www.icebd.com.suzukibangladesh.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +44,8 @@ public class DetailNewsEvents extends Fragment {
 
     ImageLoader imageLoader;
     Context context;
+    ProgressBar progressBar;
+    DisplayImageOptions options;
 
     public static DetailNewsEvents newInstance() {
         DetailNewsEvents fragment = new DetailNewsEvents();
@@ -61,6 +69,16 @@ public class DetailNewsEvents extends Fragment {
         String news_event_img = bundle.getString( "news_event_img" );
 
         imageLoader = ImageLoader.getInstance();
+        progressBar = (ProgressBar) rootView.findViewById(R.id.loading);
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(null)
+                .showImageForEmptyUri(null)
+                .showImageOnFail(null)
+                .cacheInMemory(false)
+                .cacheOnDisk(false)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
 
         HashMap<String, String> postData = new HashMap<String, String>();
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
@@ -80,7 +98,29 @@ public class DetailNewsEvents extends Fragment {
         if(news_event_img != null)
         {
             imageView.setVisibility(View.VISIBLE);
-            imageLoader.displayImage(String.valueOf(Uri.parse(news_event_img)), imageView);
+            imageLoader.displayImage(String.valueOf(Uri.parse(news_event_img)), imageView,options,
+            new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    progressBar.setProgress(0);
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view,FailReason failReason) {
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view,Bitmap loadedImage) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }, new ImageLoadingProgressListener() {
+                @Override
+                public void onProgressUpdate(String imageUri, View view,int current, int total) {
+                    progressBar.setProgress(Math.round(100.0f * current/ total));
+                }
+            });
         }
         else
         {

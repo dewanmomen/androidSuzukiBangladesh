@@ -4,7 +4,10 @@ package www.icebd.com.suzukibangladesh.reg;
  * Created by Nasir on 11/19/2015.
  */
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -25,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -46,6 +50,7 @@ import www.icebd.com.suzukibangladesh.spare_parts.SparePartsMyCart;
 import www.icebd.com.suzukibangladesh.utilities.ConnectionManager;
 import www.icebd.com.suzukibangladesh.utilities.Constant;
 import www.icebd.com.suzukibangladesh.utilities.CustomDialog;
+import www.icebd.com.suzukibangladesh.utilities.FontManager;
 import www.icebd.com.suzukibangladesh.utilities.Tools;
 
 /**
@@ -61,6 +66,7 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
 
     Context context;
     CustomDialog customDialog;
+    Typeface iconFont;
 
 
     public static Signup newInstance() {
@@ -91,6 +97,7 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 
+        iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
 
         button.setOnClickListener(this);
        // button.performClick();
@@ -218,33 +225,99 @@ public class Signup extends Fragment implements View.OnClickListener, AsyncRespo
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        } else
+        }
+        else
         {
-            HashMap<String, String> postData = new HashMap<String, String>();
-            String auth_key = pref.getString("auth_key","");
-            customDialog = new CustomDialog(getActivity());
-            if(CheckNetworkConnection.isConnectionAvailable(context) == true)
-            {
-                if (auth_key != null)
-                {
-                    postData.put("auth_key",auth_key);
-                    postData.put("app_user_name", name.getText().toString());
-                    postData.put("app_user_email", email.getText().toString());
-                    postData.put("app_user_address", address.getText().toString());
-                    postData.put("app_user_phone", mobile_no.getText().toString());
-                    postData.put("app_user_password", password.getText().toString() );
-                    postData.put("app_user_thana",  thana.getText().toString() );
+            // custom dialog
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.signup_confirm);
+            //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.white_opacity)));
+            //dialog.setTitle("Title...");
 
-                    PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this,postData);
-                    loginTask.execute(ConnectionManager.SERVER_URL+"registerUser");
+            // set the custom dialog components - text, image and button
+            TextView icon_name = (TextView) dialog.findViewById(R.id.icon_name);
+            TextView icon_email = (TextView) dialog.findViewById(R.id.icon_email);
+            TextView icon_password = (TextView) dialog.findViewById(R.id.icon_password);
+            TextView icon_mobile = (TextView) dialog.findViewById(R.id.icon_mobile);
+            TextView icon_address = (TextView) dialog.findViewById(R.id.icon_address);
+            TextView icon_thana = (TextView) dialog.findViewById(R.id.icon_thana);
+
+            icon_name.setText(context.getResources().getString(R.string.l_contact_person_icon));
+            icon_name.setTypeface(iconFont);
+            icon_email.setText(context.getResources().getString(R.string.fa_email));
+            icon_email.setTypeface(iconFont);
+            icon_password.setText(context.getResources().getString(R.string.fa_change_pass));
+            icon_password.setTypeface(iconFont);
+            icon_mobile.setText(context.getResources().getString(R.string.fa_phone));
+            icon_mobile.setTypeface(iconFont);
+            icon_address.setText(context.getResources().getString(R.string.fa_map_marker));
+            icon_address.setTypeface(iconFont);
+            icon_thana.setText(context.getResources().getString(R.string.fa_map_marker));
+            icon_thana.setTypeface(iconFont);
+
+            TextView txt_name = (TextView) dialog.findViewById(R.id.txt_name);
+            TextView txt_email = (TextView) dialog.findViewById(R.id.txt_email);
+            TextView txt_password = (TextView) dialog.findViewById(R.id.txt_password);
+            TextView txt_mobile = (TextView) dialog.findViewById(R.id.txt_mobile);
+            TextView txt_address = (TextView) dialog.findViewById(R.id.txt_address);
+            TextView txt_thana = (TextView) dialog.findViewById(R.id.txt_thana);
+
+            txt_name.setText(name.getText().toString());
+            txt_email.setText(email.getText().toString());
+            txt_password.setText(password.getText().toString());
+            txt_mobile.setText(mobile_no.getText().toString());
+            txt_address.setText(address.getText().toString());
+            txt_thana.setText(thana.getText().toString());
+
+            Button dialogEditButton = (Button) dialog.findViewById(R.id.btn_edit);
+            Button dialogConfirmButton = (Button) dialog.findViewById(R.id.btn_confirm);
+            // if button is clicked, close the custom dialog
+            dialogEditButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
                 }
-            }
-            else
-            {
-                customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
-            }
+            });
+            dialogConfirmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goToSignupConfirm();
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
         }
     }
+
+    private void goToSignupConfirm()
+    {
+        HashMap<String, String> postData = new HashMap<String, String>();
+        String auth_key = pref.getString("auth_key","");
+        customDialog = new CustomDialog(getActivity());
+        if(CheckNetworkConnection.isConnectionAvailable(context) == true)
+        {
+            if (auth_key != null)
+            {
+                postData.put("auth_key",auth_key);
+                postData.put("app_user_name", name.getText().toString());
+                postData.put("app_user_email", email.getText().toString());
+                postData.put("app_user_address", address.getText().toString());
+                postData.put("app_user_phone", mobile_no.getText().toString());
+                postData.put("app_user_password", password.getText().toString() );
+                postData.put("app_user_thana",  thana.getText().toString() );
+
+                PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this,postData);
+                loginTask.execute(ConnectionManager.SERVER_URL+"registerUser");
+            }
+        }
+        else
+        {
+            customDialog.alertDialog("ERROR", getString(R.string.error_no_internet));
+        }
+    }
+
 
     @Override
     public void processFinish(String result) {

@@ -22,5 +22,6 @@
     <color name="bike_details_spec_header_bg">#6A8090</color>
     <color name="bike_details_spec_row_bg">#F2F2F2</color>
     <color name="service_spinner_bg">#EBEBEB</color>
+    <color name="white_opacity">#b3ffffff</color>
 
 </resources>

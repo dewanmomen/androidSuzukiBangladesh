@@ -157,7 +157,7 @@ public class Promotions extends Fragment implements AsyncResponse {
                 if(arrList != null)
                 {
 
-                    promitionsListAdapter = new PromitionsListAdapter(getActivity(), arrList,this);
+                    promitionsListAdapter = new PromitionsListAdapter(context, arrList,this);
                     list.setAdapter(promitionsListAdapter);
                     /*imageView.setVisibility(View.VISIBLE);
                     imageLoader.displayImage(String.valueOf(Uri.parse(promo_image)), imageView, options,

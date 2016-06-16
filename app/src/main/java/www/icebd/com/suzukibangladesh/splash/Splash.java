@@ -364,7 +364,7 @@ public class Splash extends AppCompatActivity
                     if (returnJsonData.size() > 0 && returnJsonData != null && returnJsonData.get(0).getValue().equals("true") == true )
                     {
                         //preferenceUtil.setPINstatus(1);
-                        Toast.makeText(getApplicationContext(), returnJsonData.get(1).getValue(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), returnJsonData.get(1).getValue(), Toast.LENGTH_SHORT).show();
                         String auth_key = returnJsonData.get(3).getValue();
                         editor.putString("auth_key",auth_key);
                         editor.commit();
@@ -376,7 +376,7 @@ public class Splash extends AppCompatActivity
                         }
                     } else
                     {
-                        System.out.println("data return : " + returnJsonData);
+                        //System.out.println("data return : " + returnJsonData);
                         Toast.makeText(getApplicationContext(), "Request Data Not Found, Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -466,14 +466,14 @@ public class Splash extends AppCompatActivity
                     if (returnJsonData.size() > 0 && returnJsonData != null && returnJsonData.get(0).getValue().equals("true") == true )
                     {
                         //preferenceUtil.setPINstatus(1);
-                        Toast.makeText(getApplicationContext(), returnJsonData.get(1).getValue(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), returnJsonData.get(1).getValue(), Toast.LENGTH_SHORT).show();
                         Intent i;
                         i = new Intent(getBaseContext(), FirstActivity.class);
                         startActivity(i);
 
                     } else
                     {
-                        System.out.println("data return : " + returnJsonData);
+                        //System.out.println("data return : " + returnJsonData);
                         Toast.makeText(getApplicationContext(), "Request Data Not Found, Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 }

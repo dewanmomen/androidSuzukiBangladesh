@@ -31,6 +31,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,7 +85,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
         context = getActivity().getApplicationContext();
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
-        Typeface iconFont = FontManager.getTypeface(getActivity().getApplicationContext(), FontManager.FONTAWESOME);
+        Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
 
         text_left = (TextView) rootView.findViewById(R.id.text_left);
         text_left.setTypeface(iconFont);
@@ -94,7 +95,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
         HashMap<String, String> postData = new HashMap<String, String>();
         String auth_key= pref.getString("auth_key","empty");
 
-        customDialog = new CustomDialog(getActivity());
+        customDialog = new CustomDialog(context);
         if(CheckNetworkConnection.isConnectionAvailable(context) == true)
         {
             if (!auth_key.equals("empty"))
@@ -139,9 +140,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
     public void processFinish(String output) {
         Log.i("Test",output);
 
-
         try {
-            Log.i("Test", "Enter");
             JSONObject object = new JSONObject(output);
             String message ="";
             boolean status = object.getBoolean("status");
@@ -152,7 +151,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
             //if (message.equals("Successful"))
             if(status == true)
             {
-                Log.i("Test","I am successful");
+                //Log.i("Test","I am successful");
                 JSONArray bikeList = object.getJSONArray("bikeList");
                 String[] string = new String[bikeList.length()+1];
                 string[0]="Model";
@@ -174,7 +173,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
                     // mylist.add(bike_name+"/"+bike_cc);
                     string[i+1]=bike_name+"/"+bike_cc;
                     bikeId[i]= bikeDetail.getString("bike_id");
-                    Log.i("Test",bike_name+"/"+bike_cc);
+                    //Log.i("Test",bike_name+"/"+bike_cc);
                     IMAGE_URLS[i]=bikeDetail.getString("thumble_img");
                     Log.i("Image",IMAGE_URLS[i]);
 
@@ -182,15 +181,15 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
                 }
                 bikeID_cc =string;
 //                String dropdownstr = "Model" +string;
-                //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, string);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, string);
+                //ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, string);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_item, string);
                 dropdown_bike_name.setAdapter(adapter);
                 dropdown_bike_name.setOnItemSelectedListener(this);
 
                 if(IMAGE_URLS != null)
                 {
-                    imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
-                    pager.setAdapter(new ImageAdapter((getActivity())));
+                    imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+                    pager.setAdapter(new ImageAdapter((context)));
                 }
                 else
                 {
@@ -229,7 +228,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
        // private String[] IMAGE_URLS = Constants.IMAGES;
 
         private LayoutInflater inflater;
-        private DisplayImageOptions options;
+        private DisplayImageOptions options = null;
         public ImageLoader imageLoader = null;
 
         ImageAdapter(Context context) {
@@ -240,9 +239,12 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
             options = new DisplayImageOptions.Builder()
                     .showImageOnLoading(null)
                     .showImageForEmptyUri(null)
-                    .showImageOnFail(null).cacheInMemory(false)
-                    .cacheOnDisk(true).considerExifParams(true)
-                    .bitmapConfig(Bitmap.Config.RGB_565).build();
+                    .showImageOnFail(null)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .build();
             /*options = new DisplayImageOptions.Builder()
                     .showImageForEmptyUri(R.drawable.ic_empty)
                     .showImageOnFail(R.drawable.ic_error)
@@ -273,6 +275,9 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
             ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
 
+            MemoryCacheUtils.removeFromCache(IMAGE_URLS[position], imageLoader.getMemoryCache());
+            //DiskCacheUtils.removeFromCache(bikeList.get(position).getThumble_img(), imageLoader.getDiskCache());
+
             imageLoader.displayImage(IMAGE_URLS[position], imageView, options, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
@@ -299,7 +304,7 @@ public class BottomHomeFragment extends Fragment implements AsyncResponse, Adapt
                             message = "Unknown error";
                             break;
                     }
-                    Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
 
                     spinner.setVisibility(View.GONE);
                 }

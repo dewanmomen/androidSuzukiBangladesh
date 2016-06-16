@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,9 +45,9 @@ public class PromotionsDetails extends Fragment {
     ImageView imageView;
 
     ImageLoader imageLoader;
-    DisplayImageOptions options;
-
     Context context;
+    ProgressBar progressBar;
+    DisplayImageOptions options;
     CustomDialog customDialog;
 
     public static PromotionsDetails newInstance() {
@@ -71,12 +72,16 @@ public class PromotionsDetails extends Fragment {
         String promo_image = bundle.getString( "promo_image" );
 
         imageLoader = ImageLoader.getInstance();
+        progressBar = (ProgressBar) rootView.findViewById(R.id.loading);
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(null)
                 .showImageForEmptyUri(null)
-                .showImageOnFail(null).cacheInMemory(false)
-                .cacheOnDisk(false).considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
+                .showImageOnFail(null)
+                .cacheInMemory(false)
+                .cacheOnDisk(false)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
 
         HashMap<String, String> postData = new HashMap<String, String>();
         pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
@@ -97,7 +102,29 @@ public class PromotionsDetails extends Fragment {
         if(promo_image != null)
         {
             imageView.setVisibility(View.VISIBLE);
-            imageLoader.displayImage(String.valueOf(Uri.parse(promo_image)), imageView);
+            imageLoader.displayImage(String.valueOf(Uri.parse(promo_image)), imageView,options,
+                    new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                            progressBar.setProgress(0);
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view,FailReason failReason) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view,Bitmap loadedImage) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }, new ImageLoadingProgressListener() {
+                        @Override
+                        public void onProgressUpdate(String imageUri, View view,int current, int total) {
+                            progressBar.setProgress(Math.round(100.0f * current/ total));
+                        }
+                    });
         }
         else
         {

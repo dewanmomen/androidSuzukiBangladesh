@@ -783,7 +783,7 @@ public class FirstActivity extends AppCompatActivity
 
                     if (returnJsonData.size() > 0 && returnJsonData != null && returnJsonData.get(0).getValue().equals("true") == true) {
                         //preferenceUtil.setPINstatus(1);
-                        Toast.makeText(getApplicationContext(), returnJsonData.get(1).getValue(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), returnJsonData.get(1).getValue(), Toast.LENGTH_SHORT).show();
                         editor.putString("gcm_registration_token", Constant.notificationKey);
                         editor.apply();
                         //String auth_key = returnJsonData.get(3).getValue();

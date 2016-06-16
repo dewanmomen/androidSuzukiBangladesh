@@ -158,7 +158,7 @@ public class NotificationListAdapter extends BaseAdapter
                 }
                 else if(arrList.get(position).get("notification_type").toString().equals("quiz_publish"))
                 {
-                    ((FirstActivity)context).selectItem(8);
+                    ((FirstActivity)notification.getActivity()).selectItem(8);
                 }
                 else if(arrList.get(position).get("notification_type").toString().equals("news"))
                 {

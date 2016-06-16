@@ -30,6 +30,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 
 import org.json.JSONArray;
@@ -89,9 +90,9 @@ public class HomeFragment extends Fragment implements AsyncResponse {
                 false);
         context = getActivity().getApplicationContext();
         getActivity().setTitle("Home");
-        Typeface iconFont = FontManager.getTypeface(getActivity(), FontManager.FONTAWESOME);
+        Typeface iconFont = FontManager.getTypeface(context, FontManager.FONTAWESOME);
 
-        pref = getActivity().getApplicationContext().getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
+        pref = context.getSharedPreferences("SuzukiBangladeshPref", getActivity().MODE_PRIVATE);
         editor = pref.edit();
 
 
@@ -158,7 +159,7 @@ public class HomeFragment extends Fragment implements AsyncResponse {
                 postData.put("auth_key",auth_key);
 
                 // getSupportFragmentManager().beginTransaction().replace(R.id.frag, fragmentS1).commit();
-                customDialog = new CustomDialog(getActivity());
+                customDialog = new CustomDialog(context);
                 if(CheckNetworkConnection.isConnectionAvailable(context) == true)
                 {
                     PostResponseAsyncTask loginTask = new PostResponseAsyncTask(this, postData);
@@ -208,8 +209,8 @@ public class HomeFragment extends Fragment implements AsyncResponse {
                 }
                 if(gallery_image != null)
                 {
-                    imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
-                    pager.setAdapter(new ImageAdapter((getActivity())));
+                    imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+                    pager.setAdapter(new ImageAdapter((context)));
 
                     //viewpager.setAdapter(mPageAdapter);
                     indicator.setViewPager(pager);
@@ -255,20 +256,34 @@ public class HomeFragment extends Fragment implements AsyncResponse {
 
         private LayoutInflater inflater;
         private DisplayImageOptions options;
+        public ImageLoader imageLoader = null;
 
         ImageAdapter(Context context) {
             inflater = LayoutInflater.from(context);
+            imageLoader = ImageLoader.getInstance();
+            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 
             options = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.ic_empty)
-                    .showImageOnFail(R.drawable.ic_error)
-                    .resetViewBeforeLoading(true)
+                    .showImageOnLoading(null)
+                    .showImageForEmptyUri(null)
+                    .showImageOnFail(null)
+                    .cacheInMemory(true)
                     .cacheOnDisk(true)
+                    .considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .build();
+            /*options = new DisplayImageOptions.Builder()
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .showImageOnLoading(null)
+                    .showImageForEmptyUri(null)
+                    .showImageOnFail(null)
+                    .resetViewBeforeLoading(true)
                     .imageScaleType(ImageScaleType.EXACTLY)
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .considerExifParams(true)
                     .displayer(new FadeInBitmapDisplayer(300))
-                    .build();
+                    .build();*/
         }
 
         @Override
@@ -288,7 +303,10 @@ public class HomeFragment extends Fragment implements AsyncResponse {
             ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
 
-            ImageLoader.getInstance().displayImage(IMAGE_URLS[position], imageView, options, new SimpleImageLoadingListener() {
+            MemoryCacheUtils.removeFromCache(IMAGE_URLS[position], imageLoader.getMemoryCache());
+            //DiskCacheUtils.removeFromCache(bikeList.get(position).getThumble_img(), imageLoader.getDiskCache());
+
+            imageLoader.displayImage(IMAGE_URLS[position], imageView, options, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
                     spinner.setVisibility(View.VISIBLE);
@@ -314,7 +332,7 @@ public class HomeFragment extends Fragment implements AsyncResponse {
                             message = "Unknown error";
                             break;
                     }
-                    Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
 
                     spinner.setVisibility(View.GONE);
                 }

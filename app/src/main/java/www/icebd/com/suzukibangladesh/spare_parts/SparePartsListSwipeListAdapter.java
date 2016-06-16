@@ -32,6 +32,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,9 +93,12 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(null)
                 .showImageForEmptyUri(null)
-                .showImageOnFail(null).cacheInMemory(false)
-                .cacheOnDisk(false).considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
+                .showImageOnFail(null)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
     }
 
     @Override
@@ -158,6 +162,9 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
         //imageLoader.clearMemoryCache();
         //holder.sparePartsImg.setBackgroundColor(context.getResources().getColor(R.color.common_action_bar_splitter));
 
+        MemoryCacheUtils.removeFromCache(listSparePartsItem.get(position).getThumble_img(), imageLoader.getMemoryCache());
+        //DiskCacheUtils.removeFromCache(bikeList.get(position).getThumble_img(), imageLoader.getDiskCache());
+
         imageLoader.displayImage(listSparePartsItem.get(position).getThumble_img(), holder.sparePartsImg, options,
                 new SimpleImageLoadingListener() {
                     @Override
@@ -200,7 +207,7 @@ public class SparePartsListSwipeListAdapter extends BaseAdapter implements Filte
                 }
                 else
                 {
-                    Toast.makeText(context, listSparePartsItem.get(position).getSpare_parts_name().toString()+" Added to Cart", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, listSparePartsItem.get(position).getSpare_parts_name().toString()+" Added to Cart", Toast.LENGTH_SHORT).show();
                     /*SparePartsListObject obj_sparePartsList = new SparePartsListObject();
                     SparePartsListObject.SparePartsItem obj_sparePartsItem = obj_sparePartsList.new SparePartsItem();
 

@@ -188,8 +188,10 @@ public class SparePartsMyCart extends Fragment
 
                 radio_group_inside_outside_dhk.setVisibility(View.GONE);
                 txt_deleivery_address.setVisibility(View.GONE);
+                txt_deleivery_address.setText("");
 
                 txt_picup_point.setVisibility(View.VISIBLE);
+                deliver_amount = 0;
                 Constant.delivery_category = "pickup_point";
                 Constant.delivery_type = 0;
                 txt_picup_point.setText(context.getResources().getString(R.string.picup_delivery_text));
@@ -215,6 +217,7 @@ public class SparePartsMyCart extends Fragment
             txt_deleivery_address.setVisibility(View.GONE);
 
             txt_picup_point.setVisibility(View.VISIBLE);
+            deliver_amount = 0;
             Constant.delivery_category = "pickup_point";
             Constant.delivery_type = 0;
             txt_picup_point.setText(context.getResources().getString(R.string.picup_delivery_text));

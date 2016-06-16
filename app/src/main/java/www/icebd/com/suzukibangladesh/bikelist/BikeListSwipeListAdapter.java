@@ -18,12 +18,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import java.util.List;
 
@@ -61,9 +64,12 @@ public class BikeListSwipeListAdapter extends BaseAdapter
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(null)
                 .showImageForEmptyUri(null)
-                .showImageOnFail(null).cacheInMemory(false)
-                .cacheOnDisk(false).considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
+                .showImageOnFail(null)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
     }
 
     @Override
@@ -114,6 +120,10 @@ public class BikeListSwipeListAdapter extends BaseAdapter
         Log.v("Engine : ",bikeList.get(position).getBike_cc().toString());
         holder.bikeImg.setImageResource(0);
         holder.bikeImg.setImageResource(android.R.color.transparent);
+
+        MemoryCacheUtils.removeFromCache(bikeList.get(position).getThumble_img(), imageLoader.getMemoryCache());
+        //DiskCacheUtils.removeFromCache(bikeList.get(position).getThumble_img(), imageLoader.getDiskCache());
+
         imageLoader.displayImage(bikeList.get(position).getThumble_img(), holder.bikeImg, options,
                 new SimpleImageLoadingListener() {
                     @Override
@@ -137,7 +147,7 @@ public class BikeListSwipeListAdapter extends BaseAdapter
                         holder.progressBar.setProgress(Math.round(100.0f * current/ total));
                     }
                 });
-        Log.v("Engine : ",bikeList.get(position).getBike_cc().toString());
+        //Log.v("Engine : ",bikeList.get(position).getBike_cc().toString());
         holder.txtEngine_cc.setText( bikeList.get(position).getBike_cc().toString() );
         holder.txtMileage_kilo.setText( bikeList.get(position).getBike_mileage().toString() );
         holder.txtBike_name.setText( bikeList.get(position).getBike_name().toString() );
